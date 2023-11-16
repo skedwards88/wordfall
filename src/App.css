@@ -1,0 +1,371 @@
+html {
+  height: 100%;
+  background-color: var(--dark-color);
+  --default-font-size: min(4vmax, 7vmin, 40px);
+  --dark-color: rgb(55 54 71);
+  --light-color: rgb(239 239 239);
+  --num-rows: 5;
+  --num-cols: 5;
+  /* todo determine colors with good contrast */
+  --color0: rgb(98, 87, 193);
+  --color1: rgb(138, 78, 138);
+  --color2: rgb(68, 133, 143);
+  --color3: rgb(61, 107, 52);
+  --color4: rgb(134, 138, 69);
+  --color5: rgb(177, 116, 58);
+  --color6: rgb(177, 58, 58);
+  --color7: rgb(224, 108, 139);
+  --color8: rgb(53, 65, 196);
+}
+
+body {
+  margin: 0;
+}
+
+.App {
+  background-color: var(--dark-color);
+  color: var(--light-color);
+  font-family: sans-serif;
+  font-size: var(--default-font-size);
+  display: grid;
+  height: 90vh; /* fallback if svh isn't handled */
+  height: 98svh;
+  overflow: scroll;
+}
+
+h1 {
+  all: unset;
+  font-size: calc(var(--default-font-size) * 1.2);
+  display: block;
+  font-weight: bold;
+}
+
+small {
+  font-size: calc(var(--default-font-size) * 0.5);
+}
+
+button {
+  all: unset;
+  text-decoration: none;
+  text-align: center;
+  appearance: none;
+  background-color: var(--light-color);
+  border: 1px solid var(--light-color);
+  border-radius: 5px;
+  color: black;
+  margin: 10px;
+  padding: 1px 6px;
+}
+
+/* Control bar */
+
+#controls {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  grid-area: controls;
+  width: 100%;
+  border-bottom: 2px solid var(--light-color);
+  height: fit-content;
+}
+
+#controls > button {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: 0;
+  width: min(var(--default-font-size), 10%);
+  height: var(--default-font-size);
+  background-color: transparent;
+  padding: 1px 6px;
+}
+
+#pauseButton {
+  background-image: url("./images/pause.svg");
+}
+
+#settingsButton {
+  background-image: url("./images/settings.svg");
+}
+
+#newGameButton {
+  background-image: url("./images/new_game.svg");
+}
+
+#infoButton {
+  background-image: url("./images/info.svg");
+}
+
+#heartButton {
+  background-image: url("./images/heart.svg");
+}
+
+#installButton {
+  background-image: url("./images/install.svg");
+}
+
+#shareButton {
+  background-image: url("./images/share.svg");
+}
+
+/* Settings */
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: calc(var(--default-font-size) * 0.8);
+}
+
+#settings {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  width: 100%;
+  align-items: stretch;
+}
+
+.setting {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: left;
+  margin: 0.5cm;
+}
+
+.setting-description {
+  padding: 0 5px 0 0;
+}
+
+.setting-info {
+  font-size: calc(var(--default-font-size) / 2);
+}
+
+#setting-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+#setting-buttons > button {
+  margin: 10px;
+}
+
+select {
+  font-size: calc(var(--default-font-size) * 0.8);
+  font-family: sans-serif;
+  background-color: var(--light-color);
+  border: 1px solid var(--light-color);
+  border-radius: 2px;
+  text-align: center;
+  color: black;
+  margin: 0;
+  padding: 1px 6px;
+  height: fit-content;
+}
+
+input[type="checkbox" i] {
+  all: unset;
+  text-decoration: none;
+  text-align: center;
+  appearance: none;
+  min-width: calc(var(--default-font-size) * 0.8);
+  min-height: calc(var(--default-font-size) * 0.8);
+  border-radius: 2px;
+  background-color: var(--light-color);
+  border: 3px solid var(--light-color);
+  margin: 0;
+  padding: 1px 6px;
+  height: fit-content;
+}
+
+input[type="checkbox" i]:checked {
+  background-image: url("./images/checkmark-black.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+/* Rules and heart */
+
+.info {
+  white-space: pre-line;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  overflow: scroll;
+  justify-items: center;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: calc(var(--default-font-size) * 0.75);
+}
+
+.infoText {
+  margin: 2vmax;
+}
+
+.info a {
+  color: rgb(0 162 255);
+}
+
+/* game */
+
+#word-rush {
+  display: grid;
+  grid-template-areas:
+    "controls"
+    "stats"
+    "currentWord"
+    "board";
+  grid-template-rows:
+    auto
+    auto
+    auto
+    auto;
+}
+
+#stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  grid-area: stats;
+  padding: 10px;
+  font-size: calc(var(--default-font-size) * 2 / 3);
+}
+
+.computerWord {
+  color: gray;
+}
+
+#currentWord {
+  grid-area: currentWord;
+  text-align: center;
+  white-space: pre;
+}
+
+#wordResult {
+  grid-area: stats;
+  background-color: var(--dark-color);
+  touch-action: none;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fadeOut {
+  opacity: 0;
+  pointer-events: none;
+  animation-duration: 2s;
+  animation-name: fadeout;
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 0.9;
+  }
+}
+
+#board {
+  grid-area: board;
+  display: grid;
+  background-color: var(--dark-color);
+  touch-action: none;
+  justify-content: center;
+  grid-template-columns: repeat(var(--num-cols), calc(90vw / var(--num-cols)));
+  grid-template-rows: repeat(var(--num-rows), calc(90vw / var(--num-cols)));
+}
+
+.letter {
+  touch-action: none;
+  margin: 4vmin;
+  background-color: var(--dark-color);
+  font-weight: bold;
+  text-align: center;
+  animation: fallDown 1.5s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60%;
+  width: 60%;
+}
+
+.letter.unavailable {
+  color: darkgray;
+}
+
+/* todo need to work on the animation */
+/* make the 0% translateY be related to the starting row of the letter */
+@keyframes fallDown {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+/* @keyframes fallDown {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+} */
+
+/* Landscape */
+@media (orientation: landscape) {
+  #word-rush {
+    grid-template-areas:
+      "stats currentWord controls"
+      "board board controls";
+    grid-template-rows: auto 1fr;
+    grid-template-columns: auto auto auto;
+  }
+
+  #controls {
+    flex-direction: column;
+    border: solid var(--light-color);
+    border-width: 0 0 0 2px;
+    align-items: center;
+    height: 100%;
+    width: 7vw;
+  }
+
+  #controls > button {
+    height: min(var(--default-font-size), 10%);
+    width: var(--default-font-size);
+  }
+}
+
+/* Large screen */
+@media (min-height: 600px) and (min-width: 600px) {
+  #board {
+    align-items: center;
+    align-self: center;
+    justify-items: center;
+  }
+
+  #board.rows5 {
+    grid-template-columns: repeat(5, 10vmin);
+    grid-template-rows: repeat(5, 10vmin);
+  }
+
+  #board.rows4 {
+    grid-template-columns: repeat(4, 10vmin);
+    grid-template-rows: repeat(4, 10vmin);
+  }
+
+  #controls {
+    justify-content: center;
+  }
+
+  #settings,
+  #setting-buttons {
+    width: fit-content;
+  }
+}

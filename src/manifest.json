@@ -1,0 +1,102 @@
+{
+  "name": "Word Rush",
+  "short_name": "Word Rush",
+  "description": "A jumbled word search game",
+  "id": "?word-rush=1",
+  "dir": "auto",
+  "lang": "en-US",
+  "display": "standalone",
+  "orientation": "portrait",
+  "start_url": "../.",
+  "background_color": "#373647",
+  "theme_color": "#373647",
+  "shortcuts": [],
+  "categories": ["games", "entertainment", "education"],
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    },
+    {
+      "src": "favicon.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "icon_192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon_512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "maskable_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-new-mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "New game of Word Rush"
+    },
+    {
+      "src": "screenshot-progress-mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "In-progress game of Word Rush"
+    },
+    {
+      "src": "screenshot-done-mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Complete game of Word Rush"
+    },
+    {
+      "src": "screenshot-settings-mobile.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Settings for Word Rush"
+    },
+    {
+      "src": "screenshot-new-tablet.png",
+      "sizes": "1536x2048",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "New game of Word Rush"
+    },
+    {
+      "src": "screenshot-progress-tablet.png",
+      "sizes": "1536x2048",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "In-progress game of Word Rush"
+    },
+    {
+      "src": "screenshot-done-tablet.png",
+      "sizes": "1536x2048",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Complete game of Word Rush"
+    },
+    {
+      "src": "screenshot-settings-tablet.png",
+      "sizes": "1536x2048",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Settings for Word Rush"
+    }
+  ]
+}
