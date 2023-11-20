@@ -81,8 +81,12 @@ export function gameInit({seed, useSaved = true}) {
   const letterData = letters.map((letter) => ({
     letter,
     id: getPseudoRandomID(),
-    color: 0,
+    color: 0,//todo generate first color
   }));
+
+  const progress = [
+    numRows * numColumns,
+  ];
 
   return {
     letterData: letterData,
@@ -92,5 +96,6 @@ export function gameInit({seed, useSaved = true}) {
     result: "",
     seed: seed, //todo remove seed?
     numColors: 9, // todo change this as finalize colors
+    progress,
   };
 }

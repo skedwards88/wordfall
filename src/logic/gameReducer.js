@@ -98,6 +98,22 @@ export function gameReducer(currentGameState, payload) {
       };
     }
 
+    const replacedColors = currentGameState.playedIndexes.map(
+      (index) => currentGameState.letterData[index].color,
+    );
+    const lowestColor = Math.min(
+      ...currentGameState.letterData.map((datum) => datum.color),
+    );
+    const addedColors = replacedColors.map((color) =>
+      Math.min(color + 1, lowestColor + 1),
+    );
+    let newProgress = currentGameState.progress;
+    addedColors.forEach((color) => {
+      newProgress[color]
+        ? newProgress[color] ++
+        : newProgress.push(1);
+    });
+
     const newLetterData = replaceIndexes(
       currentGameState.letterData,
       currentGameState.playedIndexes,
@@ -110,6 +126,7 @@ export function gameReducer(currentGameState, payload) {
       wordInProgress: false,
       playedIndexes: [],
       letterData: newLetterData,
+      progress: newProgress,
     };
   } else {
     console.log(`unknown action: ${payload.action}`);

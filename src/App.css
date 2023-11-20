@@ -192,7 +192,6 @@ input[type="checkbox" i]:checked {
 /* Rules and heart */
 
 .info {
-  white-space: pre-line;
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -217,7 +216,7 @@ input[type="checkbox" i]:checked {
   display: grid;
   grid-template-areas:
     "controls"
-    "stats"
+    "progress"
     "currentWord"
     "board";
   grid-template-rows:
@@ -227,14 +226,19 @@ input[type="checkbox" i]:checked {
     auto;
 }
 
-#stats {
+#progress {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  grid-area: stats;
-  padding: 10px;
-  font-size: calc(var(--default-font-size) * 2 / 3);
+  grid-area: progress;
+  border-radius: 15px;
+  width: 90%;
+  height: var(--default-font-size);
+  align-self: center;
+  margin: 5%;
+  /* background: linear-gradient(0.25turn, red, 20%, blue, 40%, green); */
+  /* background: linear-gradient(0.25turn, red 20%, blue 40%, green); */
 }
 
 .computerWord {
@@ -244,11 +248,10 @@ input[type="checkbox" i]:checked {
 #currentWord {
   grid-area: currentWord;
   text-align: center;
-  white-space: pre;
 }
 
 #wordResult {
-  grid-area: stats;
+  grid-area: progress;
   background-color: var(--dark-color);
   touch-action: none;
   z-index: 1;
@@ -292,6 +295,7 @@ input[type="checkbox" i]:checked {
   align-items: center;
   height: 60%;
   width: 60%;
+  border-radius: 50%;
 }
 
 .letter.unavailable {

@@ -1,8 +1,8 @@
 import React from "react";
 import ControlBar from "./ControlBar";
-import Score from "./Score";
 import Board from "./Board";
 import {WordResult} from "./WordResult";
+import {Progress} from "./Progress";
 
 export default function Game({
   gameState,
@@ -33,9 +33,7 @@ export default function Game({
         installPromptEvent={installPromptEvent}
       ></ControlBar>
 
-      <div id="stats">
-        <Score></Score>
-      </div>
+      <Progress progress={gameState.progress} numColors={gameState.numColors}></Progress>
 
       <div id="currentWord">
         {gameState.playedIndexes.length > 0
