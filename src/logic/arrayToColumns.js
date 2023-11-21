@@ -1,6 +1,3 @@
-import {letterPool} from "./letterPool";
-
-import {getPseudoRandomID} from "./gameInit";
 
 // todo add tests
 

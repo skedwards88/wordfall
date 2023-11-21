@@ -12,7 +12,18 @@ export function pickRandom(inputArray) {
   return inputArray[Math.floor(Math.random() * inputArray.length)];
 }
 
-function generateLetterData({lowestColor}) {
+function subtractLettersFromLetterPool(lettersToSubtract, letterPool) {
+  let subtractedPool = [...letterPool];
+  for (const letter of lettersToSubtract) {
+    const index = subtractedPool.indexOf(letter);
+    if (index >= 0) {
+      subtractedPool.splice(index, 1)
+    }
+  }
+  return subtractedPool
+}
+
+function generateLetterData({lowestColor, letterPool}) {
   const letter = pickRandom(letterPool);
   const id = getPseudoRandomID();
   const color = lowestColor + 1;
@@ -134,13 +145,15 @@ export function gameReducer(currentGameState, payload) {
           newColors[index] || getDistinctHSL(newColors[index] - 1)),
     );
 
+    const newPool = subtractLettersFromLetterPool(currentGameState.letterData.map(datum => datum.letter), letterPool);
+
     const newLetterData = replaceIndexes({
       arrayToReplaceOn: currentGameState.letterData,
       indexesToReplace: currentGameState.playedIndexes,
       numColumns: currentGameState.numColumns,
       numRows: currentGameState.numRows,
       replacementFunction: generateLetterData,
-      replacementParams: {lowestColor},
+      replacementParams: {lowestColor, letterPool: newPool},
     });
 
     return {
