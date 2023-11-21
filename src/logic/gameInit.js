@@ -82,17 +82,15 @@ export function gameInit({seed, useSaved = true}) {
   const letterData = letters.map((letter) => ({
     letter,
     id: getPseudoRandomID(),
-    color: 0,//todo generate first color
+    color: 0, //todo generate first color
   }));
 
-  const progress = [
-    numRows * numColumns,
-  ];
+  const progress = [numRows * numColumns];
 
   const colors = [getDistinctHSL()];
 
   return {
-    letterData: letterData,// todo change color prop to colorindex
+    letterData: letterData, // todo change color prop to colorindex
     playedIndexes: [],
     numColumns: numColumns,
     numRows: numRows,

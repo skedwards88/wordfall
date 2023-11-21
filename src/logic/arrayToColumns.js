@@ -1,4 +1,3 @@
-
 // todo add tests
 
 function arrayToColumns(array, numColumns) {

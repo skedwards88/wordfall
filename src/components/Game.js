@@ -33,7 +33,10 @@ export default function Game({
         installPromptEvent={installPromptEvent}
       ></ControlBar>
 
-      <Progress progress={gameState.progress} colors={gameState.colors}></Progress>
+      <Progress
+        progress={gameState.progress}
+        colors={gameState.colors}
+      ></Progress>
 
       <div id="currentWord">
         {gameState.playedIndexes.length > 0

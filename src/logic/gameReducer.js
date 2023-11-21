@@ -17,10 +17,10 @@ function subtractLettersFromLetterPool(lettersToSubtract, letterPool) {
   for (const letter of lettersToSubtract) {
     const index = subtractedPool.indexOf(letter);
     if (index >= 0) {
-      subtractedPool.splice(index, 1)
+      subtractedPool.splice(index, 1);
     }
   }
-  return subtractedPool
+  return subtractedPool;
 }
 
 function generateLetterData({lowestColor, letterPool}) {
@@ -145,7 +145,10 @@ export function gameReducer(currentGameState, payload) {
           newColors[index] || getDistinctHSL(newColors[index] - 1)),
     );
 
-    const newPool = subtractLettersFromLetterPool(currentGameState.letterData.map(datum => datum.letter), letterPool);
+    const newPool = subtractLettersFromLetterPool(
+      currentGameState.letterData.map((datum) => datum.letter),
+      letterPool,
+    );
 
     const newLetterData = replaceIndexes({
       arrayToReplaceOn: currentGameState.letterData,
