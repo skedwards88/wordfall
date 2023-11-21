@@ -1,4 +1,5 @@
 import {letterPool} from "./letterPool";
+import {getDistinctHSL} from "./getColor";
 import {shuffleArray} from "@skedwards88/word_logic";
 import {findAllWords} from "@skedwards88/word_logic";
 import {trie} from "./trie";
@@ -35,7 +36,7 @@ function getPlayableLetters({numColumns, numRows, seed}) {
     letters = getLetters(numLetters, pseudoRandomGenerator);
     allWords = findAllWords({
       letters: letters,
-      numColumns: numColumns,
+      numColumns: numColumns,// todo cen remove numColors?
       numRows: numRows,
       minWordLength: 2,
       easyMode: true,
@@ -88,8 +89,10 @@ export function gameInit({seed, useSaved = true}) {
     numRows * numColumns,
   ];
 
+  const colors = [getDistinctHSL()];
+
   return {
-    letterData: letterData,
+    letterData: letterData,// todo change color prop to colorindex
     playedIndexes: [],
     numColumns: numColumns,
     numRows: numRows,
@@ -97,5 +100,6 @@ export function gameInit({seed, useSaved = true}) {
     seed: seed, //todo remove seed?
     numColors: 9, // todo change this as finalize colors
     progress,
+    colors,
   };
 }

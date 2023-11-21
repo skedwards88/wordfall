@@ -1,5 +1,6 @@
 import {isKnown} from "@skedwards88/word_logic";
 import {gameInit} from "./gameInit";
+import {getDistinctHSL} from "./getColor";
 import {checkIfNeighbors} from "@skedwards88/word_logic";
 import {trie} from "./trie";
 import {replaceIndexes} from "./arrayToColumns";
@@ -107,13 +108,16 @@ export function gameReducer(currentGameState, payload) {
     const addedColors = replacedColors.map((color) =>
       Math.min(color + 1, lowestColor + 1),
     );
-    let newProgress = currentGameState.progress;
+    let newProgress = [...currentGameState.progress];
     addedColors.forEach((color) => {
       newProgress[color]
         ? newProgress[color] ++
         : newProgress.push(1);
     });
 
+    let newColors = [...currentGameState.colors];
+    newProgress.forEach((_, index) => newColors[index] = newColors[index] || getDistinctHSL(newColors[index] - 1));
+    console.log(JSON.stringify(newColors))
     const newLetterData = replaceIndexes(
       currentGameState.letterData,
       currentGameState.playedIndexes,
@@ -127,6 +131,7 @@ export function gameReducer(currentGameState, payload) {
       playedIndexes: [],
       letterData: newLetterData,
       progress: newProgress,
+      colors: newColors,
     };
   } else {
     console.log(`unknown action: ${payload.action}`);

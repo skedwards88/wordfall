@@ -7,15 +7,25 @@ html {
   --num-rows: 5;
   --num-cols: 5;
   /* todo determine colors with good contrast */
-  --color0: rgb(98, 87, 193);
-  --color1: rgb(138, 78, 138);
-  --color2: rgb(68, 133, 143);
-  --color3: rgb(61, 107, 52);
-  --color4: rgb(134, 138, 69);
-  --color5: rgb(177, 116, 58);
-  --color6: rgb(177, 58, 58);
-  --color7: rgb(224, 108, 139);
-  --color8: rgb(53, 65, 196);
+  --color0: hsl(73, 74%, 63%);
+  --color1: hsl(204.9543570447405, 40.122389191197705%, 65.23696848663181%);;
+  --color2: hsl(254.27629407331804, 52.601951936644404%, 32.810207280824216%);;
+  --color3: hsl(252.27978313317425, 48.81983776541817%, 43.74170445759391%);;
+  --color4: hsl(235.05239519586823, 44.614416355157616%, 51.55976239070689%);;
+  --color5: hsl(292.8839391460385, 63.23422282023371%, 37.05200693304449%);;
+  --color6: hsl(323.0986932629306, 59.32757081330389%, 47.340412795703145%);;
+  --color7: hsl(320.3501438650372, 45.401791629529775%, 47.716578548132304%);;
+  --color8: hsl(260.49003302644377, 34.39636916087785%, 40.500575345942806%);;
+
+
+
+
+
+
+
+
+
+
 }
 
 body {
@@ -296,6 +306,21 @@ input[type="checkbox" i]:checked {
   height: 60%;
   width: 60%;
   border-radius: 50%;
+  /* text-shadow:
+    -2px -2px 0 #000,
+    2px -2px 0 #000,
+    -2px 2px 0 #000,
+    2px 2px 0 #000; */
+  /* -webkit-text-stroke: 4px black;
+  text-stroke: 4px black; */
+
+  color: white;
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width: 1px;
+  /* -webkit-text-stroke-color: black; */
+  font-weight: bold;
+
+
 }
 
 .letter.unavailable {

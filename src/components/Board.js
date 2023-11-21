@@ -6,7 +6,6 @@ function Letter({
   letterAvailability,
   index,
   dispatchGameState,
-  numColors,
 }) {
   const myRef = React.useRef();
 
@@ -58,9 +57,9 @@ function Letter({
 
   return (
     <div
-      className={`letter ${color}`}
+      className={`letter`}
       style={{
-        backgroundColor: `var(--color${color % numColors})`, //todo handle case where need to cycle colors
+        backgroundColor: `${color}`,
       }}
       ref={myRef}
       onPointerDown={(e) => handlePointerDown(e, index)}
@@ -78,18 +77,17 @@ export default function Board({
   playedIndexes,
   gameOver,
   dispatchGameState,
-  numColors,
+  colors,
 }) {
   const board = letterData.map((letterDatum, index) => (
     <Letter
       letter={letterDatum.letter}
-      color={letterDatum.color}
+      color={colors[letterDatum.color]}
       letterAvailability={gameOver ? false : !playedIndexes.includes(index)}
       index={index}
       draggable={false}
       dispatchGameState={dispatchGameState}
       key={letterDatum.id}
-      numColors={numColors}
     ></Letter>
   ));
 
