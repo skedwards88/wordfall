@@ -39,24 +39,29 @@ export function pickRandom(inputArray) {
   return inputArray[Math.floor(Math.random() * inputArray.length)];
 }
 
-function padLetterData(array, size, color) {
+function padArray({
+  array,
+  desiredSize,
+  replacementFunction,
+  replacementParams,
+}) {
   // todo handle array longer than size
-  while (array.length < size) {
-    const letter = pickRandom(letterPool);
-    const id = getPseudoRandomID();
-    array = [{letter, id, color}, ...array];
+  while (array.length < desiredSize) {
+    array = [replacementFunction(replacementParams), ...array];
   }
   return array;
 }
 
 // todo make this function more generic and put in logic package?
-export function replaceIndexes(
-  letterData,
+export function replaceIndexes({
+  arrayToReplaceOn,
   indexesToReplace,
   numColumns,
   numRows,
-) {
-  const allIndexes = letterData.map((_, index) => index);
+  replacementFunction,
+  replacementParams,
+}) {
+  const allIndexes = arrayToReplaceOn.map((_, index) => index);
   const indexColumns = arrayToColumns(allIndexes, numColumns);
   const newColumns = [];
   for (const column of indexColumns) {
@@ -64,15 +69,15 @@ export function replaceIndexes(
       (index) => !indexesToReplace.includes(index),
     );
     const remainingColumnLetterData = remainingColumnIndexes.map(
-      (index) => letterData[index],
+      (index) => arrayToReplaceOn[index],
     );
-    const lowestColor = Math.min(...letterData.map((datum) => datum.color));
 
-    const paddedColumn = padLetterData(
-      remainingColumnLetterData,
-      numRows,
-      lowestColor + 1,
-    );
+    const paddedColumn = padArray({
+      array: remainingColumnLetterData,
+      desiredSize: numRows,
+      replacementFunction,
+      replacementParams,
+    });
     newColumns.push(paddedColumn);
   }
 

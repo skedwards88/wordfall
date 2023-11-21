@@ -4,6 +4,20 @@ import {getDistinctHSL} from "./getColor";
 import {checkIfNeighbors} from "@skedwards88/word_logic";
 import {trie} from "./trie";
 import {replaceIndexes} from "./arrayToColumns";
+import {getPseudoRandomID} from "./gameInit";
+import {letterPool} from "./letterPool";
+
+// todo add pickRandom to wordLogic
+export function pickRandom(inputArray) {
+  return inputArray[Math.floor(Math.random() * inputArray.length)];
+}
+
+function generateLetterData({lowestColor}) {
+  const letter = pickRandom(letterPool);
+  const id = getPseudoRandomID();
+  const color = lowestColor + 1;
+  return {letter, id, color};
+}
 
 export function gameReducer(currentGameState, payload) {
   if (payload.action === "newGame") {
@@ -110,20 +124,24 @@ export function gameReducer(currentGameState, payload) {
     );
     let newProgress = [...currentGameState.progress];
     addedColors.forEach((color) => {
-      newProgress[color]
-        ? newProgress[color] ++
-        : newProgress.push(1);
+      newProgress[color] ? newProgress[color]++ : newProgress.push(1);
     });
 
     let newColors = [...currentGameState.colors];
-    newProgress.forEach((_, index) => newColors[index] = newColors[index] || getDistinctHSL(newColors[index] - 1));
-    console.log(JSON.stringify(newColors))
-    const newLetterData = replaceIndexes(
-      currentGameState.letterData,
-      currentGameState.playedIndexes,
-      currentGameState.numColumns,
-      currentGameState.numRows,
+    newProgress.forEach(
+      (_, index) =>
+        (newColors[index] =
+          newColors[index] || getDistinctHSL(newColors[index] - 1)),
     );
+
+    const newLetterData = replaceIndexes({
+      arrayToReplaceOn: currentGameState.letterData,
+      indexesToReplace: currentGameState.playedIndexes,
+      numColumns: currentGameState.numColumns,
+      numRows: currentGameState.numRows,
+      replacementFunction: generateLetterData,
+      replacementParams: {lowestColor},
+    });
 
     return {
       ...currentGameState,
