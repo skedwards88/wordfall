@@ -36,7 +36,7 @@ function getPlayableLetters({numColumns, numRows, seed}) {
     letters = getLetters(numLetters, pseudoRandomGenerator);
     allWords = findAllWords({
       letters: letters,
-      numColumns: numColumns,// todo cen remove numColors?
+      numColumns: numColumns,
       numRows: numRows,
       minWordLength: 2,
       easyMode: true,
@@ -98,7 +98,6 @@ export function gameInit({seed, useSaved = true}) {
     numRows: numRows,
     result: "",
     seed: seed, //todo remove seed?
-    numColors: 9, // todo change this as finalize colors
     progress,
     colors,
   };
