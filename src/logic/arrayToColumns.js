@@ -30,11 +30,6 @@ function columnsToArray(columns) {
   return array;
 }
 
-// todo add pickRandom to wordLogic
-export function pickRandom(inputArray) {
-  return inputArray[Math.floor(Math.random() * inputArray.length)];
-}
-
 function padArray({
   array,
   desiredSize,

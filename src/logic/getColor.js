@@ -1,11 +1,4 @@
-// todo add random functions to word logic package. see logic grid game for others, add tests
-function pickRandom(inputArray) {
-  return inputArray[Math.floor(Math.random() * inputArray.length)];
-}
-
-function pickRandomIntBetween(min, max) {
-  return Math.floor(min + Math.random() * (max - min));
-}
+import {pickRandomItemFromArray, pickRandomIntBetween} from "@skedwards88/word_logic";
 
 function getAllowedHues({inputHue, minDifference, excludedRanges = []}) {
   // return a list of hues that are at least
@@ -64,7 +57,7 @@ export function getDistinctHSL(hslString) {
     excludedRanges: [[40, 80]],
   });
 
-  const newHue = pickRandom(allowedNewHues);
+  const newHue = pickRandomItemFromArray(allowedNewHues);
 
   const minSaturation = 30;
   const maxSaturation = 60;

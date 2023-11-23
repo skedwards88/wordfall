@@ -1,6 +1,6 @@
 import {letterPool} from "./letterPool";
 import {getDistinctHSL} from "./getColor";
-import {shuffleArray} from "@skedwards88/word_logic";
+import {getNLetters} from "@skedwards88/word_logic";
 import {findAllWords} from "@skedwards88/word_logic";
 import {trie} from "./trie";
 import seedrandom from "seedrandom";
@@ -9,15 +9,6 @@ export function getPseudoRandomID() {
   // todo could compare to existing IDs to ensure unique? Could string two together for increased randomness?
   const pseudoRandomGenerator = seedrandom();
   return pseudoRandomGenerator();
-}
-
-function getLetters(numLetters, pseudoRandomGenerator) {
-  // Given the distribution of letters in the word list
-  // Choose n letters without substitution
-  const shuffledLetters = shuffleArray(letterPool, pseudoRandomGenerator);
-  const chosenLetters = shuffledLetters.slice(0, numLetters); //todo need to make this more robust for case where more letters requested than in list
-
-  return chosenLetters;
 }
 
 function getPlayableLetters({numColumns, numRows, seed}) {
@@ -33,7 +24,7 @@ function getPlayableLetters({numColumns, numRows, seed}) {
   let allWords;
   const numLetters = numColumns * numRows;
   while (!foundPlayableLetters) {
-    letters = getLetters(numLetters, pseudoRandomGenerator);
+    letters = getNLetters(numLetters, letterPool, pseudoRandomGenerator);
     allWords = findAllWords({
       letters: letters,
       numColumns: numColumns,

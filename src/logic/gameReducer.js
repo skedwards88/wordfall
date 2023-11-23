@@ -2,15 +2,11 @@ import {isKnown} from "@skedwards88/word_logic";
 import {gameInit} from "./gameInit";
 import {getDistinctHSL} from "./getColor";
 import {checkIfNeighbors} from "@skedwards88/word_logic";
+import {pickRandomItemFromArray} from "@skedwards88/word_logic";
 import {trie} from "./trie";
 import {replaceIndexes} from "./arrayToColumns";
 import {getPseudoRandomID} from "./gameInit";
 import {letterPool} from "./letterPool";
-
-// todo add pickRandom to wordLogic
-export function pickRandom(inputArray) {
-  return inputArray[Math.floor(Math.random() * inputArray.length)];
-}
 
 function subtractLettersFromLetterPool(lettersToSubtract, letterPool) {
   let subtractedPool = [...letterPool];
@@ -24,7 +20,7 @@ function subtractLettersFromLetterPool(lettersToSubtract, letterPool) {
 }
 
 function generateLetterData({lowestColor, letterPool}) {
-  const letter = pickRandom(letterPool);
+  const letter = pickRandomItemFromArray(letterPool);
   const id = getPseudoRandomID();
   const color = lowestColor + 1;
   return {letter, id, color};
