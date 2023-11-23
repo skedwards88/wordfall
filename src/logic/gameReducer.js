@@ -138,7 +138,7 @@ export function gameReducer(currentGameState, payload) {
     newProgress.forEach(
       (_, index) =>
         (newColors[index] =
-          newColors[index] || getDistinctHSL(newColors[index] - 1)),
+          newColors[index] || getDistinctHSL(newColors[index - 1])),
     );
 
     const newPool = subtractLettersFromLetterPool(
