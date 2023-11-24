@@ -12,7 +12,6 @@ export function getPseudoRandomID() {
 }
 
 function getPlayableLetters({numColumns, numRows}) {
-
   // Select letters and make sure that the computer can find at least
   // 50 words (standard mode) or 20 words (easy mode)
   // otherwise the player will not be able to find many words
@@ -38,9 +37,7 @@ function getPlayableLetters({numColumns, numRows}) {
   return letters;
 }
 
-
 export function gameInit({useSaved = true}) {
-
   const savedGameState = JSON.parse(localStorage.getItem("wordRushGameState"));
 
   if (

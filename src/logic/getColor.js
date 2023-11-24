@@ -1,4 +1,7 @@
-import {pickRandomItemFromArray, pickRandomIntBetween} from "@skedwards88/word_logic";
+import {
+  pickRandomItemFromArray,
+  pickRandomIntBetween,
+} from "@skedwards88/word_logic";
 
 function getAllowedHues({inputHue, minDifference, excludedRanges = []}) {
   // return a list of hues that are at least
