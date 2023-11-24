@@ -44,6 +44,7 @@ export function gameInit({useSaved = true}) {
     useSaved &&
     savedGameState &&
     savedGameState.letterData // todo be more specific with elements of letterData
+    // todo need more stuff in order to resume?
   ) {
     return {...savedGameState, playedIndexes: [], result: ""};
   }
