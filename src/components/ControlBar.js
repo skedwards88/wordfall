@@ -3,7 +3,6 @@ import {handleInstall} from "../logic/handleInstall";
 import {handleShare} from "./Share";
 
 export default function ControlBar({
-  gameState,
   dispatchGameState,
   setDisplay,
   setInstallPromptEvent,
