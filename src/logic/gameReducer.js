@@ -145,8 +145,11 @@ export function gameReducer(currentGameState, payload) {
       letterPool,
     );
 
+    const letterDataWithUpdatedIndexes = [...currentGameState.letterData].map(
+      (datum, index) => ({...datum, previousIndex: index}),
+    );
     const newLetterData = replaceIndexes({
-      arrayToReplaceOn: currentGameState.letterData,
+      arrayToReplaceOn: letterDataWithUpdatedIndexes,
       indexesToReplace: currentGameState.playedIndexes,
       numColumns: currentGameState.numColumns,
       numRows: currentGameState.numRows,

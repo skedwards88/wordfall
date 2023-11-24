@@ -54,6 +54,7 @@ export default function Game({
         gameOver={false} //todo
         dispatchGameState={dispatchGameState}
         colors={gameState.colors}
+        numRows={gameState.numRows}
       ></Board>
     </div>
   );

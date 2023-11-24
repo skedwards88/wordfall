@@ -61,6 +61,7 @@ export function gameInit({useSaved = true}) {
     letter,
     id: getPseudoRandomID(),
     color: 0, //todo generate first color
+    previousIndex: undefined,
   }));
 
   const progress = [numRows * numColumns];

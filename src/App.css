@@ -200,27 +200,16 @@ button {
   color: darkgray;
 }
 
-/* todo need to work on the animation */
-
-/* make the 0% translateY be related to the starting row of the letter */
 @keyframes fallDown {
   0% {
-    transform: translateY(-100%);
+    transform: translateY(var(--startY));
+    opacity: var(--startOpacity);
   }
-
   100% {
     transform: translateY(0);
-  }
-}
-
-/* @keyframes fallDown {
-  0% {
-    opacity: 0;
-  }
-  100% {
     opacity: 1;
   }
-} */
+}
 
 /* Large screen */
 @media (height >= 600px) and (width >= 600px) {
