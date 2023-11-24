@@ -8,6 +8,8 @@
 - change favicon and screenshots
 - add styling for large screen and landscape mode
 - make pwa
+- favicon update
+- screenshots delete or update
 
 - use saved state to resume in progress game
 - account for current letters when replenishing letters
