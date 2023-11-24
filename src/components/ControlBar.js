@@ -24,13 +24,6 @@ export default function ControlBar({
       ></button>
 
       <button
-        id="settingsButton"
-        onClick={() => {
-          setDisplay("settings");
-        }}
-      ></button>
-
-      <button
         id="infoButton"
         onClick={() => {
           setDisplay("info");

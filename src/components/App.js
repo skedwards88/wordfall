@@ -2,7 +2,6 @@ import React from "react";
 import {gameInit} from "../logic/gameInit";
 import {gameReducer} from "../logic/gameReducer";
 import Game from "./Game";
-import Settings from "./Settings";
 import Rules from "./Rules";
 import Heart from "./Heart";
 import {
@@ -56,14 +55,6 @@ export default function App() {
     return () => window.removeEventListener("appinstalled", handleAppInstalled);
   }, []);
   switch (display) {
-    case "settings":
-      return (
-        <Settings
-          setDisplay={setDisplay}
-          dispatchGameState={dispatchGameState}
-        />
-      );
-
     case "heart":
       return <Heart setDisplay={setDisplay} />;
 

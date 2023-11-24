@@ -74,10 +74,6 @@ button {
   background-image: url("./images/pause.svg");
 }
 
-#settingsButton {
-  background-image: url("./images/settings.svg");
-}
-
 #newGameButton {
   background-image: url("./images/new_game.svg");
 }
@@ -96,87 +92,6 @@ button {
 
 #shareButton {
   background-image: url("./images/share.svg");
-}
-
-/* Settings */
-
-.settings {
-  display: flex;
-  flex-direction: column;
-  overflow: scroll;
-  justify-content: space-evenly;
-  align-items: center;
-  font-size: calc(var(--default-font-size) * 0.8);
-}
-
-#settings {
-  display: flex;
-  flex-direction: column;
-  margin: 10px;
-  width: 100%;
-  align-items: stretch;
-}
-
-.setting {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  text-align: left;
-  margin: 0.5cm;
-}
-
-.setting-description {
-  padding: 0 5px 0 0;
-}
-
-.setting-info {
-  font-size: calc(var(--default-font-size) / 2);
-}
-
-#setting-buttons {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  width: 100%;
-}
-
-#setting-buttons > button {
-  margin: 10px;
-}
-
-select {
-  font-size: calc(var(--default-font-size) * 0.8);
-  font-family: sans-serif;
-  background-color: var(--light-color);
-  border: 1px solid var(--light-color);
-  border-radius: 2px;
-  text-align: center;
-  color: black;
-  margin: 0;
-  padding: 1px 6px;
-  height: fit-content;
-}
-
-input[type="checkbox" i] {
-  all: unset;
-  text-decoration: none;
-  text-align: center;
-  appearance: none;
-  min-width: calc(var(--default-font-size) * 0.8);
-  min-height: calc(var(--default-font-size) * 0.8);
-  border-radius: 2px;
-  background-color: var(--light-color);
-  border: 3px solid var(--light-color);
-  margin: 0;
-  padding: 1px 6px;
-  height: fit-content;
-}
-
-input[type="checkbox" i]:checked {
-  background-image: url("./images/checkmark-black.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
 }
 
 /* Rules and heart */
@@ -359,8 +274,4 @@ input[type="checkbox" i]:checked {
     justify-content: center;
   }
 
-  #settings,
-  #setting-buttons {
-    width: fit-content;
-  }
 }
