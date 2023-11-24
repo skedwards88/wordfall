@@ -10,19 +10,13 @@ import {
 } from "../logic/handleInstall";
 
 export default function App() {
-  // Get the seed from the query params
-  const searchParams = new URLSearchParams(document.location.search);
-  const seed = searchParams.get("puzzle");
-
   const [display, setDisplay] = React.useState("pause");
   const [installPromptEvent, setInstallPromptEvent] = React.useState();
   const [showInstallButton, setShowInstallButton] = React.useState(true);
 
   const [gameState, dispatchGameState] = React.useReducer(
     gameReducer,
-    {
-      seed,
-    },
+    {},
     gameInit,
   );
 

@@ -30,7 +30,6 @@ export function gameReducer(currentGameState, payload) {
   if (payload.action === "newGame") {
     return gameInit({
       ...payload,
-      seed: undefined,
       useSaved: false,
     });
   } else if (payload.action === "startWord") {

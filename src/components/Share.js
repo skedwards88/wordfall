@@ -1,25 +1,24 @@
 import React from "react";
 import sendAnalytics from "../logic/sendAnalytics";
 
-export function handleShare({text, seed}) {
+export function handleShare({text}) {
   const url = "https://skedwards88.github.io/word-rush/";
-  const fullUrl = seed ? `${url}?puzzle=${seed}` : url;
 
   if (navigator.canShare) {
     navigator
       .share({
         title: "Word Rush",
         text: `${text}\n\n`,
-        url: fullUrl,
+        url,
       })
       .then(() => console.log("Successful share"))
       .catch((error) => {
         // copy to clipboard as backup
-        handleCopy({text, fullUrl});
+        handleCopy({text, url});
         console.log("Error sharing", error);
       });
   } else {
-    handleCopy({text, fullUrl});
+    handleCopy({text, url});
   }
 
   sendAnalytics("share");
@@ -33,9 +32,9 @@ function handleCopy({text, fullUrl}) {
   }
 }
 
-export function Share({text, seed}) {
+export function Share({text}) {
   return (
-    <button onClick={() => handleShare({text, seed})}>
+    <button onClick={() => handleShare({text})}>
       {navigator.canShare ? "Share" : "Copy link to share"}
     </button>
   );

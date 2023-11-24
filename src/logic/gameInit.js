@@ -11,9 +11,7 @@ export function getPseudoRandomID() {
   return pseudoRandomGenerator();
 }
 
-function getPlayableLetters({numColumns, numRows, seed}) {
-  // Create a new seedable random number generator
-  let pseudoRandomGenerator = seed ? seedrandom(seed) : seedrandom();
+function getPlayableLetters({numColumns, numRows}) {
 
   // Select letters and make sure that the computer can find at least
   // 50 words (standard mode) or 20 words (easy mode)
@@ -24,7 +22,7 @@ function getPlayableLetters({numColumns, numRows, seed}) {
   let allWords;
   const numLetters = numColumns * numRows;
   while (!foundPlayableLetters) {
-    letters = getNLetters(numLetters, letterPool, pseudoRandomGenerator);
+    letters = getNLetters(numLetters, letterPool);
     allWords = findAllWords({
       letters: letters,
       numColumns: numColumns,
@@ -40,23 +38,15 @@ function getPlayableLetters({numColumns, numRows, seed}) {
   return letters;
 }
 
-function getRandomSeed() {
-  const currentDate = new Date();
-  return currentDate.getTime().toString();
-}
 
-export function gameInit({seed, useSaved = true}) {
-  if (!seed) {
-    seed = getRandomSeed();
-  }
+export function gameInit({useSaved = true}) {
 
   const savedGameState = JSON.parse(localStorage.getItem("wordRushGameState"));
 
   if (
     useSaved &&
     savedGameState &&
-    savedGameState.letterData && // todo be more specific with elements of letterData
-    savedGameState.seed === seed
+    savedGameState.letterData // todo be more specific with elements of letterData
   ) {
     return {...savedGameState, playedIndexes: [], result: ""};
   }
@@ -67,7 +57,6 @@ export function gameInit({seed, useSaved = true}) {
   const letters = getPlayableLetters({
     numColumns: numColumns,
     numRows: numRows,
-    seed: seed,
   });
 
   const letterData = letters.map((letter) => ({
@@ -86,7 +75,6 @@ export function gameInit({seed, useSaved = true}) {
     numColumns: numColumns,
     numRows: numRows,
     result: "",
-    seed: seed, //todo remove seed?
     progress,
     colors,
   };

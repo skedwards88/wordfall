@@ -39,7 +39,6 @@ export default function ControlBar({
             setDisplay("pause");
             handleShare({
               text: "Try out this Word Rush puzzle:",
-              seed: `${gameState.seed}`,
             });
           }}
         ></button>
