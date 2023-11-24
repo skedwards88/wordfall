@@ -69,7 +69,6 @@ function Letter({letter, color, letterAvailability, index, dispatchGameState}) {
 export default function Board({
   letterData,
   playedIndexes,
-  gameOver,
   dispatchGameState,
   colors,
   numRows,
@@ -120,7 +119,7 @@ export default function Board({
     <Letter
       letter={letterDatum.letter}
       color={colors[letterDatum.color]}
-      letterAvailability={gameOver ? false : !playedIndexes.includes(index)}
+      letterAvailability={!playedIndexes.includes(index)}
       index={index}
       draggable={false}
       dispatchGameState={dispatchGameState}

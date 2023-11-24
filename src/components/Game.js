@@ -51,7 +51,6 @@ export default function Game({
       <Board
         letterData={gameState.letterData}
         playedIndexes={gameState.playedIndexes}
-        gameOver={false} //todo
         dispatchGameState={dispatchGameState}
         colors={gameState.colors}
         numRows={gameState.numRows}
