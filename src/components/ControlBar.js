@@ -18,7 +18,7 @@ export default function ControlBar({
             action: "newGame",
           });
 
-          setDisplay("pause");
+          setDisplay("game");
         }}
       ></button>
 
@@ -35,7 +35,7 @@ export default function ControlBar({
         <button
           id="shareButton"
           onClick={() => {
-            setDisplay("pause");
+            setDisplay("game");
             handleShare({
               text: "Try out this Word Rush puzzle:",
             });

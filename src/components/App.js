@@ -10,7 +10,7 @@ import {
 } from "../logic/handleInstall";
 
 export default function App() {
-  const [display, setDisplay] = React.useState("pause");
+  const [display, setDisplay] = React.useState("game");
   const [installPromptEvent, setInstallPromptEvent] = React.useState();
   const [showInstallButton, setShowInstallButton] = React.useState(true);
 
