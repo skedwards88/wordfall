@@ -1,6 +1,7 @@
 html {
   height: 100%;
   background-color: var(--dark-color);
+
   --default-font-size: min(4vmax, 7vmin, 40px);
   --dark-color: rgb(55 54 71);
   --light-color: rgb(239 239 239);
@@ -204,15 +205,18 @@ button {
 }
 
 /* todo need to work on the animation */
+
 /* make the 0% translateY be related to the starting row of the letter */
 @keyframes fallDown {
   0% {
     transform: translateY(-100%);
   }
+
   100% {
     transform: translateY(0);
   }
 }
+
 /* @keyframes fallDown {
   0% {
     opacity: 0;
@@ -223,7 +227,7 @@ button {
 } */
 
 /* Large screen */
-@media (min-height: 600px) and (min-width: 600px) {
+@media (height >= 600px) and (width >= 600px) {
   #board {
     align-items: center;
     align-self: center;
