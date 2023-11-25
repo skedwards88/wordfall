@@ -8,9 +8,55 @@ export default function ControlBar({
   setInstallPromptEvent,
   showInstallButton,
   installPromptEvent,
+  gameState,
 }) {
   return (
     <div id="controls">
+      <button
+        id={
+          gameState.bonuses.shuffle.active
+            ? "shuffleBonusButtonActive"
+            : "shuffleBonusButton"
+        }
+        disabled={gameState.bonuses.shuffle.number === 0}
+        onClick={() => {
+          dispatchGameState({
+            action: "clickBonus",
+            bonusType: "shuffle",
+          });
+        }}
+      ></button>
+
+      <button
+        id={
+          gameState.bonuses.remove.active
+            ? "removeBonusButtonActive"
+            : "removeBonusButton"
+        }
+        disabled={gameState.bonuses.remove.number === 0}
+        onClick={() => {
+          dispatchGameState({
+            action: "clickBonus",
+            bonusType: "remove",
+          });
+        }}
+      ></button>
+
+      <button
+        id={
+          gameState.bonuses.swap.active
+            ? "swapBonusButtonActive"
+            : "swapBonusButton"
+        }
+        disabled={gameState.bonuses.swap.number === 0}
+        onClick={() => {
+          dispatchGameState({
+            action: "clickBonus",
+            bonusType: "swap",
+          });
+        }}
+      ></button>
+
       <button
         id="newGameButton"
         onClick={() => {

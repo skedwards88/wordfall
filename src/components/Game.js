@@ -30,6 +30,7 @@ export default function Game({
         setInstallPromptEvent={setInstallPromptEvent}
         showInstallButton={showInstallButton}
         installPromptEvent={installPromptEvent}
+        gameState={gameState}
       ></ControlBar>
 
       <Progress
@@ -45,6 +46,8 @@ export default function Game({
               .toUpperCase()
           : " "}
       </div>
+
+      <div id="bonusText">{gameState.bonusText}</div>
 
       <WordResult result={gameState.result} />
 

@@ -49,6 +49,15 @@ function Letter({letter, color, letterAvailability, index, dispatchGameState}) {
     });
   }
 
+  function handleClick(e, index) {
+    e.preventDefault();
+
+    dispatchGameState({
+      action: "potentiallyUseBonus",
+      clickedIndex: index,
+    });
+  }
+
   return (
     <div
       className={`letter`}
@@ -59,6 +68,7 @@ function Letter({letter, color, letterAvailability, index, dispatchGameState}) {
       onPointerDown={(e) => handlePointerDown(e, index)}
       onPointerEnter={(e) => handlePointerEnter(e, index, letterAvailability)}
       onPointerUp={(e) => handlePointerUp(e)}
+      onClick={(e) => handleClick(e, index)}
       draggable={false}
     >
       {letter}

@@ -76,5 +76,21 @@ export function gameInit({useSaved = true}) {
     result: "",
     progress,
     colors,
+    // todo need to display count for each bonus
+    bonuses: {
+      shuffle: {
+        number: 3,
+        active: false,
+      },
+      remove: {
+        number: 3,
+        active: false,
+      },
+      swap: {
+        number: 3,
+        active: false,
+        firstIndex: undefined,
+      },
+    },
   };
 }

@@ -91,6 +91,32 @@ button {
   background-image: url("./images/share.svg");
 }
 
+#shuffleBonusButton {
+  background-image: url("./images/shuffle.svg");
+}
+#shuffleBonusButtonActive {
+  background-image: url("./images/shuffle.svg"),
+    radial-gradient(circle, rgba(239, 239, 239, 0.6) 30%, rgba(55, 54, 71));
+}
+#removeBonusButton {
+  background-image: url("./images/remove.svg");
+}
+#removeBonusButtonActive {
+  background-image: url("./images/remove.svg"),
+    radial-gradient(circle, rgba(239, 239, 239, 0.6) 30%, rgba(55, 54, 71));
+}
+#swapBonusButton {
+  background-image: url("./images/swap.svg");
+}
+#swapBonusButtonActive {
+  background-image: url("./images/swap.svg"),
+    radial-gradient(circle, rgba(239, 239, 239, 0.6) 30%, rgba(55, 54, 71));
+}
+
+button:disabled {
+  opacity: 0.5;
+}
+
 /* Rules and heart */
 
 .info {
@@ -146,6 +172,14 @@ button {
   text-align: center;
   white-space: pre;
   align-self: center;
+}
+
+#bonusText {
+  grid-area: info;
+  text-align: center;
+  white-space: pre-wrap;
+  align-self: center;
+  font-size: calc(0.75 * var(--default-font-size));
 }
 
 #wordResult {
@@ -210,6 +244,8 @@ button {
     opacity: 1;
   }
 }
+
+/* todo would be cool to make an animation for shuffling the letters and for swapping the letters and for disappearing a letter with the bonus */
 
 /* Large screen */
 @media (height >= 600px) and (width >= 600px) {
