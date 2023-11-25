@@ -199,6 +199,29 @@ export function gameReducer(currentGameState, payload) {
       numRows: currentGameState.numRows,
     });
 
+    let resultText = "";
+
+    // If the word is 6 letters or longer, give a bonus
+    const earnedBonus = newWord.length >= 6;
+    let newBonuses = cloneDeep(currentGameState.bonuses);
+    if (earnedBonus) {
+      const bonusType = pickRandomItemFromArray(Object.keys(newBonuses));
+      newBonuses[bonusType].number++;
+      if (resultText.length) {
+        resultText += `\n\n`;
+      }
+      resultText += `${newWord.length} letters! Bonus earned.`;
+    }
+
+    // If completed a level (cleared the last color in the level) give a bonus
+    const uniqueColors = new Set(newLetterData.map((datum) => datum.color));
+    if (uniqueColors.size === 1) {
+      if (resultText.length) {
+        resultText += `\n\n`;
+      }
+      resultText += `Level cleared! Bonus earned.`;
+    }
+
     return {
       ...currentGameState,
       wordInProgress: false,
@@ -206,6 +229,8 @@ export function gameReducer(currentGameState, payload) {
       letterData: newLetterData,
       progress: newProgress,
       colors: newColors,
+      bonuses: newBonuses,
+      result: resultText,
     };
   } else if (payload.action === "clickBonus") {
     const bonusType = payload.bonusType;
@@ -296,6 +321,13 @@ export function gameReducer(currentGameState, payload) {
       );
       newBonuses[bonusType].number = newBonuses[bonusType].number - 1;
 
+      // If completed a level (cleared the last color in the level) give a bonus
+      let resultText = "";
+      const uniqueColors = new Set(newLetterData.map((datum) => datum.color));
+      if (uniqueColors.size === 1) {
+        resultText = `Level cleared! Bonus earned.`;
+      }
+
       return {
         ...currentGameState,
         wordInProgress: false,
@@ -305,6 +337,7 @@ export function gameReducer(currentGameState, payload) {
         colors: newColors,
         bonuses: newBonuses,
         bonusText: "",
+        result: resultText,
       };
     } else if (currentGameState.bonuses.swap.active) {
       // "swap" bonus is active

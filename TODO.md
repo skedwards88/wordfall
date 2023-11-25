@@ -12,13 +12,7 @@
 - end game if no words left?
 
 - add bonuses:
-  - start with some + earn when clear level + earn when get long word
   - show counter for how many/disable if none
-  - ideas:
-    - scramble board
-    - swap two letters
-    - disappear a single letter
-    - ? hint to reveal a word. favor longest + lowest word
 - add rules
 - fix share styling (bring back the info styling from settings that deleted?)
 - make sure PWA/check lighthouse

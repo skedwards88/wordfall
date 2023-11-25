@@ -190,12 +190,15 @@ button:disabled {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  white-space: pre-wrap;
+  align-self: center;
 }
 
 .fadeOut {
   opacity: 0;
   pointer-events: none;
-  animation-duration: 2s;
+  animation-duration: 3s;
   animation-name: fadeout;
 }
 
