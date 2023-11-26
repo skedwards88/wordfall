@@ -4,8 +4,6 @@
 
 - add rules
 - add styling for large screen and landscape mode
-- rename repo/game (word-rush, wordRush, Word Rush). maybe wordfall?
-- todos in code
 - bonuses-related:
   - when bonus is active, when start making word, activate the bonus instead
   - for the swap bonus, allow to drag to select the two letters too; highligh the second selected as go
@@ -14,11 +12,14 @@
 
 ## Tier 2
 
-- add gtag
-- make sure PWA/check lighthouse
+- todos in code
 - see if should use clonedeep at other places where use ...
-- pseudorandomID: could compare to existing IDs to ensure unique? Could string two together for increased randomness?
+- make sure PWA/check lighthouse
+- add gtag
 - make using saved state in init more robust/specific
+- pseudorandomID: could compare to existing IDs to ensure unique? Could string two together for increased randomness?
+- update read me and repo side bar to include link to game, to remove construction note
+- add to sect games
 
 ## Tier 3
 
