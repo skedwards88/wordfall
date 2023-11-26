@@ -17,7 +17,9 @@ export default function BonusBar({dispatchGameState, gameState}) {
           });
         }}
       >
-        <div className="bonusCounter">{gameState.bonuses.shuffle.number}</div>
+        <div className="bonusCounter" key={gameState.bonuses.shuffle.number}>
+          {gameState.bonuses.shuffle.number}
+        </div>
       </button>
 
       <button
@@ -34,7 +36,9 @@ export default function BonusBar({dispatchGameState, gameState}) {
           });
         }}
       >
-        <div className="bonusCounter">{gameState.bonuses.remove.number}</div>
+        <div className="bonusCounter" key={gameState.bonuses.remove.number}>
+          {gameState.bonuses.remove.number}
+        </div>
       </button>
 
       <button
@@ -51,7 +55,9 @@ export default function BonusBar({dispatchGameState, gameState}) {
           });
         }}
       >
-        <div className="bonusCounter">{gameState.bonuses.swap.number}</div>
+        <div className="bonusCounter" key={gameState.bonuses.swap.number}>
+          {gameState.bonuses.swap.number}
+        </div>
       </button>
     </div>
   );
