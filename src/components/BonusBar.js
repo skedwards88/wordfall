@@ -10,7 +10,9 @@ export default function BonusBar({dispatchGameState, gameState}) {
             : "shuffleBonusButton"
         }
         disabled={gameState.bonuses.shuffle.number === 0}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
+
           dispatchGameState({
             action: "clickBonus",
             bonusType: "shuffle",
@@ -29,7 +31,9 @@ export default function BonusBar({dispatchGameState, gameState}) {
             : "removeBonusButton"
         }
         disabled={gameState.bonuses.remove.number === 0}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
+
           dispatchGameState({
             action: "clickBonus",
             bonusType: "remove",
@@ -48,7 +52,9 @@ export default function BonusBar({dispatchGameState, gameState}) {
             : "swapBonusButton"
         }
         disabled={gameState.bonuses.swap.number === 0}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
+
           dispatchGameState({
             action: "clickBonus",
             bonusType: "swap",

@@ -51,6 +51,7 @@ function Letter({letter, color, letterIsSelected, index, dispatchGameState}) {
 
   function handleClick(e, index) {
     e.preventDefault();
+    e.stopPropagation();
 
     dispatchGameState({
       action: "potentiallyUseBonus",

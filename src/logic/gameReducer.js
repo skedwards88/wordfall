@@ -95,13 +95,21 @@ function generateLetterData({lowestColor, letterPool}) {
 }
 
 function updateUsedBonus(oldBonuses, bonusType) {
-  let newBonuses = cloneDeep(oldBonuses);
-  Object.keys(newBonuses).forEach(
-    (bonus) => (newBonuses[bonus].active = false),
-  );
+  let newBonuses = deactivateBonuses(oldBonuses);
   newBonuses[bonusType].number = newBonuses[bonusType].number - 1;
 
   return newBonuses;
+}
+
+function deactivateBonuses(bonuses) {
+  let newBonuses = cloneDeep(bonuses);
+
+  Object.keys(newBonuses).forEach(
+    (bonus) => (newBonuses[bonus].active = false),
+  );
+  newBonuses.swap.firstIndex = undefined;
+
+  return newBonuses
 }
 
 function useShuffleBonus(currentGameState) {
@@ -204,6 +212,7 @@ function useRemoveBonus(currentGameState, indexToRemove) {
 }
 
 export function gameReducer(currentGameState, payload) {
+  console.log(JSON.stringify(payload))
   if (payload.action === "newGame") {
     return gameInit({
       ...payload,
@@ -360,13 +369,9 @@ export function gameReducer(currentGameState, payload) {
     // otherwise activate this bonus and deactivate all others, and show text
     // when deactivating swap, also clear the letter index
     if (wasActive) {
-      newBonuses[bonusType].active = false;
-      newBonuses.swap.firstIndex = undefined;
+      newBonuses = deactivateBonuses(newBonuses);
     } else {
-      Object.keys(newBonuses).forEach(
-        (bonus) => (newBonuses[bonus].active = false),
-      );
-      newBonuses.swap.firstIndex = undefined;
+      newBonuses = deactivateBonuses(newBonuses);
       newBonuses[bonusType].active = true;
       switch (bonusType) {
         case "shuffle":
@@ -386,6 +391,15 @@ export function gameReducer(currentGameState, payload) {
       ...currentGameState,
       bonuses: newBonuses,
       bonusText: newBonusText,
+      wordInProgress: false,
+      playedIndexes: [],
+    };
+  } else if (payload.action === "deactivateBonus") {
+    let newBonuses = deactivateBonuses(currentGameState.bonuses);
+    return {
+      ...currentGameState,
+      bonuses: newBonuses,
+      bonusText: "",
       wordInProgress: false,
       playedIndexes: [],
     };

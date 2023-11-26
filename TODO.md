@@ -7,7 +7,6 @@
 - bonuses-related:
   - when bonus is active, when start making word, activate the bonus instead
   - for the swap bonus, allow to drag to select the two letters too; highlight the second selected as go
-  - clicking anywhere besides the board should also cancel the bonus
 
 ## Tier 2
 

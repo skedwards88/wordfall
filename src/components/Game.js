@@ -24,6 +24,14 @@ export default function Game({
           action: "endWord",
         });
       }}
+      onClick={(e) => {
+        e.preventDefault();
+
+        dispatchGameState({
+          action: "deactivateBonus",
+        });
+      }}
+
     >
       <ControlBar
         dispatchGameState={dispatchGameState}
