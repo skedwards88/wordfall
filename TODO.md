@@ -2,8 +2,6 @@
 
 ## Tier 1 (must do)
 
-- change favicon
-- delete or update screenshots
 - add rules
 - fix share styling (bring back the info styling from settings that deleted?)
 - add styling for large screen and landscape mode
