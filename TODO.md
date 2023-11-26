@@ -3,7 +3,6 @@
 ## Tier 1 (must do)
 
 - add rules
-- fix share styling (bring back the info styling from settings that deleted?)
 - add styling for large screen and landscape mode
 - rename repo/game (word-rush, wordRush, Word Rush). maybe wordfall?
 - todos in code

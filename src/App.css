@@ -48,6 +48,27 @@ button {
   padding: 1px 6px;
 }
 
+.info {
+  white-space: pre-line;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  overflow: scroll;
+  justify-items: center;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: calc(var(--default-font-size) * 0.75);
+  padding: 5vmin;
+}
+
+.infoText {
+  margin: 2vmax;
+}
+
+.info a {
+  color: rgb(0 162 255);
+}
+
 /* Control bar */
 
 #controls {
