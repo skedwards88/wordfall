@@ -76,7 +76,6 @@ export function gameInit({useSaved = true}) {
     result: "",
     progress,
     colors,
-    // todo need to display count for each bonus
     bonuses: {
       shuffle: {
         number: 3,

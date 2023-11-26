@@ -91,6 +91,26 @@ button {
   background-image: url("./images/share.svg");
 }
 
+#bonuses {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  grid-area: bonuses;
+  width: 100%;
+  height: fit-content;
+}
+
+#bonuses > button {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border: 0;
+  width: min(var(--default-font-size), 10%);
+  height: var(--default-font-size);
+  background-color: transparent;
+  padding: 1px 6px;
+}
+
 #shuffleBonusButton {
   background-image: url("./images/shuffle.svg");
   position: relative;
@@ -167,11 +187,13 @@ button:disabled {
   grid-template-areas:
     "controls"
     "info"
+    "bonuses"
     "progress"
     "board";
   grid-template-rows:
     auto
     1fr
+    auto
     auto
     auto;
 }
