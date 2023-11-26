@@ -1,5 +1,3 @@
-// todo add tests
-
 function arrayToColumns(array, numColumns) {
   // todo what if irregular number of columns or fewer array items than num columns? add test cases
 

@@ -12,10 +12,8 @@ export function getPseudoRandomID() {
 }
 
 function getPlayableLetters({numColumns, numRows}) {
-  // Select letters and make sure that the computer can find at least
-  // 50 words (standard mode) or 20 words (easy mode)
-  // otherwise the player will not be able to find many words
-  const minWords = 5; //todo omit min word requirement? if add opportunity to shuffle, should be ok
+  // Select letters and make sure that there are at least 10 words to start
+  const minWords = 10;
   let foundPlayableLetters = false;
   let letters;
   let allWords;
@@ -40,17 +38,12 @@ function getPlayableLetters({numColumns, numRows}) {
 export function gameInit({useSaved = true}) {
   const savedGameState = JSON.parse(localStorage.getItem("wordRushGameState"));
 
-  if (
-    useSaved &&
-    savedGameState &&
-    savedGameState.letterData // todo be more specific with elements of letterData
-    // todo need more stuff in order to resume?
-  ) {
-    // return {...savedGameState, playedIndexes: [], result: ""};
+  if (useSaved && savedGameState && savedGameState.letterData) {
+    return {...savedGameState, playedIndexes: [], result: "", bonusText: ""};
   }
 
-  const numRows = 5; //todo play with dimensions on different screen sizes
-  const numColumns = 5; // todo i have this hardcoded here and in css right now
+  const numRows = 5;
+  const numColumns = 5;
 
   const letters = getPlayableLetters({
     numColumns: numColumns,
@@ -60,7 +53,7 @@ export function gameInit({useSaved = true}) {
   const letterData = letters.map((letter) => ({
     letter,
     id: getPseudoRandomID(),
-    colorIndex: 0, //todo generate first color
+    colorIndex: 0,
     previousIndex: undefined,
   }));
 
@@ -69,13 +62,14 @@ export function gameInit({useSaved = true}) {
   const colors = [getDistinctHSL()];
 
   return {
-    letterData: letterData, // todo change color prop to colorindex
+    letterData: letterData,
     playedIndexes: [],
     numColumns: numColumns,
     numRows: numRows,
     result: "",
     progress,
     colors,
+    bonusText: "",
     bonuses: {
       shuffle: {
         number: 3,

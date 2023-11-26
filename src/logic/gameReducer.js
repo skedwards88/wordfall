@@ -286,7 +286,6 @@ export function gameReducer(currentGameState, payload) {
       const bonusType = "shuffle";
       let newLetterData = cloneDeep(currentGameState.letterData);
       newLetterData = shuffleArray(newLetterData);
-      // todo the animation feels off here; some don't appear to re-render despite new id
       newLetterData.forEach((datum) => (datum.id = getPseudoRandomID()));
 
       let newBonuses = cloneDeep(currentGameState.bonuses);
@@ -361,7 +360,6 @@ export function gameReducer(currentGameState, payload) {
       if (currentGameState.bonuses.swap.firstIndex === undefined) {
         newBonuses.swap.firstIndex = payload.clickedIndex;
         newBonusText = "Click a second letter to complete the swap";
-        // todo style the first index to indicate picked
         return {
           ...currentGameState,
           wordInProgress: false,
