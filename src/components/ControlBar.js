@@ -25,7 +25,9 @@ export default function ControlBar({
             bonusType: "shuffle",
           });
         }}
-      ></button>
+      >
+        <div className="bonusCounter">{gameState.bonuses.shuffle.number}</div>
+      </button>
 
       <button
         id={
@@ -40,7 +42,9 @@ export default function ControlBar({
             bonusType: "remove",
           });
         }}
-      ></button>
+      >
+        <div className="bonusCounter">{gameState.bonuses.remove.number}</div>
+      </button>
 
       <button
         id={
@@ -55,7 +59,9 @@ export default function ControlBar({
             bonusType: "swap",
           });
         }}
-      ></button>
+      >
+        <div className="bonusCounter">{gameState.bonuses.swap.number}</div>
+      </button>
 
       <button
         id="newGameButton"

@@ -13,6 +13,8 @@
 
 - add bonuses:
   - show counter for how many/disable if none
+  - when bonus is active, when start making word, activate the bonus instead
+  - clicking anywhere besides the board should also cancel the bonus
 - add rules
 - fix share styling (bring back the info styling from settings that deleted?)
 - make sure PWA/check lighthouse
