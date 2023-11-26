@@ -1,5 +1,5 @@
 {
-  "name": "word-rush",
+  "name": "wordfall",
   "version": "1.0.10",
   "description": "",
   "main": "index.js",
@@ -14,15 +14,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/skedwards88/word-rush.git"
+    "url": "git+https://github.com/skedwards88/wordfall.git"
   },
   "keywords": [],
   "author": "",
   "license": "",
   "bugs": {
-    "url": "https://github.com/skedwards88/word-rush/issues"
+    "url": "https://github.com/skedwards88/wordfall/issues"
   },
-  "homepage": "https://github.com/skedwards88/word-rush#readme",
+  "homepage": "https://github.com/skedwards88/wordfall#readme",
   "dependencies": {
     "@skedwards88/word_lists": "latest",
     "@skedwards88/word_logic": "^3.0.4",

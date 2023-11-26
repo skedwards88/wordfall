@@ -1,8 +1,8 @@
 {
-  "name": "Word Rush",
-  "short_name": "Word Rush",
-  "description": "A jumbled word search game",
-  "id": "?word-rush=1",
+  "name": "Wordfall",
+  "short_name": "Wordfall",
+  "description": "A meditative jumbled word search game",
+  "id": "?wordfall=1",
   "dir": "auto",
   "lang": "en-US",
   "display": "standalone",

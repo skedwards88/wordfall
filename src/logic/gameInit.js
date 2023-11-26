@@ -36,7 +36,7 @@ function getPlayableLetters({numColumns, numRows}) {
 }
 
 export function gameInit({useSaved = true}) {
-  const savedGameState = JSON.parse(localStorage.getItem("wordRushGameState"));
+  const savedGameState = JSON.parse(localStorage.getItem("wordfallGameState"));
 
   if (useSaved && savedGameState && savedGameState.letterData) {
     return {...savedGameState, playedIndexes: [], result: "", bonusText: ""};

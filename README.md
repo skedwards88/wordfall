@@ -1,4 +1,4 @@
-# Word Rush
+# Wordfall
 
 A meditative jumbled word search game.
 

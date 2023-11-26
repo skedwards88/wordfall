@@ -4,11 +4,11 @@ import packageJson from "../../package.json";
 
 export default function Heart({setDisplay}) {
   const feedbackLink =
-    "https://github.com/skedwards88/word-rush/issues/new/choose";
+    "https://github.com/skedwards88/wordfall/issues/new/choose";
 
   return (
     <div className="App info">
-      <h1>Word Rush</h1>
+      <h1>Wordfall</h1>
       <div className="infoText">
         {"Like this game? Share it with your friends.\n\n"}
         {<Share text={"Check out this jumbled word search game!"}></Share>}

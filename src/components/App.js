@@ -21,7 +21,7 @@ export default function App() {
   );
 
   React.useEffect(() => {
-    window.localStorage.setItem("wordRushGameState", JSON.stringify(gameState));
+    window.localStorage.setItem("wordfallGameState", JSON.stringify(gameState));
   }, [gameState]);
 
   React.useEffect(() => {

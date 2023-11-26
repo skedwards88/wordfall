@@ -4,7 +4,7 @@ import packageJson from "../../package.json";
 export default function Rules({setDisplay}) {
   return (
     <div className="App info">
-      <h1>Word Rush: How to play</h1>
+      <h1>Wordfall: How to play</h1>
       <p className="infoText">{`TODO`}</p>
       <button
         onClick={() => {

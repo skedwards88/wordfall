@@ -208,7 +208,7 @@ button:disabled {
 
 /* game */
 
-#word-rush {
+#wordfall {
   display: grid;
   grid-template-areas:
     "controls"

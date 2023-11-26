@@ -37,7 +37,7 @@ export default function ControlBar({
           onClick={() => {
             setDisplay("game");
             handleShare({
-              text: "Try out this Word Rush puzzle:",
+              text: "Try out this Wordfall puzzle:",
             });
           }}
         ></button>

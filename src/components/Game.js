@@ -16,7 +16,7 @@ export default function Game({
   return (
     <div
       className="App"
-      id="word-rush"
+      id="wordfall"
       onPointerUp={(e) => {
         e.preventDefault();
 

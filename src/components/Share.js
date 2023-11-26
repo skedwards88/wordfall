@@ -2,12 +2,12 @@ import React from "react";
 import sendAnalytics from "../logic/sendAnalytics";
 
 export function handleShare({text}) {
-  const url = "https://skedwards88.github.io/word-rush/";
+  const url = "https://skedwards88.github.io/wordfall/";
 
   if (navigator.canShare) {
     navigator
       .share({
-        title: "Word Rush",
+        title: "Wordfall",
         text: `${text}\n\n`,
         url,
       })
