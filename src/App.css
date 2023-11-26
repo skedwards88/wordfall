@@ -319,7 +319,7 @@ button:disabled {
 }
 
 .letter.unavailable {
-  color: darkgray;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0) 30%, rgb(255, 255, 255));
 }
 
 @keyframes fallDown {

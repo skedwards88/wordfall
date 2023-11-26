@@ -59,6 +59,7 @@ export default function Game({
       <Board
         letterData={gameState.letterData}
         playedIndexes={gameState.playedIndexes}
+        swapBonusIndex={gameState.bonuses.swap.firstIndex}
         dispatchGameState={dispatchGameState}
         colors={gameState.colors}
         numRows={gameState.numRows}
