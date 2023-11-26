@@ -128,7 +128,7 @@ export default function Board({
   const board = letterData.map((letterDatum, index) => (
     <Letter
       letter={letterDatum.letter}
-      color={colors[letterDatum.color]}
+      color={colors[letterDatum.colorIndex]}
       letterAvailability={!playedIndexes.includes(index)}
       index={index}
       draggable={false}

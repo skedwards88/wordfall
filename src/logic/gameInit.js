@@ -46,7 +46,7 @@ export function gameInit({useSaved = true}) {
     savedGameState.letterData // todo be more specific with elements of letterData
     // todo need more stuff in order to resume?
   ) {
-    return {...savedGameState, playedIndexes: [], result: ""};
+    // return {...savedGameState, playedIndexes: [], result: ""};
   }
 
   const numRows = 5; //todo play with dimensions on different screen sizes
@@ -60,7 +60,7 @@ export function gameInit({useSaved = true}) {
   const letterData = letters.map((letter) => ({
     letter,
     id: getPseudoRandomID(),
-    color: 0, //todo generate first color
+    colorIndex: 0, //todo generate first color
     previousIndex: undefined,
   }));
 

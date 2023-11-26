@@ -12,19 +12,21 @@ import cloneDeep from "lodash.clonedeep";
 function updateProgress({playedIndexes, letterData, progress}) {
   // Get the color indexes of the letters that are being replaced
   const replacedColorIndexes = playedIndexes.map(
-    (index) => letterData[index].color,
+    (index) => letterData[index].colorIndex,
   );
   // Figure out the lowest color index on the board
-  const lowestColorIndex = Math.min(...letterData.map((datum) => datum.color));
+  const lowestColorIndex = Math.min(
+    ...letterData.map((datum) => datum.colorIndex),
+  );
   // Figure out the color that will replace the old color
-  const replacingColorIndexes = replacedColorIndexes.map((color) =>
-    Math.min(color + 1, lowestColorIndex + 1),
+  const replacingColorIndexes = replacedColorIndexes.map((colorIndex) =>
+    Math.min(colorIndex + 1, lowestColorIndex + 1),
   );
 
   // Update the progress count to include the new colors
   let newProgress = cloneDeep(progress);
-  replacingColorIndexes.forEach((color) => {
-    newProgress[color] ? newProgress[color]++ : newProgress.push(1);
+  replacingColorIndexes.forEach((colorIndex) => {
+    newProgress[colorIndex] ? newProgress[colorIndex]++ : newProgress.push(1);
   });
 
   return newProgress;
@@ -50,7 +52,9 @@ function replaceLetters({playedIndexes, letterData, numColumns, numRows}) {
   );
 
   // Figure out the lowest color index on the board
-  const lowestColorIndex = Math.min(...letterData.map((datum) => datum.color));
+  const lowestColorIndex = Math.min(
+    ...letterData.map((datum) => datum.colorIndex),
+  );
 
   // Record the current index of each letter
   // This is used to do the falling animation
@@ -86,8 +90,8 @@ function subtractLettersFromLetterPool(lettersToSubtract, letterPool) {
 function generateLetterData({lowestColor, letterPool}) {
   const letter = pickRandomItemFromArray(letterPool);
   const id = getPseudoRandomID();
-  const color = lowestColor + 1;
-  return {letter, id, color};
+  const colorIndex = lowestColor + 1;
+  return {letter, id, colorIndex};
 }
 
 export function gameReducer(currentGameState, payload) {
@@ -214,7 +218,9 @@ export function gameReducer(currentGameState, payload) {
     }
 
     // If completed a level (cleared the last color in the level) give a bonus
-    const uniqueColors = new Set(newLetterData.map((datum) => datum.color));
+    const uniqueColors = new Set(
+      newLetterData.map((datum) => datum.colorIndex),
+    );
     if (uniqueColors.size === 1) {
       if (resultText.length) {
         resultText += `\n\n`;
@@ -323,7 +329,9 @@ export function gameReducer(currentGameState, payload) {
 
       // If completed a level (cleared the last color in the level) give a bonus
       let resultText = "";
-      const uniqueColors = new Set(newLetterData.map((datum) => datum.color));
+      const uniqueColors = new Set(
+        newLetterData.map((datum) => datum.colorIndex),
+      );
       if (uniqueColors.size === 1) {
         resultText = `Level cleared! Bonus earned.`;
       }
@@ -366,9 +374,12 @@ export function gameReducer(currentGameState, payload) {
         // Just swap the color and letter but not the other info so that we don't rerender/affect the animation
         [newLetterData[firstIndex].letter, newLetterData[secondIndex].letter] =
           [newLetterData[secondIndex].letter, newLetterData[firstIndex].letter];
-        [newLetterData[firstIndex].color, newLetterData[secondIndex].color] = [
-          newLetterData[secondIndex].color,
-          newLetterData[firstIndex].color,
+        [
+          newLetterData[firstIndex].colorIndex,
+          newLetterData[secondIndex].colorIndex,
+        ] = [
+          newLetterData[secondIndex].colorIndex,
+          newLetterData[firstIndex].colorIndex,
         ];
 
         Object.keys(newBonuses).forEach(
