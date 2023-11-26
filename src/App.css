@@ -174,8 +174,9 @@ button:disabled {
   top: -10px;
   right: -20px;
   font-size: calc(0.5 * var(--default-font-size));
-  background-color: rgb(128 128 128 / 85.6%);
-  color: var(--light-color);
+  font-weight: bold;
+  color: var(--dark-color);
+  background-color: var(--light-color);
   border-radius: 50%;
   text-align: center;
   display: flex;
@@ -336,23 +337,4 @@ button:disabled {
 
 /* Large screen */
 @media (height >= 600px) and (width >= 600px) {
-  #board {
-    align-items: center;
-    align-self: center;
-    justify-items: center;
-  }
-
-  #board.rows5 {
-    grid-template-columns: repeat(5, 10vmin);
-    grid-template-rows: repeat(5, 10vmin);
-  }
-
-  #board.rows4 {
-    grid-template-columns: repeat(4, 10vmin);
-    grid-template-rows: repeat(4, 10vmin);
-  }
-
-  #controls {
-    justify-content: center;
-  }
 }
