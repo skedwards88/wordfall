@@ -1,20 +1,20 @@
 import React from "react";
 
-function Letter({letter, color, letterAvailability, index, dispatchGameState}) {
+function Letter({letter, color, letterIsSelected, index, dispatchGameState}) {
   const letterRef = React.useRef();
 
   React.useLayoutEffect(() => {
     const letterDiv = letterRef.current;
     const currentClasses = letterDiv.className
       .split(" ")
-      .filter((entry) => entry !== "unavailable");
+      .filter((entry) => entry !== "selected");
 
-    const newClass = letterAvailability
-      ? currentClasses.join(" ")
-      : [...currentClasses, "unavailable"].join(" ");
+    const newClass = letterIsSelected
+    ? [...currentClasses, "selected"].join(" ")
+    : currentClasses.join(" ");
 
     letterDiv.className = newClass;
-  }, [letterAvailability]);
+  }, [letterIsSelected]);
 
   function handlePointerDown(e, index) {
     e.preventDefault();
@@ -25,9 +25,9 @@ function Letter({letter, color, letterAvailability, index, dispatchGameState}) {
     });
   }
 
-  function handlePointerEnter(e, index, letterAvailability) {
+  function handlePointerEnter(e, index, letterIsSelected) {
     e.preventDefault();
-    if (!letterAvailability) {
+    if (letterIsSelected) {
       dispatchGameState({
         action: "removeLetter",
         letterIndex: index,
@@ -66,7 +66,7 @@ function Letter({letter, color, letterAvailability, index, dispatchGameState}) {
       }}
       ref={letterRef}
       onPointerDown={(e) => handlePointerDown(e, index)}
-      onPointerEnter={(e) => handlePointerEnter(e, index, letterAvailability)}
+      onPointerEnter={(e) => handlePointerEnter(e, index, letterIsSelected)}
       onPointerUp={(e) => handlePointerUp(e)}
       onClick={(e) => handleClick(e, index)}
       draggable={false}
@@ -130,7 +130,7 @@ export default function Board({
     <Letter
       letter={letterDatum.letter}
       color={colors[letterDatum.colorIndex]}
-      letterAvailability={!playedIndexes.includes(index) && swapBonusIndex !== index}
+      letterIsSelected={playedIndexes.includes(index) || swapBonusIndex === index}
       index={index}
       draggable={false}
       dispatchGameState={dispatchGameState}
