@@ -1,5 +1,6 @@
 import React from "react";
 import ControlBar from "./ControlBar";
+import BonusBar from "./BonusBar";
 import Board from "./Board";
 import {WordResult} from "./WordResult";
 import {Progress} from "./Progress";
@@ -32,58 +33,7 @@ export default function Game({
         installPromptEvent={installPromptEvent}
       ></ControlBar>
 
-      <div id="bonuses">
-        <button
-          id={
-            gameState.bonuses.shuffle.active
-              ? "shuffleBonusButtonActive"
-              : "shuffleBonusButton"
-          }
-          disabled={gameState.bonuses.shuffle.number === 0}
-          onClick={() => {
-            dispatchGameState({
-              action: "clickBonus",
-              bonusType: "shuffle",
-            });
-          }}
-        >
-          <div className="bonusCounter">{gameState.bonuses.shuffle.number}</div>
-        </button>
-
-        <button
-          id={
-            gameState.bonuses.remove.active
-              ? "removeBonusButtonActive"
-              : "removeBonusButton"
-          }
-          disabled={gameState.bonuses.remove.number === 0}
-          onClick={() => {
-            dispatchGameState({
-              action: "clickBonus",
-              bonusType: "remove",
-            });
-          }}
-        >
-          <div className="bonusCounter">{gameState.bonuses.remove.number}</div>
-        </button>
-
-        <button
-          id={
-            gameState.bonuses.swap.active
-              ? "swapBonusButtonActive"
-              : "swapBonusButton"
-          }
-          disabled={gameState.bonuses.swap.number === 0}
-          onClick={() => {
-            dispatchGameState({
-              action: "clickBonus",
-              bonusType: "swap",
-            });
-          }}
-        >
-          <div className="bonusCounter">{gameState.bonuses.swap.number}</div>
-        </button>
-      </div>
+      <BonusBar gameState={gameState}></BonusBar>
 
       <Progress
         progress={gameState.progress}
