@@ -94,6 +94,115 @@ function generateLetterData({lowestColor, letterPool}) {
   return {letter, id, colorIndex};
 }
 
+function updateUsedBonus(oldBonuses, bonusType) {
+  let newBonuses = cloneDeep(oldBonuses);
+  Object.keys(newBonuses).forEach(
+    (bonus) => (newBonuses[bonus].active = false),
+  );
+  newBonuses[bonusType].number = newBonuses[bonusType].number - 1;
+
+  return newBonuses;
+}
+
+function useShuffleBonus(currentGameState) {
+  let newLetterData = cloneDeep(currentGameState.letterData);
+  newLetterData = shuffleArray(newLetterData);
+  newLetterData.forEach((datum) => (datum.id = getPseudoRandomID()));
+
+  let newBonuses = updateUsedBonus(currentGameState.bonuses, "shuffle");
+
+  return {
+    ...currentGameState,
+    wordInProgress: false,
+    playedIndexes: [],
+    letterData: newLetterData,
+    bonuses: newBonuses,
+    bonusText: "",
+  };
+}
+
+function storeIndexForSwapBonus(currentGameState, clickedIndex) {
+  let newBonuses = cloneDeep(currentGameState.bonuses);
+  let newBonusText = currentGameState.bonusText;
+
+  newBonuses.swap.firstIndex = clickedIndex;
+  newBonusText = "Click a second letter to complete the swap";
+  return {
+    ...currentGameState,
+    wordInProgress: false,
+    playedIndexes: [],
+    bonuses: newBonuses,
+    bonusText: newBonusText,
+  };
+}
+
+function useSwapBonus(currentGameState, firstIndex, secondIndex) {
+  let newLetterData = cloneDeep(currentGameState.letterData);
+  // Just swap the color and letter but not the other info so that we don't rerender/affect the animation
+  [newLetterData[firstIndex].letter, newLetterData[secondIndex].letter] = [
+    newLetterData[secondIndex].letter,
+    newLetterData[firstIndex].letter,
+  ];
+  [
+    newLetterData[firstIndex].colorIndex,
+    newLetterData[secondIndex].colorIndex,
+  ] = [
+    newLetterData[secondIndex].colorIndex,
+    newLetterData[firstIndex].colorIndex,
+  ];
+
+  let newBonuses = updateUsedBonus(currentGameState.bonuses, "swap");
+  newBonuses.swap.firstIndex = undefined;
+
+  return {
+    ...currentGameState,
+    wordInProgress: false,
+    playedIndexes: [],
+    letterData: newLetterData,
+    bonuses: newBonuses,
+    bonusText: "",
+  };
+}
+
+function useRemoveBonus(currentGameState, indexToRemove) {
+  const newProgress = updateProgress({
+    playedIndexes: [indexToRemove],
+    letterData: currentGameState.letterData,
+    progress: currentGameState.progress,
+  });
+  const newColors = updateColors({
+    colors: currentGameState.colors,
+    newProgress,
+  });
+  const newLetterData = replaceLetters({
+    playedIndexes: [indexToRemove],
+    letterData: currentGameState.letterData,
+    numColumns: currentGameState.numColumns,
+    numRows: currentGameState.numRows,
+  });
+
+  let newBonuses = updateUsedBonus(currentGameState.bonuses, "remove");
+
+  // If completed a level (cleared the last color in the level) give a bonus
+  let resultText = "";
+  const uniqueColors = new Set(newLetterData.map((datum) => datum.colorIndex));
+  if (uniqueColors.size === 1) {
+    resultText = `Level cleared! Bonus earned.`;
+  }
+
+  return {
+    ...currentGameState,
+    wordInProgress: false,
+    playedIndexes: [],
+    letterData: newLetterData,
+    progress: newProgress,
+    colors: newColors,
+    bonuses: newBonuses,
+    bonusText: "",
+    result: resultText,
+  };
+}
+
 export function gameReducer(currentGameState, payload) {
   if (payload.action === "newGame") {
     return gameInit({
@@ -282,121 +391,21 @@ export function gameReducer(currentGameState, payload) {
     };
   } else if (payload.action === "potentiallyUseBonus") {
     if (currentGameState.bonuses.shuffle.active) {
-      // "shuffle" bonus is active
-      const bonusType = "shuffle";
-      let newLetterData = cloneDeep(currentGameState.letterData);
-      newLetterData = shuffleArray(newLetterData);
-      newLetterData.forEach((datum) => (datum.id = getPseudoRandomID()));
-
-      let newBonuses = cloneDeep(currentGameState.bonuses);
-      Object.keys(newBonuses).forEach(
-        (bonus) => (newBonuses[bonus].active = false),
-      );
-      newBonuses[bonusType].number = newBonuses[bonusType].number - 1;
-
-      return {
-        ...currentGameState,
-        wordInProgress: false,
-        playedIndexes: [],
-        letterData: newLetterData,
-        bonuses: newBonuses,
-        bonusText: "",
-      };
+      return useShuffleBonus(currentGameState);
     } else if (currentGameState.bonuses.remove.active) {
-      // "remove" bonus is active
-      const bonusType = "remove";
-      const clickedIndex = payload.clickedIndex;
-
-      const newProgress = updateProgress({
-        playedIndexes: [clickedIndex],
-        letterData: currentGameState.letterData,
-        progress: currentGameState.progress,
-      });
-      const newColors = updateColors({
-        colors: currentGameState.colors,
-        newProgress,
-      });
-      const newLetterData = replaceLetters({
-        playedIndexes: [clickedIndex],
-        letterData: currentGameState.letterData,
-        numColumns: currentGameState.numColumns,
-        numRows: currentGameState.numRows,
-      });
-
-      let newBonuses = cloneDeep(currentGameState.bonuses);
-      Object.keys(newBonuses).forEach(
-        (bonus) => (newBonuses[bonus].active = false),
-      );
-      newBonuses[bonusType].number = newBonuses[bonusType].number - 1;
-
-      // If completed a level (cleared the last color in the level) give a bonus
-      let resultText = "";
-      const uniqueColors = new Set(
-        newLetterData.map((datum) => datum.colorIndex),
-      );
-      if (uniqueColors.size === 1) {
-        resultText = `Level cleared! Bonus earned.`;
-      }
-
-      return {
-        ...currentGameState,
-        wordInProgress: false,
-        playedIndexes: [],
-        letterData: newLetterData,
-        progress: newProgress,
-        colors: newColors,
-        bonuses: newBonuses,
-        bonusText: "",
-        result: resultText,
-      };
+      return useRemoveBonus(currentGameState, payload.clickedIndex);
     } else if (currentGameState.bonuses.swap.active) {
-      // "swap" bonus is active
-      const bonusType = "swap";
-      let newBonuses = cloneDeep(currentGameState.bonuses);
-      let newBonusText = currentGameState.bonusText;
-
       // If we haven't stored the first letter to swap,
       // store the letter and update the text
       if (currentGameState.bonuses.swap.firstIndex === undefined) {
-        newBonuses.swap.firstIndex = payload.clickedIndex;
-        newBonusText = "Click a second letter to complete the swap";
-        return {
-          ...currentGameState,
-          wordInProgress: false,
-          playedIndexes: [],
-          bonuses: newBonuses,
-          bonusText: newBonusText,
-        };
+        return storeIndexForSwapBonus(currentGameState, payload.clickedIndex);
       } else {
         // otherwise, do the swap
-        let newLetterData = cloneDeep(currentGameState.letterData);
-        const firstIndex = currentGameState.bonuses.swap.firstIndex;
-        const secondIndex = payload.clickedIndex;
-        // Just swap the color and letter but not the other info so that we don't rerender/affect the animation
-        [newLetterData[firstIndex].letter, newLetterData[secondIndex].letter] =
-          [newLetterData[secondIndex].letter, newLetterData[firstIndex].letter];
-        [
-          newLetterData[firstIndex].colorIndex,
-          newLetterData[secondIndex].colorIndex,
-        ] = [
-          newLetterData[secondIndex].colorIndex,
-          newLetterData[firstIndex].colorIndex,
-        ];
-
-        Object.keys(newBonuses).forEach(
-          (bonus) => (newBonuses[bonus].active = false),
+        return useSwapBonus(
+          currentGameState,
+          currentGameState.bonuses.swap.firstIndex,
+          payload.clickedIndex,
         );
-        newBonuses[bonusType].number = newBonuses[bonusType].number - 1;
-        newBonuses.swap.firstIndex = undefined;
-
-        return {
-          ...currentGameState,
-          wordInProgress: false,
-          playedIndexes: [],
-          letterData: newLetterData,
-          bonuses: newBonuses,
-          bonusText: "",
-        };
       }
     } else {
       console.log("nothing to use");
