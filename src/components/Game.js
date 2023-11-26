@@ -33,7 +33,10 @@ export default function Game({
         installPromptEvent={installPromptEvent}
       ></ControlBar>
 
-      <BonusBar gameState={gameState}></BonusBar>
+      <BonusBar
+        gameState={gameState}
+        dispatchGameState={dispatchGameState}
+      ></BonusBar>
 
       <Progress
         progress={gameState.progress}

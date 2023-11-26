@@ -205,9 +205,10 @@ export function gameReducer(currentGameState, payload) {
 
     let resultText = "";
 
+    let newBonuses = cloneDeep(currentGameState.bonuses);
+
     // If the word is 6 letters or longer, give a bonus
     const earnedBonus = newWord.length >= 6;
-    let newBonuses = cloneDeep(currentGameState.bonuses);
     if (earnedBonus) {
       const bonusType = pickRandomItemFromArray(Object.keys(newBonuses));
       newBonuses[bonusType].number++;
@@ -222,6 +223,8 @@ export function gameReducer(currentGameState, payload) {
       newLetterData.map((datum) => datum.colorIndex),
     );
     if (uniqueColors.size === 1) {
+      const bonusType = pickRandomItemFromArray(Object.keys(newBonuses));
+      newBonuses[bonusType].number++;
       if (resultText.length) {
         resultText += `\n\n`;
       }
