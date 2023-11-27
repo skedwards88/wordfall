@@ -44,6 +44,7 @@ function Letter({
 
   function handlePointerUp(e) {
     e.preventDefault();
+    e.stopPropagation();
 
     dispatchGameState({
       action: "endWord",

@@ -7,6 +7,7 @@
 - bonuses-related:
   - for the swap bonus, allow to drag to select the two letters too; highlight the second selected as go
   - for the swap, clicking the same letter should deselect
+- ios animation is wrong. also could adjust so that the new letters start higher off the board and are staggered
 
 ## Tier 2
 
@@ -18,7 +19,6 @@
 - pseudorandomID: could compare to existing IDs to ensure unique? Could string two together for increased randomness?
 - update read me and repo side bar to include link to game, to remove construction note
 - add to sect games
-- endword gets called twice. could use stop propagation to prevent.
 
 ## Tier 3
 
