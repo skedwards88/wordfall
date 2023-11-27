@@ -114,8 +114,8 @@ export default function Board({
       (datum, index) =>
         Math.floor(index / numRows) - Math.floor(datum.previousIndex / numRows),
     );
-    const translateYs = diffs.map((diff) =>
-      diff >= 0 ? diff * representativeOffset : representativeOffset * 1,
+    const translateYs = diffs.map((diff, index) =>
+      diff >= 0 ? diff * representativeOffset : representativeOffset * (Math.floor(index / numRows) + 1),
     );
     const startOpacities = diffs.map((diff) => (diff >= 0 ? 1 : 0));
     Array.from(letterDivs).forEach((div, index) =>

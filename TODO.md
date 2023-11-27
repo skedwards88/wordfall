@@ -4,8 +4,6 @@
 
 - add rules
 - add styling for large screen and landscape mode
-- bonuses-related:
-  - for the swap bonus, allow to drag to select the two letters too; highlight the second selected as go
 - ios animation is wrong. also could adjust so that the new letters start higher off the board and are staggered
 
 ## Tier 2
@@ -27,3 +25,4 @@
 - end game if no words left?
 - would be cool to make an animation for shuffling the letters and for swapping the letters and for disappearing a letter with the bonus
 - The animation for shuffling feels off;some don't appear to re-render despite new id
+- for the swap bonus, allow to drag to select the two letters too; highlight the second selected as go
