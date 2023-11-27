@@ -2,11 +2,12 @@ html {
   height: 100%;
   background-color: var(--dark-color);
 
-  --default-font-size: min(4vmax, 7vmin, 40px);
   --dark-color: rgb(55 54 71);
   --light-color: rgb(239 239 239);
   --num-rows: 5;
   --num-cols: 5;
+  --grid-unit: calc(90vw / var(--num-cols));
+  --default-font-size: calc(var(--grid-unit) * 0.4);
 }
 
 body {
@@ -22,6 +23,19 @@ body {
   height: 90vh; /* fallback if svh isn't handled */
   height: 98svh;
   overflow: scroll;
+  display: grid;
+  grid-template-areas:
+    "controls"
+    "info"
+    "bonuses"
+    "progress"
+    "board";
+  grid-template-rows:
+    auto
+    1fr
+    auto
+    auto
+    auto;
 }
 
 h1 {
@@ -224,22 +238,6 @@ button:disabled {
 
 /* game */
 
-#wordfall {
-  display: grid;
-  grid-template-areas:
-    "controls"
-    "info"
-    "bonuses"
-    "progress"
-    "board";
-  grid-template-rows:
-    auto
-    1fr
-    auto
-    auto
-    auto;
-}
-
 #progress {
   display: flex;
   flex-direction: row;
@@ -300,13 +298,14 @@ button:disabled {
   background-color: var(--dark-color);
   touch-action: none;
   justify-content: center;
-  grid-template-columns: repeat(var(--num-cols), calc(90vw / var(--num-cols)));
-  grid-template-rows: repeat(var(--num-rows), calc(90vw / var(--num-cols)));
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(var(--num-cols), var(--grid-unit));
+  grid-template-rows: repeat(var(--num-rows), var(--grid-unit));
 }
 
 .letter {
   touch-action: none;
-  margin: 4vmin;
   background-color: var(--dark-color);
   font-weight: bold;
   text-align: center;
@@ -341,4 +340,12 @@ button:disabled {
 
 /* Large screen */
 @media (height >= 600px) and (width >= 600px) {
+  html {
+    height: 100%;
+    --grid-unit: calc(40vmin / var(--num-cols));
+  }
+
+  .App {
+    justify-content: center;
+  }
 }

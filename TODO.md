@@ -3,7 +3,6 @@
 ## Tier 1 (must do)
 
 - add rules
-- add styling for large screen and landscape mode
 - ios animation is wrong. also could adjust so that the new letters start higher off the board and are staggered
 
 ## Tier 2
