@@ -133,7 +133,7 @@ function storeIndexForSwapBonus(currentGameState, clickedIndex) {
   let newBonuses = cloneDeep(currentGameState.bonuses);
 
   newBonuses.swap.firstIndex = clickedIndex;
-  let newBonusText = "Click a second letter to complete the swap";
+  let newBonusText = "Tap a second letter to complete the swap";
   return {
     ...currentGameState,
     wordInProgress: false,
@@ -147,7 +147,7 @@ function unstoreIndexForSwapBonus(currentGameState) {
   let newBonuses = cloneDeep(currentGameState.bonuses);
 
   newBonuses.swap.firstIndex = undefined;
-  let newBonusText = "Click on two letters to swap the letters";
+  let newBonusText = "Tap on two letters to swap the letters";
   return {
     ...currentGameState,
     wordInProgress: false,
@@ -391,13 +391,13 @@ export function gameReducer(currentGameState, payload) {
       newBonuses[bonusType].active = true;
       switch (bonusType) {
         case "shuffle":
-          newBonusText = "Click on any letter to shuffle all letters";
+          newBonusText = "Tap on any letter to shuffle all letters";
           break;
         case "remove":
-          newBonusText = "Click on any letter to remove the letter";
+          newBonusText = "Tap on any letter to remove the letter";
           break;
         case "swap":
-          newBonusText = "Click on two letters to swap the letters";
+          newBonusText = "Tap on two letters to swap the letters";
           break;
         default:
           break;
