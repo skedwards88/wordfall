@@ -5,8 +5,8 @@
 - add rules
 - add styling for large screen and landscape mode
 - bonuses-related:
-  - when bonus is active, when start making word, activate the bonus instead
   - for the swap bonus, allow to drag to select the two letters too; highlight the second selected as go
+  - for the swap, clicking the same letter should deselect
 
 ## Tier 2
 
@@ -18,6 +18,7 @@
 - pseudorandomID: could compare to existing IDs to ensure unique? Could string two together for increased randomness?
 - update read me and repo side bar to include link to game, to remove construction note
 - add to sect games
+- endword gets called twice. could use stop propagation to prevent.
 
 ## Tier 3
 

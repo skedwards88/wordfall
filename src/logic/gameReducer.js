@@ -109,7 +109,7 @@ function deactivateBonuses(bonuses) {
   );
   newBonuses.swap.firstIndex = undefined;
 
-  return newBonuses
+  return newBonuses;
 }
 
 function useShuffleBonus(currentGameState) {
@@ -212,66 +212,75 @@ function useRemoveBonus(currentGameState, indexToRemove) {
 }
 
 export function gameReducer(currentGameState, payload) {
-  console.log(JSON.stringify(payload))
+  console.log(`reducer: ${payload.action}`);
   if (payload.action === "newGame") {
     return gameInit({
       ...payload,
       useSaved: false,
     });
   } else if (payload.action === "startWord") {
+    // if there is an active bonus, use the bonus
+    const potentialBonusUpdates = potentiallyUseBonus(
+      currentGameState,
+      payload.letterIndex,
+    );
+
+    if (potentialBonusUpdates != currentGameState) {
+      return potentialBonusUpdates;
+    }
+
+    // if there is not a word in progress, start a word
     return {
       ...currentGameState,
       wordInProgress: true,
       playedIndexes: [payload.letterIndex],
     };
-  } else if (payload.action === "addLetter") {
-    if (!currentGameState.wordInProgress) {
-      return currentGameState;
-    }
+  } else if (payload.action === "updateWord") {
+    // if the letter is not already in use, add it
     // Don't add the letter if it isn't neighboring the current sequence
-    const isNeighboring = checkIfNeighbors({
-      indexA:
-        currentGameState.playedIndexes[
-          currentGameState.playedIndexes.length - 1
-        ],
-      indexB: payload.letterIndex,
-      numColumns: currentGameState.numColumns,
-      numRows: currentGameState.numRows,
-    });
-    if (!isNeighboring) {
-      return currentGameState;
+    if (!currentGameState.playedIndexes.includes(payload.letterIndex)) {
+      const isNeighboring = checkIfNeighbors({
+        indexA:
+          currentGameState.playedIndexes[
+            currentGameState.playedIndexes.length - 1
+          ],
+        indexB: payload.letterIndex,
+        numColumns: currentGameState.numColumns,
+        numRows: currentGameState.numRows,
+      });
+      if (!isNeighboring) {
+        return currentGameState;
+      }
+
+      const newPlayedIndexes = [
+        ...currentGameState.playedIndexes,
+        payload.letterIndex,
+      ];
+
+      return {
+        ...currentGameState,
+        playedIndexes: newPlayedIndexes,
+        result: "",
+      };
+    } else {
+      // Otherwise remove the letter
+      // Don't remove a letter if the player didn't go back to the letter before the last letter
+      let newPlayedIndexes = [...currentGameState.playedIndexes];
+      const lastIndexPlayed = newPlayedIndexes[newPlayedIndexes.length - 2];
+      if (lastIndexPlayed !== payload.letterIndex) {
+        return currentGameState;
+      }
+
+      newPlayedIndexes = currentGameState.playedIndexes.slice(
+        0,
+        newPlayedIndexes.length - 1,
+      );
+
+      return {
+        ...currentGameState,
+        playedIndexes: newPlayedIndexes,
+      };
     }
-
-    const newPlayedIndexes = [
-      ...currentGameState.playedIndexes,
-      payload.letterIndex,
-    ];
-
-    return {
-      ...currentGameState,
-      playedIndexes: newPlayedIndexes,
-      result: "",
-    };
-  } else if (payload.action === "removeLetter") {
-    if (!currentGameState.wordInProgress) {
-      return currentGameState;
-    }
-    // Don't remove a letter if the player didn't go back to the letter before the last letter
-    let newPlayedIndexes = [...currentGameState.playedIndexes];
-    const lastIndexPlayed = newPlayedIndexes[newPlayedIndexes.length - 2];
-    if (lastIndexPlayed !== payload.letterIndex) {
-      return currentGameState;
-    }
-
-    newPlayedIndexes = currentGameState.playedIndexes.slice(
-      0,
-      newPlayedIndexes.length - 1,
-    );
-
-    return {
-      ...currentGameState,
-      playedIndexes: newPlayedIndexes,
-    };
   } else if (payload.action === "endWord") {
     // Since we end the word on board up or on app up (in case the user swipes off the board), we can end up calling this case twice.
     // Return early if we no longer have a word in progress.
@@ -404,29 +413,32 @@ export function gameReducer(currentGameState, payload) {
       playedIndexes: [],
     };
   } else if (payload.action === "potentiallyUseBonus") {
-    if (currentGameState.bonuses.shuffle.active) {
-      return useShuffleBonus(currentGameState);
-    } else if (currentGameState.bonuses.remove.active) {
-      return useRemoveBonus(currentGameState, payload.clickedIndex);
-    } else if (currentGameState.bonuses.swap.active) {
-      // If we haven't stored the first letter to swap,
-      // store the letter and update the text
-      if (currentGameState.bonuses.swap.firstIndex === undefined) {
-        return storeIndexForSwapBonus(currentGameState, payload.clickedIndex);
-      } else {
-        // otherwise, do the swap
-        return useSwapBonus(
-          currentGameState,
-          currentGameState.bonuses.swap.firstIndex,
-          payload.clickedIndex,
-        );
-      }
-    } else {
-      console.log("nothing to use");
-      return currentGameState;
-    }
+    return potentiallyUseBonus(currentGameState, payload.clickedIndex);
   } else {
     console.log(`unknown action: ${payload.action}`);
     return {...currentGameState};
+  }
+}
+
+function potentiallyUseBonus(currentGameState, clickedIndex) {
+  if (currentGameState.bonuses.shuffle.active) {
+    return useShuffleBonus(currentGameState);
+  } else if (currentGameState.bonuses.remove.active) {
+    return useRemoveBonus(currentGameState, clickedIndex);
+  } else if (currentGameState.bonuses.swap.active) {
+    // If we haven't stored the first letter to swap,
+    // store the letter and update the text
+    if (currentGameState.bonuses.swap.firstIndex === undefined) {
+      return storeIndexForSwapBonus(currentGameState, clickedIndex);
+    } else {
+      // otherwise, do the swap
+      return useSwapBonus(
+        currentGameState,
+        currentGameState.bonuses.swap.firstIndex,
+        clickedIndex,
+      );
+    }
+  } else {
+    return currentGameState;
   }
 }

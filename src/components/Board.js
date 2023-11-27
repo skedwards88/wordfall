@@ -1,6 +1,13 @@
 import React from "react";
 
-function Letter({letter, color, letterIsSelected, index, dispatchGameState}) {
+function Letter({
+  letter,
+  color,
+  letterIsSelected,
+  index,
+  dispatchGameState,
+  wordInProgress,
+}) {
   const letterRef = React.useRef();
 
   React.useLayoutEffect(() => {
@@ -10,8 +17,8 @@ function Letter({letter, color, letterIsSelected, index, dispatchGameState}) {
       .filter((entry) => entry !== "selected");
 
     const newClass = letterIsSelected
-    ? [...currentClasses, "selected"].join(" ")
-    : currentClasses.join(" ");
+      ? [...currentClasses, "selected"].join(" ")
+      : currentClasses.join(" ");
 
     letterDiv.className = newClass;
   }, [letterIsSelected]);
@@ -25,17 +32,11 @@ function Letter({letter, color, letterIsSelected, index, dispatchGameState}) {
     });
   }
 
-  function handlePointerEnter(e, index, letterIsSelected) {
+  function handlePointerEnter(e, index) {
     e.preventDefault();
-    if (letterIsSelected) {
+    if (wordInProgress) {
       dispatchGameState({
-        action: "removeLetter",
-        letterIndex: index,
-      });
-    } else {
-      // Add the letter to the list of letters
-      dispatchGameState({
-        action: "addLetter",
+        action: "updateWord",
         letterIndex: index,
       });
     }
@@ -49,14 +50,10 @@ function Letter({letter, color, letterIsSelected, index, dispatchGameState}) {
     });
   }
 
-  function handleClick(e, index) {
+  function handleClick(e) {
+    // Stop clicking a letter from bubbling up to the wider click event and cancelling a bonus
     e.preventDefault();
     e.stopPropagation();
-
-    dispatchGameState({
-      action: "potentiallyUseBonus",
-      clickedIndex: index,
-    });
   }
 
   return (
@@ -67,9 +64,9 @@ function Letter({letter, color, letterIsSelected, index, dispatchGameState}) {
       }}
       ref={letterRef}
       onPointerDown={(e) => handlePointerDown(e, index)}
-      onPointerEnter={(e) => handlePointerEnter(e, index, letterIsSelected)}
+      onPointerEnter={(e) => handlePointerEnter(e, index)}
       onPointerUp={(e) => handlePointerUp(e)}
-      onClick={(e) => handleClick(e, index)}
+      onClick={(e) => handleClick(e)}
       draggable={false}
     >
       {letter}
@@ -84,6 +81,7 @@ export default function Board({
   dispatchGameState,
   colors,
   numRows,
+  wordInProgress,
 }) {
   const boardRef = React.useRef();
 
@@ -131,11 +129,14 @@ export default function Board({
     <Letter
       letter={letterDatum.letter}
       color={colors[letterDatum.colorIndex]}
-      letterIsSelected={playedIndexes.includes(index) || swapBonusIndex === index}
+      letterIsSelected={
+        playedIndexes.includes(index) || swapBonusIndex === index
+      }
       index={index}
       draggable={false}
       dispatchGameState={dispatchGameState}
       key={letterDatum.id}
+      wordInProgress={wordInProgress}
     ></Letter>
   ));
 

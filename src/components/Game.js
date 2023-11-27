@@ -31,7 +31,6 @@ export default function Game({
           action: "deactivateBonus",
         });
       }}
-
     >
       <ControlBar
         dispatchGameState={dispatchGameState}
@@ -71,6 +70,7 @@ export default function Game({
         dispatchGameState={dispatchGameState}
         colors={gameState.colors}
         numRows={gameState.numRows}
+        wordInProgress={gameState.wordInProgress}
       ></Board>
     </div>
   );
