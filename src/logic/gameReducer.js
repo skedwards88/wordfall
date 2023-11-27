@@ -131,10 +131,23 @@ function useShuffleBonus(currentGameState) {
 
 function storeIndexForSwapBonus(currentGameState, clickedIndex) {
   let newBonuses = cloneDeep(currentGameState.bonuses);
-  let newBonusText = currentGameState.bonusText;
 
   newBonuses.swap.firstIndex = clickedIndex;
-  newBonusText = "Click a second letter to complete the swap";
+  let newBonusText = "Click a second letter to complete the swap";
+  return {
+    ...currentGameState,
+    wordInProgress: false,
+    playedIndexes: [],
+    bonuses: newBonuses,
+    bonusText: newBonusText,
+  };
+}
+
+function unstoreIndexForSwapBonus(currentGameState) {
+  let newBonuses = cloneDeep(currentGameState.bonuses);
+
+  newBonuses.swap.firstIndex = undefined;
+  let newBonusText = "Click on two letters to swap the letters";
   return {
     ...currentGameState,
     wordInProgress: false,
@@ -282,7 +295,6 @@ export function gameReducer(currentGameState, payload) {
       };
     }
   } else if (payload.action === "endWord") {
-
     const newWord = currentGameState.playedIndexes
       .map((index) => currentGameState.letterData[index].letter)
       .join("")
@@ -425,6 +437,10 @@ function potentiallyUseBonus(currentGameState, clickedIndex) {
     // store the letter and update the text
     if (currentGameState.bonuses.swap.firstIndex === undefined) {
       return storeIndexForSwapBonus(currentGameState, clickedIndex);
+    } else if (currentGameState.bonuses.swap.firstIndex === clickedIndex) {
+      // if we have stored the first letter,
+      // but the second letter is the same as the first, deselect the letter
+      return unstoreIndexForSwapBonus(currentGameState);
     } else {
       // otherwise, do the swap
       return useSwapBonus(

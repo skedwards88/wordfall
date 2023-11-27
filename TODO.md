@@ -6,7 +6,6 @@
 - add styling for large screen and landscape mode
 - bonuses-related:
   - for the swap bonus, allow to drag to select the two letters too; highlight the second selected as go
-  - for the swap, clicking the same letter should deselect
 - ios animation is wrong. also could adjust so that the new letters start higher off the board and are staggered
 
 ## Tier 2
