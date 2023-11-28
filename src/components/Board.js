@@ -90,43 +90,30 @@ export default function Board({
     const boardDiv = boardRef.current;
     const letterDivs = boardDiv.children;
 
-    // get the height + top margin of the letter
-    // this is a bit hacky
-    const representativeDiv = Array.from(letterDivs)[0];
-    // const representativeHeight = representativeDiv.offsetHeight;
-    let representativeHeight = window
-      .getComputedStyle(representativeDiv, null)
-      .getPropertyValue("height");
-    representativeHeight = parseInt(
-      representativeHeight.substring(0, representativeHeight.length - 2),
+    let representativeOffset = window
+      .getComputedStyle(boardDiv)
+      .getPropertyValue("grid-template-rows")
+      .split(" ")[0];
+    representativeOffset = parseInt(
+      representativeOffset.substring(0, representativeOffset.length - 2),
     ); // to drop the px units
-
-    let representativeMargin = window
-      .getComputedStyle(representativeDiv, null)
-      .getPropertyValue("margin-top");
-    representativeMargin = parseInt(
-      representativeMargin.substring(0, representativeMargin.length - 2),
-    ); // to drop the px units
-    const representativeOffset =
-      representativeHeight + representativeMargin + representativeMargin - 1; // the -1 is because there seems to be a 1px offset coming from somewhere
 
     const diffs = letterData.map(
       (datum, index) =>
         Math.floor(index / numRows) - Math.floor(datum.previousIndex / numRows),
     );
-    // const translateYs = diffs.map((diff, index) =>
-    //   diff >= 0 ? diff * representativeOffset : representativeOffset * (Math.floor(index / numRows) + 1),
-    // );
     const translateYs = diffs.map((diff, index) =>
-      diff >= 0 ? diff * representativeOffset : representativeOffset * 2,
+      diff >= 0
+        ? diff * representativeOffset
+        : representativeOffset * (Math.floor(index / numRows) + 1),
     );
     const startOpacities = diffs.map((diff) => (diff >= 0 ? 1 : 0));
-    Array.from(letterDivs).forEach((div, index) =>
-      div.style.setProperty("--startY", `-${translateYs[index]}px`),
-    );
-    Array.from(letterDivs).forEach((div, index) =>
-      div.style.setProperty("--startOpacity", `${startOpacities[index]}`),
-    );
+
+    // Set CSS properties
+    Array.from(letterDivs).forEach((div, index) => {
+      div.style.setProperty("--startY", `-${translateYs[index]}px`);
+      div.style.setProperty("--startOpacity", `${startOpacities[index]}`);
+    });
   }, [letterData]);
 
   const board = letterData.map((letterDatum, index) => (
