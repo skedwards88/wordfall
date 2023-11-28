@@ -24,3 +24,4 @@
 - would be cool to make an animation for shuffling the letters and for swapping the letters and for disappearing a letter with the bonus
 - The animation for shuffling feels off;some don't appear to re-render despite new id
 - for the swap bonus, allow to drag to select the two letters too; highlight the second selected as go
+- add screenshot of game to readme
