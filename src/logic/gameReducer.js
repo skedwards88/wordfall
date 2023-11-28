@@ -313,13 +313,12 @@ export function gameReducer(currentGameState, payload) {
     // check if word is a real word
     const {isWord} = isKnown(newWord, trie);
     if (!isWord) {
-      // todo revert comment
-      // return {
-      //   ...currentGameState,
-      //   wordInProgress: false,
-      //   playedIndexes: [],
-      //   result: "Unknown word",
-      // };
+      return {
+        ...currentGameState,
+        wordInProgress: false,
+        playedIndexes: [],
+        result: "Unknown word",
+      };
     }
 
     const newProgress = updateProgress({
