@@ -5,7 +5,7 @@ export default function Rules({setDisplay}) {
   return (
     <div className="App info">
       <h1>Wordfall: How to play</h1>
-      <p className="infoText">{`TODO`}</p>
+      <p className="infoText">{`Wordfall is a meditative jumbled word search game.\n\nSwipe to connect letters into words. Each letter must be a horizontal, vertical, or diagonal neighbor of the previous letter.\n\nClear all letters of a color to reach the next level.`}</p>
       <button
         onClick={() => {
           setDisplay("game");
