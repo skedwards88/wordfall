@@ -343,7 +343,7 @@ button:disabled {
 }
 
 /* Large screen */
-@media (height >= 600px) and (width >= 600px) {
+@media (min-height: 600px) and (min-width: 600px) {
   html {
     height: 100%;
     --grid-unit: calc(40vmin / var(--num-cols));
