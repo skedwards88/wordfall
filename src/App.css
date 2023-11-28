@@ -309,13 +309,17 @@ button:disabled {
   background-color: var(--dark-color);
   font-weight: bold;
   text-align: center;
-  animation: fallDown 1.5s ease-in-out;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 60%;
   width: 60%;
   border-radius: 50%;
+  will-change: transform;
+}
+
+.animateFall {
+  animation: fallDown 1.5s ease-in-out;
 }
 
 .letter.selected {

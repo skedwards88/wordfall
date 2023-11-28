@@ -9,7 +9,6 @@
 
 - todos in code
 - see if should use clonedeep at other places where use ...
-- make sure PWA/check lighthouse
 - add gtag
 - make using saved state in init more robust/specific
 - pseudorandomID: could compare to existing IDs to ensure unique? Could string two together for increased randomness?

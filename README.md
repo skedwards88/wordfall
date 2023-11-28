@@ -2,7 +2,11 @@
 
 A meditative jumbled word search game.
 
-:construction:Under construction. Come back later to play!:construction:
+[Play here](https://skedwards88.github.io/wordfall/)!
+
+<img src="src/images/icon_512.png" alt="Favicon of the wordfall game" width="100"/>
+
+<img width="366" alt="Favicon of the wordfall game" src="https://github.com/skedwards88/gribbles/assets/25328854/2f76f6c5-f643-455c-8807-4b9b7fbd1f8b">
 
 ## Development
 

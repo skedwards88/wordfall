@@ -114,6 +114,11 @@ export default function Board({
       div.style.setProperty("--startY", `-${translateYs[index]}px`);
       div.style.setProperty("--startOpacity", `${startOpacities[index]}`);
     });
+
+    // ios doesn't animate properly, but tying the animation to a class name helps it be a bit better
+    Array.from(letterDivs).forEach(
+      (div) => (div.className = `${div.className} animateFall`),
+    );
   }, [letterData]);
 
   const board = letterData.map((letterDatum, index) => (
