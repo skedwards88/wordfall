@@ -104,7 +104,13 @@ function resumeSavedState(savedState) {
 export function gameInit({useSaved = true}) {
   const savedGameState = JSON.parse(localStorage.getItem("wordfallGameState"));
 
-  const saveStateIsValid = validateGameState(savedGameState);
+  // Use this to force saved state to be ignored
+  const latestBreakingChange = 1;
+
+  const saveStateIsValid =
+    useSaved &&
+    savedGameState.latestBreakingChange === latestBreakingChange &&
+    validateGameState(savedGameState);
   if (useSaved && saveStateIsValid) {
     return resumeSavedState(savedGameState);
   }
@@ -152,5 +158,6 @@ export function gameInit({useSaved = true}) {
         firstIndex: undefined,
       },
     },
+    latestBreakingChange,
   };
 }
