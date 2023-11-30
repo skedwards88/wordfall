@@ -58,7 +58,7 @@ function replaceLetters({playedIndexes, letterData, numColumns, numRows}) {
 
   // Record the current index of each letter
   // This is used to do the falling animation
-  const letterDataWithUpdatedIndexes = [...letterData].map((datum, index) => ({
+  const letterDataWithUpdatedIndexes = letterData.map((datum, index) => ({
     ...datum,
     previousIndex: index,
   }));
