@@ -50,7 +50,7 @@ export function getDistinctHSL(hslString) {
   if (hslString) {
     [oldHue] = hslStringToArray(hslString);
   } else {
-    oldHue = pickRandomIntBetween(90, 360); // todo could improve this to account for excluded ranges instead of hard coding
+    oldHue = pickRandomIntBetween(90, 360);
   }
 
   const allowedNewHues = getAllowedHues({

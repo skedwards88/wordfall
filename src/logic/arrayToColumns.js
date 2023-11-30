@@ -1,5 +1,4 @@
 function arrayToColumns(array, numColumns) {
-  // todo what if irregular number of columns or fewer array items than num columns? add test cases
 
   let columns = [];
   for (let columnIndex = 0; columnIndex < numColumns; columnIndex++) {
@@ -34,14 +33,12 @@ function padArray({
   replacementFunction,
   replacementParams,
 }) {
-  // todo handle array longer than size
   while (array.length < desiredSize) {
     array = [replacementFunction(replacementParams), ...array];
   }
   return array;
 }
 
-// todo make this function more generic and put in logic package?
 export function replaceIndexes({
   arrayToReplaceOn,
   indexesToReplace,

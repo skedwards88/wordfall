@@ -6,7 +6,6 @@
 
 ## Tier 2
 
-- todos in code
 - update read me and repo side bar to include link to game, to remove construction note
 - add to sect games
 
@@ -22,6 +21,10 @@
 - add screenshot of game to readme
 - verify gtag
 - could make getPseudoRandomID more robust
+- arrayToColumns: handle case for irregular number of columns or fewer array items than num columns
+- padArray: handle case where array longer than size
+- replaceIndexes: make this function more generic and put in logic package?
+- getDistinctHSL: instead of hardcoding the excluded ranges, could pass as input
 
 ## Else
 
