@@ -4,6 +4,7 @@ import {getNLetters} from "@skedwards88/word_logic";
 import {findAllWords} from "@skedwards88/word_logic";
 import {trie} from "./trie";
 import seedrandom from "seedrandom";
+import {deactivateBonuses} from "./gameReducer";
 
 export function getPseudoRandomID() {
   // todo could compare to existing IDs to ensure unique? Could string two together for increased randomness?
@@ -35,11 +36,77 @@ function getPlayableLetters({numColumns, numRows}) {
   return letters;
 }
 
+function validateGameState(savedState) {
+  if (typeof savedState !== "object" || savedState === null) {
+    return false;
+  }
+
+  const fieldsAreExpectedTypes =
+    Array.isArray(savedState.letterData) &&
+    Array.isArray(savedState.playedIndexes) &&
+    typeof savedState.numColumns === "number" &&
+    typeof savedState.numRows === "number" &&
+    typeof savedState.result === "string" &&
+    Array.isArray(savedState.progress) &&
+    savedState.progress.every((p) => typeof p === "number") &&
+    Array.isArray(savedState.colors) &&
+    savedState.colors.every((c) => typeof c === "string") &&
+    typeof savedState.bonusText === "string" &&
+    typeof savedState.bonuses === "object" &&
+    savedState.bonuses !== null &&
+    ["shuffle", "remove", "swap"].every(
+      (bonus) =>
+        typeof savedState.bonuses[bonus] === "object" &&
+        savedState.bonuses[bonus] !== null &&
+        typeof savedState.bonuses[bonus].number === "number" &&
+        typeof savedState.bonuses[bonus].active === "boolean" &&
+        (savedState.bonuses[bonus].firstIndex === undefined ||
+          typeof savedState.bonuses[bonus].firstIndex === "number"),
+    );
+
+  if (!fieldsAreExpectedTypes) {
+    return false;
+  }
+
+  const letterDataIsExpectedTypes = savedState.letterData.every(
+    (item) =>
+      typeof item === "object" &&
+      item !== null &&
+      typeof item.letter === "string" &&
+      item.id != undefined &&
+      typeof item.colorIndex === "number" &&
+      (item.previousIndex === undefined ||
+        typeof item.previousIndex === "number"),
+  );
+
+  if (!letterDataIsExpectedTypes) {
+    return false;
+  }
+  return true;
+}
+
+function resumeSavedState(savedState) {
+  const letterData = savedState.letterData.map((datum, index) => ({
+    ...datum,
+    previousIndex: index,
+  }));
+  const deactivatedBonuses = deactivateBonuses(savedState.bonuses);
+  return {
+    ...savedState,
+    playedIndexes: [],
+    result: "",
+    bonusText: "",
+    bonuses: deactivatedBonuses,
+    letterData,
+  };
+}
+
 export function gameInit({useSaved = true}) {
   const savedGameState = JSON.parse(localStorage.getItem("wordfallGameState"));
 
-  if (useSaved && savedGameState && savedGameState.letterData) {
-    return {...savedGameState, playedIndexes: [], result: "", bonusText: ""};
+  const saveStateIsValid = validateGameState(savedGameState);
+  if (useSaved && saveStateIsValid) {
+    return resumeSavedState(savedGameState);
   }
 
   const numRows = 5;

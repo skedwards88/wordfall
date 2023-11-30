@@ -101,7 +101,7 @@ function updateUsedBonus(oldBonuses, bonusType) {
   return newBonuses;
 }
 
-function deactivateBonuses(bonuses) {
+export function deactivateBonuses(bonuses) {
   let newBonuses = cloneDeep(bonuses);
 
   Object.keys(newBonuses).forEach(
