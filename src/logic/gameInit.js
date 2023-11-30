@@ -7,9 +7,9 @@ import seedrandom from "seedrandom";
 import {deactivateBonuses} from "./gameReducer";
 
 export function getPseudoRandomID() {
-  // todo could compare to existing IDs to ensure unique? Could string two together for increased randomness?
   const pseudoRandomGenerator = seedrandom();
-  return pseudoRandomGenerator();
+  const id = `${pseudoRandomGenerator()}${pseudoRandomGenerator()}${pseudoRandomGenerator()}`
+  return id;
 }
 
 function getPlayableLetters({numColumns, numRows}) {

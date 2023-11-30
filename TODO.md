@@ -7,8 +7,6 @@
 ## Tier 2
 
 - todos in code
-- make using saved state in init more robust/specific
-- pseudorandomID: could compare to existing IDs to ensure unique? Could string two together for increased randomness?
 - update read me and repo side bar to include link to game, to remove construction note
 - add to sect games
 
@@ -23,6 +21,7 @@
 - for the swap bonus, allow to drag to select the two letters too; highlight the second selected as go
 - add screenshot of game to readme
 - verify gtag
+- could make getPseudoRandomID more robust
 
 ## Else
 
