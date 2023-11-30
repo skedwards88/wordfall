@@ -208,7 +208,12 @@ function useRemoveBonus(currentGameState, indexToRemove) {
   let resultText = "";
   const uniqueColors = new Set(newLetterData.map((datum) => datum.colorIndex));
   if (uniqueColors.size === 1) {
-    resultText = `Level cleared! Bonus earned.`;
+    const bonusType = pickRandomItemFromArray(Object.keys(newBonuses));
+    newBonuses[bonusType].number++;
+    if (resultText.length) {
+      resultText += `\n\n`;
+    }
+    resultText += `Level cleared! Bonus earned.`;
   }
 
   return {
@@ -306,7 +311,6 @@ export function gameReducer(currentGameState, payload) {
         ...currentGameState,
         wordInProgress: false,
         playedIndexes: [],
-        result: currentGameState.playedIndexes.length <= 1 ? "" : "Too short",
       };
     }
 

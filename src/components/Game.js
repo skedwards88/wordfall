@@ -27,9 +27,15 @@ export default function Game({
       onClick={(e) => {
         e.preventDefault();
 
-        dispatchGameState({
-          action: "deactivateBonus",
-        });
+        if (
+          Object.keys(gameState.bonuses)
+            .map((type) => gameState.bonuses[type].active)
+            .some((i) => i)
+        ) {
+          dispatchGameState({
+            action: "deactivateBonus",
+          });
+        }
       }}
     >
       <ControlBar
