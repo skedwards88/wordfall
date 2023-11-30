@@ -27,11 +27,7 @@ export default function Game({
       onClick={(e) => {
         e.preventDefault();
 
-        if (
-          Object.keys(gameState.bonuses)
-            .map((type) => gameState.bonuses[type].active)
-            .some((i) => i)
-        ) {
+        if (Object.values(gameState.bonuses).some((bonus) => bonus.active)) {
           dispatchGameState({
             action: "deactivateBonus",
           });
