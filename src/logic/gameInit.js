@@ -109,7 +109,8 @@ export function gameInit({useSaved = true}) {
 
   const saveStateIsValid =
     useSaved &&
-    savedGameState.latestBreakingChange === latestBreakingChange &&
+    savedGameState?.latestBreakingChange &&
+    savedGameState?.latestBreakingChange === latestBreakingChange &&
     validateGameState(savedGameState);
   if (useSaved && saveStateIsValid) {
     return resumeSavedState(savedGameState);
