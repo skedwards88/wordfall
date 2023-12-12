@@ -8,6 +8,7 @@
 
 - update read me and repo side bar to include link to game, to remove construction note
 - add to sect games
+- improve the bonus icons
 
 ## Tier 3
 
@@ -19,7 +20,6 @@
 - The animation for shuffling feels off; some don't appear to re-render despite new id
 - for the swap bonus, allow to drag to select the two letters too; highlight the second selected as go
 - add screenshot of game to readme
-- verify gtag
 - could make getPseudoRandomID more robust
 - arrayToColumns: handle case for irregular number of columns or fewer array items than num columns
 - padArray: handle case where array longer than size
