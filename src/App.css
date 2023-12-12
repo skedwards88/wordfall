@@ -319,7 +319,10 @@ button:disabled {
 }
 
 .animateFall {
-  animation: fallDown 1.5s ease-in-out;
+  animation: fallDown 2s ease-in-out;
+  will-change: transform, opacity;
+  animation-fill-mode: backwards;
+  transform: translate3d(0,0,0);
 }
 
 .letter.selected {
