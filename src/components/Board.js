@@ -110,15 +110,12 @@ export default function Board({
     const startOpacities = diffs.map((diff) => (diff >= 0 ? 1 : 0));
 
     // Set CSS properties
+    // ios doesn't animate properly, but tying the animation to a class name helps it be a bit better
     Array.from(letterDivs).forEach((div, index) => {
       div.style.setProperty("--startY", `-${translateYs[index]}px`);
       div.style.setProperty("--startOpacity", `${startOpacities[index]}`);
+      diffs[index] != 0 ? div.classList.add("animateFall") : div.classList.remove("animateFall");
     });
-
-    // ios doesn't animate properly, but tying the animation to a class name helps it be a bit better
-    Array.from(letterDivs).forEach(
-      (div) => (div.className = `${div.className} animateFall`),
-    );
   }, [letterData]);
 
   const board = letterData.map((letterDatum, index) => (
