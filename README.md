@@ -2,6 +2,8 @@
 
 A meditative jumbled word search game.
 
+:construction: Known issue: The falling animation doesn't always work on iOS (but is fine on android and desktop). Game play still works.
+
 [Play here](https://skedwards88.github.io/wordfall/)!
 
 <img src="src/images/icon_512.png" alt="Favicon of the wordfall game" width="100"/>
