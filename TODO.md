@@ -3,12 +3,11 @@
 ## Tier 1 (must do)
 
 - ios animation is wrong. also could adjust so that the new letters start higher off the board and are staggered
+- animation bug when you clear a full row?
 
 ## Tier 2
 
-- update read me and repo side bar to include link to game, to remove construction note
 - add to sect games
-- improve the bonus icons
 
 ## Tier 3
 
