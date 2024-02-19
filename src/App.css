@@ -332,7 +332,7 @@ button:disabled {
 
 @keyframes fallDown {
   0% {
-    transform: translateY(var(--startY));
+    transform: translateY(var(--startY)) translateX(var(--startX));
     opacity: var(--startOpacity);
   }
 

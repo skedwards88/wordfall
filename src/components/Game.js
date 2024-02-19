@@ -72,6 +72,7 @@ export default function Game({
         dispatchGameState={dispatchGameState}
         colors={gameState.colors}
         numRows={gameState.numRows}
+        numColumns={gameState.numColumns}
         wordInProgress={gameState.wordInProgress}
       ></Board>
     </div>

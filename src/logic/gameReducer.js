@@ -159,18 +159,20 @@ function unstoreIndexForSwapBonus(currentGameState) {
 
 function useSwapBonus(currentGameState, firstIndex, secondIndex) {
   let newLetterData = cloneDeep(currentGameState.letterData);
-  // Just swap the color and letter but not the other info so that we don't rerender/affect the animation
-  [newLetterData[firstIndex].letter, newLetterData[secondIndex].letter] = [
-    newLetterData[secondIndex].letter,
-    newLetterData[firstIndex].letter,
-  ];
-  [
-    newLetterData[firstIndex].colorIndex,
-    newLetterData[secondIndex].colorIndex,
-  ] = [
-    newLetterData[secondIndex].colorIndex,
-    newLetterData[firstIndex].colorIndex,
-  ];
+
+  const newFirstLetter = {
+    ...newLetterData[secondIndex],
+    previousIndex: secondIndex,
+    id: newLetterData[firstIndex].id,
+  };
+  const newSecondLetter = {
+    ...newLetterData[firstIndex],
+    previousIndex: firstIndex,
+    id: newLetterData[secondIndex].id,
+  };
+
+  newLetterData[firstIndex] = newFirstLetter;
+  newLetterData[secondIndex] = newSecondLetter;
 
   let newBonuses = updateUsedBonus(currentGameState.bonuses, "swap");
   newBonuses.swap.firstIndex = undefined;
@@ -317,12 +319,12 @@ export function gameReducer(currentGameState, payload) {
     // check if word is a real word
     const {isWord} = isKnown(newWord, trie);
     if (!isWord) {
-      return {
-        ...currentGameState,
-        wordInProgress: false,
-        playedIndexes: [],
-        result: "Unknown word",
-      };
+      // return {
+      //   ...currentGameState,
+      //   wordInProgress: false,
+      //   playedIndexes: [],
+      //   result: "Unknown word",
+      // };
     }
 
     const newProgress = updateProgress({

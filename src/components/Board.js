@@ -82,11 +82,14 @@ export default function Board({
   dispatchGameState,
   colors,
   numRows,
+  numColumns,
   wordInProgress,
 }) {
   const boardRef = React.useRef();
 
   React.useLayoutEffect(() => {
+    console.log("EFFECT");
+    console.log(JSON.stringify(letterData));
     const boardDiv = boardRef.current;
     const letterDivs = boardDiv.children;
 
@@ -98,23 +101,38 @@ export default function Board({
       representativeOffset.substring(0, representativeOffset.length - 2),
     ); // to drop the px units
 
-    const diffs = letterData.map(
+    const yDiffs = letterData.map(
       (datum, index) =>
         Math.floor(index / numRows) - Math.floor(datum.previousIndex / numRows),
     );
-    const translateYs = diffs.map((diff, index) =>
+    const xDiffs = letterData.map(
+      (datum, index) => (index - datum.previousIndex) % numColumns,
+    );
+    console.log(JSON.stringify(yDiffs));
+    console.log(JSON.stringify(xDiffs));
+    const translateYs = yDiffs.map((diff, index) =>
       diff >= 0
         ? diff * representativeOffset
         : representativeOffset * (Math.floor(index / numRows) + 1),
     );
-    const startOpacities = diffs.map((diff) => (diff >= 0 ? 1 : 0));
+    const translateXs = xDiffs.map((diff, index) =>
+      diff >= 0
+        ? diff * representativeOffset //todo need x offset?
+        : representativeOffset * (Math.floor(index / numRows) + 1),
+    );
+    console.log(JSON.stringify(translateYs));
+    console.log(JSON.stringify(translateXs));
+    const startOpacities = yDiffs.map((diff) => (diff >= 0 ? 1 : 0)); //todo x too
 
     // Set CSS properties
     // ios doesn't animate properly, but tying the animation to a class name helps it be a bit better
     Array.from(letterDivs).forEach((div, index) => {
       div.style.setProperty("--startY", `-${translateYs[index]}px`);
+      div.style.setProperty("--startX", `-${translateXs[index]}px`);
       div.style.setProperty("--startOpacity", `${startOpacities[index]}`);
-      diffs[index] != 0 ? div.classList.add("animateFall") : div.classList.remove("animateFall");
+      yDiffs[index] != 0
+        ? div.classList.add("animateFall")
+        : div.classList.remove("animateFall");
     });
   }, [letterData]);
 
