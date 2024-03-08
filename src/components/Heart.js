@@ -8,7 +8,6 @@ export default function Heart({setDisplay}) {
 
   return (
     <div className="App info">
-      <h1>Wordfall</h1>
       <div className="infoText">
         {"Like this game? Share it with your friends.\n\n"}
         {<Share text={"Check out this jumbled word search game!"}></Share>}
@@ -21,7 +20,7 @@ export default function Heart({setDisplay}) {
         {`\n\n`}
         {<hr></hr>}
         {`\n`}
-        {"Feedback or ideas? "}
+        {"Feedback? "}
         <a href={feedbackLink}>Open an issue</a>
         {` on GitHub or email SECTgames@gmail.com.`}
         {`\n\n`}
@@ -35,10 +34,11 @@ export default function Heart({setDisplay}) {
         {<hr></hr>}
         {`\n`}
         <a href="./privacy.html">Privacy policy</a>
-        {`\n\n\n\n`}
-        <small>version {packageJson.version}</small>
       </div>
-      <button onClick={() => setDisplay("game")}>Close</button>
+      <button className="close" onClick={() => setDisplay("game")}>
+        CLOSE
+      </button>
+      <small id="rulesVersion">version {packageJson.version}</small>
     </div>
   );
 }
