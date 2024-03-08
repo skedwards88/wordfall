@@ -118,7 +118,7 @@ export default function Board({
         ? div.classList.add("animateFall")
         : div.classList.remove("animateFall");
     });
-  }, [letterData]);
+  }, [letterData, numRows]);
 
   const board = letterData.map((letterDatum, index) => (
     <Letter
