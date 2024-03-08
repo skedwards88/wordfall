@@ -33,7 +33,7 @@ function handleCopy({text, fullUrl}) {
 export function Share({text}) {
   return (
     <button onClick={() => handleShare({text})}>
-      {navigator.canShare ? "Share" : "Copy link to share"}
+      {navigator.canShare ? "Share" : "Copy link"}
     </button>
   );
 }
