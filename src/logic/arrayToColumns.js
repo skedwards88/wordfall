@@ -1,5 +1,4 @@
 function arrayToColumns(array, numColumns) {
-
   let columns = [];
   for (let columnIndex = 0; columnIndex < numColumns; columnIndex++) {
     let column = [];

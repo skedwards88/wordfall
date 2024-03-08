@@ -112,7 +112,7 @@ export function deactivateBonuses(bonuses) {
   return newBonuses;
 }
 
-function useShuffleBonus(currentGameState) {
+function applyShuffleBonus(currentGameState) {
   let newLetterData = cloneDeep(currentGameState.letterData);
   newLetterData = shuffleArray(newLetterData);
   newLetterData.forEach((datum) => (datum.id = getPseudoRandomID()));
@@ -157,7 +157,7 @@ function unstoreIndexForSwapBonus(currentGameState) {
   };
 }
 
-function useSwapBonus(currentGameState, firstIndex, secondIndex) {
+function applySwapBonus(currentGameState, firstIndex, secondIndex) {
   let newLetterData = cloneDeep(currentGameState.letterData);
   // Just swap the color and letter but not the other info so that we don't rerender/affect the animation
   [newLetterData[firstIndex].letter, newLetterData[secondIndex].letter] = [
@@ -185,7 +185,7 @@ function useSwapBonus(currentGameState, firstIndex, secondIndex) {
   };
 }
 
-function useRemoveBonus(currentGameState, indexToRemove) {
+function applyRemoveBonus(currentGameState, indexToRemove) {
   const newProgress = updateProgress({
     playedIndexes: [indexToRemove],
     letterData: currentGameState.letterData,
@@ -433,9 +433,9 @@ export function gameReducer(currentGameState, payload) {
 
 function potentiallyUseBonus(currentGameState, clickedIndex) {
   if (currentGameState.bonuses.shuffle.active) {
-    return useShuffleBonus(currentGameState);
+    return applyShuffleBonus(currentGameState);
   } else if (currentGameState.bonuses.remove.active) {
-    return useRemoveBonus(currentGameState, clickedIndex);
+    return applyRemoveBonus(currentGameState, clickedIndex);
   } else if (currentGameState.bonuses.swap.active) {
     // If we haven't stored the first letter to swap,
     // store the letter and update the text
@@ -447,7 +447,7 @@ function potentiallyUseBonus(currentGameState, clickedIndex) {
       return unstoreIndexForSwapBonus(currentGameState);
     } else {
       // otherwise, do the swap
-      return useSwapBonus(
+      return applySwapBonus(
         currentGameState,
         currentGameState.bonuses.swap.firstIndex,
         clickedIndex,
