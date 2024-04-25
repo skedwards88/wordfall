@@ -61,6 +61,10 @@ button {
   padding: 1px 6px;
 }
 
+button:disabled {
+  opacity: 0.5;
+}
+
 .info {
   white-space: pre-line;
   display: flex;
@@ -176,10 +180,6 @@ button {
   background-image: url("./images/swap.svg"),
     radial-gradient(circle, rgb(239 239 239 / 60%) 30%, rgb(55 54 71));
   position: relative;
-}
-
-button:disabled {
-  opacity: 0.5;
 }
 
 .bonusCounter {
