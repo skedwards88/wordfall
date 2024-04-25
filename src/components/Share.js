@@ -13,8 +13,6 @@ export function handleShare({text}) {
       })
       .then(() => console.log("Successful share"))
       .catch((error) => {
-        // copy to clipboard as backup
-        handleCopy({text, url});
         console.log("Error sharing", error);
       });
   } else {
@@ -35,7 +33,7 @@ function handleCopy({text, fullUrl}) {
 export function Share({text}) {
   return (
     <button onClick={() => handleShare({text})}>
-      {navigator.canShare ? "Share" : "Copy link to share"}
+      {navigator.canShare ? "Share" : "Copy link"}
     </button>
   );
 }

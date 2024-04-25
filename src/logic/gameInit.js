@@ -8,7 +8,7 @@ import {deactivateBonuses} from "./gameReducer";
 
 export function getPseudoRandomID() {
   const pseudoRandomGenerator = seedrandom();
-  const id = `${pseudoRandomGenerator()}${pseudoRandomGenerator()}${pseudoRandomGenerator()}`
+  const id = `${pseudoRandomGenerator()}${pseudoRandomGenerator()}${pseudoRandomGenerator()}`;
   return id;
 }
 

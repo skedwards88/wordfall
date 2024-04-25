@@ -114,9 +114,11 @@ export default function Board({
     Array.from(letterDivs).forEach((div, index) => {
       div.style.setProperty("--startY", `-${translateYs[index]}px`);
       div.style.setProperty("--startOpacity", `${startOpacities[index]}`);
-      diffs[index] != 0 ? div.classList.add("animateFall") : div.classList.remove("animateFall");
+      diffs[index] != 0
+        ? div.classList.add("animateFall")
+        : div.classList.remove("animateFall");
     });
-  }, [letterData]);
+  }, [letterData, numRows]);
 
   const board = letterData.map((letterDatum, index) => (
     <Letter

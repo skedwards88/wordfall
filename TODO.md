@@ -1,5 +1,8 @@
 # Future work
 
+- desktop cursor on mouse over letters
+- allow people to control animation speed and turn on / off?
+
 ## Tier 1 (must do)
 
 - ios animation is wrong. also could adjust so that the new letters start higher off the board and are staggered
