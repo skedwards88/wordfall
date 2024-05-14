@@ -1,39 +1,14 @@
 import React from "react";
-import sendAnalytics from "../logic/sendAnalytics";
+import { handleShare } from "../logic/handleShare";
 
-export function handleShare({text}) {
-  const url = "https://skedwards88.github.io/wordfall/";
-
+export function Share({appName, text, url, seed}) {
   if (navigator.canShare) {
-    navigator
-      .share({
-        title: "Wordfall",
-        text: `${text}\n\n`,
-        url,
-      })
-      .then(() => console.log("Successful share"))
-      .catch((error) => {
-        console.log("Error sharing", error);
-      });
+    return (
+      <button onClick={() => handleShare({appName, text, url, seed})}>
+        Share
+      </button>
+    );
   } else {
-    handleCopy({text, url});
+    return <></>;
   }
-
-  sendAnalytics("share");
-}
-
-function handleCopy({text, fullUrl}) {
-  try {
-    navigator.clipboard.writeText(`${text}\n\n${fullUrl}`);
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export function Share({text}) {
-  return (
-    <button onClick={() => handleShare({text})}>
-      {navigator.canShare ? "Share" : "Copy link"}
-    </button>
-  );
 }

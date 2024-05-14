@@ -1,6 +1,6 @@
 import React from "react";
 import {handleInstall} from "../logic/handleInstall";
-import {handleShare} from "./Share";
+import {handleShare} from "../logic/handleShare";
 
 export default function ControlBar({
   dispatchGameState,
@@ -35,9 +35,10 @@ export default function ControlBar({
         <button
           id="shareButton"
           onClick={() => {
-            setDisplay("game");
             handleShare({
+              appName: "Wordfall",
               text: "Try out this Wordfall puzzle:",
+              url: "https://skedwards88.github.io/wordfall/",
             });
           }}
         ></button>

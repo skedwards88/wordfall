@@ -10,8 +10,12 @@ export default function Heart({setDisplay}) {
     <div className="App info">
       <div className="infoText">
         {"Like this game? Share it with your friends.\n\n"}
-        {<Share text={"Check out this jumbled word search game!"}></Share>}
-        {`\n\n`}
+        {<Share
+          appName={"Wordfall"}
+          text={"Check out this jumbled word search game!"}
+          url={"https://skedwards88.github.io/wordfall/"}
+        ></Share>}
+        {`\n`}
         {<hr></hr>}
         {`\n`}
         {`Want more games? Check `}
