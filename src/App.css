@@ -110,23 +110,23 @@ button:disabled {
 }
 
 #newGameButton {
-  background-image: url("./images/new_game.svg");
+  background-image: url("@skedwards88/shared-components/src/images/icons/new_game.svg");
 }
 
 #infoButton {
-  background-image: url("./images/info.svg");
+  background-image: url("@skedwards88/shared-components/src/images/icons/question_mark.svg");
 }
 
 #heartButton {
-  background-image: url("./images/heart.svg");
+  background-image: url("@skedwards88/shared-components/src/images/icons/heart.svg");
 }
 
 #installButton {
-  background-image: url("./images/install.svg");
+  background-image: url("@skedwards88/shared-components/src/images/icons/install.svg");
 }
 
 #shareButton {
-  background-image: url("./images/share.svg");
+  background-image: url("@skedwards88/shared-components/src/images/icons/share.svg");
 }
 
 #bonuses {
@@ -150,34 +150,34 @@ button:disabled {
 }
 
 #shuffleBonusButton {
-  background-image: url("./images/shuffle.svg");
+  background-image: url("@skedwards88/shared-components/src/images/icons/shuffle.svg");
   position: relative;
 }
 
 #shuffleBonusButtonActive {
-  background-image: url("./images/shuffle.svg"),
+  background-image: url("@skedwards88/shared-components/src/images/icons/shuffle.svg"),
     radial-gradient(circle, rgb(239 239 239 / 60%) 30%, rgb(55 54 71));
   position: relative;
 }
 
 #removeBonusButton {
-  background-image: url("./images/remove.svg");
+  background-image: url("@skedwards88/shared-components/src/images/icons/x_over_circle.svg");
   position: relative;
 }
 
 #removeBonusButtonActive {
-  background-image: url("./images/remove.svg"),
+  background-image: url("@skedwards88/shared-components/src/images/icons/x_over_circle.svg"),
     radial-gradient(circle, rgb(239 239 239 / 60%) 30%, rgb(55 54 71));
   position: relative;
 }
 
 #swapBonusButton {
-  background-image: url("./images/swap.svg");
+  background-image: url("@skedwards88/shared-components/src/images/icons/swap.svg");
   position: relative;
 }
 
 #swapBonusButtonActive {
-  background-image: url("./images/swap.svg"),
+  background-image: url("@skedwards88/shared-components/src/images/icons/swap.svg"),
     radial-gradient(circle, rgb(239 239 239 / 60%) 30%, rgb(55 54 71));
   position: relative;
 }
