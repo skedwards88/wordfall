@@ -5,14 +5,7 @@ import Board from "./Board";
 import {WordResult} from "./WordResult";
 import {Progress} from "./Progress";
 
-export default function Game({
-  gameState,
-  dispatchGameState,
-  setDisplay,
-  setInstallPromptEvent,
-  showInstallButton,
-  installPromptEvent,
-}) {
+export default function Game({gameState, dispatchGameState, setDisplay}) {
   return (
     <div
       className="App"
@@ -37,9 +30,6 @@ export default function Game({
       <ControlBar
         dispatchGameState={dispatchGameState}
         setDisplay={setDisplay}
-        setInstallPromptEvent={setInstallPromptEvent}
-        showInstallButton={showInstallButton}
-        installPromptEvent={installPromptEvent}
       ></ControlBar>
 
       <BonusBar

@@ -8,7 +8,9 @@ import IosWarning from "./IosWarning";
 import {
   handleAppInstalled,
   handleBeforeInstallPrompt,
-} from "../logic/handleInstall";
+} from "@skedwards88/shared-components/src/logic/handleInstall";
+import InstallOverview from "@skedwards88/shared-components/src/components/InstallOverview";
+import PWAInstall from "@skedwards88/shared-components/src/components/PWAInstall";
 
 // iOS doesn't consistently support the falling animation
 // so detect if iOS so that we can display a warning
@@ -51,6 +53,42 @@ function displayIOSWarningQ() {
 }
 
 export default function App() {
+  // *****
+  // Install handling setup
+  // *****
+  // Set up states that will be used by the handleAppInstalled and handleBeforeInstallPrompt listeners
+  const [installPromptEvent, setInstallPromptEvent] = React.useState();
+  const [showInstallButton, setShowInstallButton] = React.useState(true);
+
+  React.useEffect(() => {
+    // Need to store the function in a variable so that
+    // the add and remove actions can reference the same function
+    const listener = (event) =>
+      handleBeforeInstallPrompt(
+        event,
+        setInstallPromptEvent,
+        setShowInstallButton,
+      );
+
+    window.addEventListener("beforeinstallprompt", listener);
+
+    return () => window.removeEventListener("beforeinstallprompt", listener);
+  }, []);
+
+  React.useEffect(() => {
+    // Need to store the function in a variable so that
+    // the add and remove actions can reference the same function
+    const listener = () =>
+      handleAppInstalled(setInstallPromptEvent, setShowInstallButton);
+
+    window.addEventListener("appinstalled", listener);
+
+    return () => window.removeEventListener("appinstalled", listener);
+  }, []);
+  // *****
+  // End install handling setup
+  // *****
+
   const [displayIOSWarning, setDisplayIOSWarning] = React.useState(() =>
     displayIOSWarningQ(),
   );
@@ -67,8 +105,6 @@ export default function App() {
   const [display, setDisplay] = React.useState(
     displayIOSWarning ? "iOS" : "game",
   );
-  const [installPromptEvent, setInstallPromptEvent] = React.useState();
-  const [showInstallButton, setShowInstallButton] = React.useState(true);
 
   const [gameState, dispatchGameState] = React.useReducer(
     gameReducer,
@@ -80,25 +116,6 @@ export default function App() {
     window.localStorage.setItem("wordfallGameState", JSON.stringify(gameState));
   }, [gameState]);
 
-  React.useEffect(() => {
-    const listener = (event) =>
-      handleBeforeInstallPrompt(
-        event,
-        setInstallPromptEvent,
-        setShowInstallButton,
-      );
-
-    window.addEventListener("beforeinstallprompt", listener);
-    return () => window.removeEventListener("beforeinstallprompt", listener);
-  }, []);
-
-  React.useEffect(() => {
-    const listener = () =>
-      handleAppInstalled(setInstallPromptEvent, setShowInstallButton);
-
-    window.addEventListener("appinstalled", listener);
-    return () => window.removeEventListener("appinstalled", listener);
-  }, []);
   switch (display) {
     case "heart":
       return (
@@ -122,15 +139,25 @@ export default function App() {
         />
       );
 
+    case "installOverview":
+      return (
+        <InstallOverview
+          setDisplay={setDisplay}
+          setInstallPromptEvent={setInstallPromptEvent}
+          showInstallButton={showInstallButton}
+          installPromptEvent={installPromptEvent}
+        ></InstallOverview>
+      );
+
+    case "pwaInstall":
+      return <PWAInstall setDisplay={setDisplay}></PWAInstall>;
+
     default:
       return (
         <Game
           gameState={gameState}
           dispatchGameState={dispatchGameState}
           setDisplay={setDisplay}
-          setInstallPromptEvent={setInstallPromptEvent}
-          showInstallButton={showInstallButton}
-          installPromptEvent={installPromptEvent}
         ></Game>
       );
   }

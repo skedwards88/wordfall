@@ -1,14 +1,8 @@
 import React from "react";
-import {handleInstall} from "../logic/handleInstall";
-import {handleShare} from "../logic/handleShare";
+import Share from "@skedwards88/shared-components/src/components/Share";
+import {isRunningStandalone} from "@skedwards88/shared-components/src/logic/isRunningStandalone";
 
-export default function ControlBar({
-  dispatchGameState,
-  setDisplay,
-  setInstallPromptEvent,
-  showInstallButton,
-  installPromptEvent,
-}) {
+export default function ControlBar({dispatchGameState, setDisplay}) {
   return (
     <div id="controls">
       <button
@@ -31,27 +25,18 @@ export default function ControlBar({
 
       <button id="heartButton" onClick={() => setDisplay("heart")}></button>
 
-      {navigator.canShare ? (
-        <button
-          id="shareButton"
-          onClick={() => {
-            handleShare({
-              appName: "Wordfall",
-              text: "Try out this Wordfall puzzle:",
-              url: "https://skedwards88.github.io/wordfall/",
-            });
-          }}
-        ></button>
-      ) : (
-        <></>
-      )}
+      <Share
+        appName="Wordfall"
+        text="Check out this word game!"
+        url="https://skedwards88.github.io/wordfall/"
+        origin="control bar"
+        id="shareButton"
+      ></Share>
 
-      {showInstallButton && installPromptEvent ? (
+      {!isRunningStandalone() ? (
         <button
           id="installButton"
-          onClick={() =>
-            handleInstall(installPromptEvent, setInstallPromptEvent)
-          }
+          onClick={() => setDisplay("installOverview")}
         ></button>
       ) : (
         <></>
