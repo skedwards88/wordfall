@@ -21,7 +21,7 @@ body {
   font-size: var(--default-font-size);
   height: 90vh; /* fallback if svh isn't handled */
   height: 98svh;
-  overflow: scroll;
+  overflow: auto;
   display: grid;
   grid-template-areas:
     "controls"
@@ -66,16 +66,18 @@ button:disabled {
 }
 
 .info {
+  width: 100vw;
+  height: 90vh; /* fallback if svh isn't handled */
+  height: 100svh; /* use svh if supported to account for the url bar gracefully */
   white-space: pre-line;
   display: flex;
   flex-direction: column;
   text-align: center;
-  overflow: scroll;
+  overflow: auto;
   justify-items: center;
   justify-content: space-evenly;
   align-items: center;
   font-size: calc(var(--default-font-size) * 0.75);
-  padding: 5vmin;
 }
 
 .infoText {

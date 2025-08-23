@@ -3,7 +3,7 @@ import {gameInit} from "../logic/gameInit";
 import {gameReducer} from "../logic/gameReducer";
 import Game from "./Game";
 import Rules from "./Rules";
-import Heart from "./Heart";
+import MoreGames from "@skedwards88/shared-components/src/components/MoreGames";
 import IosWarning from "./IosWarning";
 import {
   handleAppInstalled,
@@ -101,7 +101,15 @@ export default function App() {
   }, []);
   switch (display) {
     case "heart":
-      return <Heart setDisplay={setDisplay} />;
+      return (
+        <MoreGames
+          setDisplay={setDisplay}
+          games={["crossjig", "lexlet", "blobble", "gribbles", "logicGrid"]}
+          repoName={"wordfall"}
+          includeExtraInfo={true}
+          includeWordAttribution={true}
+        ></MoreGames>
+      );
 
     case "info":
       return <Rules setDisplay={setDisplay} />;

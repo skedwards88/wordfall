@@ -2,6 +2,8 @@ import {createRoot} from "react-dom/client";
 import React from "react";
 import App from "./components/App";
 import "./App.css";
+import "@skedwards88/shared-components/src/styles/MoreGames.css";
+import "@skedwards88/shared-components/src/styles/Install.css";
 
 if (process.env.NODE_ENV !== "development" && "serviceWorker" in navigator) {
   const path =
