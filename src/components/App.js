@@ -150,7 +150,12 @@ export default function App() {
       );
 
     case "pwaInstall":
-      return <PWAInstall setDisplay={setDisplay}></PWAInstall>;
+      return (
+        <PWAInstall
+          setDisplay={setDisplay}
+          pwaLink={"https://skedwards88.github.io/wordfall"}
+        ></PWAInstall>
+      );
 
     default:
       return (
