@@ -11,10 +11,9 @@ import {
 } from "@skedwards88/shared-components/src/logic/handleInstall";
 import InstallOverview from "@skedwards88/shared-components/src/components/InstallOverview";
 import PWAInstall from "@skedwards88/shared-components/src/components/PWAInstall";
-import {getUserId} from "@skedwards88/shared-components/src/logic/getUserId";
-import {v4 as uuidv4} from "uuid";
 import {sendAnalyticsCF} from "@skedwards88/shared-components/src/logic/sendAnalyticsCF";
-import {isRunningStandalone} from "@skedwards88/shared-components/src/logic/isRunningStandalone";
+import {useMetadataContext} from "@skedwards88/shared-components/src/components/MetadataContextProvider";
+import {inferEventsToLog} from "../logic/inferEventsToLog";
 
 // iOS doesn't consistently support the falling animation
 // so detect if iOS so that we can display a warning
@@ -116,63 +115,20 @@ export default function App() {
     gameInit,
   );
 
-  const previousStateRef = React.useRef(gameState);
-
   React.useEffect(() => {
     window.localStorage.setItem("wordfallGameState", JSON.stringify(gameState));
   }, [gameState]);
 
-  // ******
-  // Start analytics setup
-  // ******
+  const {userId, sessionId} = useMetadataContext();
 
-  // Store userID so I don't have to read local storage every time
-  const userId = getUserId("wordfall_uid");
-
-  // Store sessionID as a ref so I have the same session ID until app refresh
-  const sessionIdRef = React.useRef(uuidv4());
-  const sessionId = sessionIdRef.current;
-
-  // Send analytics on load
-  React.useEffect(() => {
-    sendAnalyticsCF({
-      userId,
-      sessionId,
-      analyticsToLog: [
-        {
-          eventName: "app_load",
-          // os, browser, and isMobile are parsed on the server from the user agent headers
-          screenWidth: window.screen.width,
-          screenHeight: window.screen.height,
-          isStandalone: isRunningStandalone(),
-          devicePixelRatio: window.devicePixelRatio,
-        },
-      ],
-    });
-    // Just run once on app load
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // Store the previous state so that we can infer which analytics events to send
+  const previousStateRef = React.useRef(gameState);
 
   // Send analytics following reducer updates, if needed
   React.useEffect(() => {
     const previousState = previousStateRef.current;
 
-    const analyticsToLog = [];
-
-    // If a new color was added, infer level completion
-    if (previousState.colors.length < gameState.colors.length) {
-      analyticsToLog.push({
-        eventName: "new_level",
-        eventInfo: {
-          level: previousState.colors.length,
-        },
-      });
-    }
-
-    // If colors reset to 1, infer new game
-    if (gameState.colors.length === 1 && previousState.colors.length !== 1) {
-      analyticsToLog.push({eventName: "new_game"});
-    }
+    const analyticsToLog = inferEventsToLog(previousState, gameState);
 
     if (analyticsToLog.length) {
       sendAnalyticsCF({userId, sessionId, analyticsToLog});
@@ -180,10 +136,6 @@ export default function App() {
 
     previousStateRef.current = gameState;
   }, [gameState, sessionId, userId]);
-
-  // ******
-  // End analytics setup
-  // ******
 
   switch (display) {
     case "heart":
@@ -215,6 +167,8 @@ export default function App() {
           setInstallPromptEvent={setInstallPromptEvent}
           showInstallButton={showInstallButton}
           installPromptEvent={installPromptEvent}
+          userId={userId}
+          sessionId={sessionId}
         ></InstallOverview>
       );
 
