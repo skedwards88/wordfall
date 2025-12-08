@@ -11,7 +11,7 @@
   "background_color": "#373647",
   "theme_color": "#373647",
   "shortcuts": [],
-  "categories": ["games", "entertainment", "education"],
+  "categories": ["games", "words", "entertainment", "education"],
   "icons": [
     {
       "src": "favicon.svg",
