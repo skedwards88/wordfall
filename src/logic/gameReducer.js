@@ -7,7 +7,6 @@ import {trie} from "./trie";
 import {replaceIndexes} from "./arrayToColumns";
 import {getPseudoRandomID} from "./gameInit";
 import {letterPool} from "./letterPool";
-import cloneDeep from "lodash.clonedeep";
 
 function updateProgress({playedIndexes, letterData, progress}) {
   // Get the color indexes of the letters that are being replaced
@@ -24,7 +23,7 @@ function updateProgress({playedIndexes, letterData, progress}) {
   );
 
   // Update the progress count to include the new colors
-  let newProgress = cloneDeep(progress);
+  let newProgress = structuredClone(progress);
   replacingColorIndexes.forEach((colorIndex) => {
     newProgress[colorIndex] ? newProgress[colorIndex]++ : newProgress.push(1);
   });
@@ -34,7 +33,7 @@ function updateProgress({playedIndexes, letterData, progress}) {
 
 function updateColors({colors, newProgress}) {
   // Generate a new color, if needed
-  let newColors = cloneDeep(colors);
+  let newColors = structuredClone(colors);
   newProgress.forEach(
     (_, index) =>
       (newColors[index] =
@@ -102,7 +101,7 @@ function updateUsedBonus(oldBonuses, bonusType) {
 }
 
 export function deactivateBonuses(bonuses) {
-  let newBonuses = cloneDeep(bonuses);
+  let newBonuses = structuredClone(bonuses);
 
   Object.keys(newBonuses).forEach(
     (bonus) => (newBonuses[bonus].active = false),
@@ -113,7 +112,7 @@ export function deactivateBonuses(bonuses) {
 }
 
 function applyShuffleBonus(currentGameState) {
-  let newLetterData = cloneDeep(currentGameState.letterData);
+  let newLetterData = structuredClone(currentGameState.letterData);
   newLetterData = shuffleArray(newLetterData);
   newLetterData.forEach((datum) => (datum.id = getPseudoRandomID()));
 
@@ -130,7 +129,7 @@ function applyShuffleBonus(currentGameState) {
 }
 
 function storeIndexForSwapBonus(currentGameState, clickedIndex) {
-  let newBonuses = cloneDeep(currentGameState.bonuses);
+  let newBonuses = structuredClone(currentGameState.bonuses);
 
   newBonuses.swap.firstIndex = clickedIndex;
   let newBonusText = "Tap a second letter to complete the swap";
@@ -144,7 +143,7 @@ function storeIndexForSwapBonus(currentGameState, clickedIndex) {
 }
 
 function unstoreIndexForSwapBonus(currentGameState) {
-  let newBonuses = cloneDeep(currentGameState.bonuses);
+  let newBonuses = structuredClone(currentGameState.bonuses);
 
   newBonuses.swap.firstIndex = undefined;
   let newBonusText = "Tap on two letters to swap the letters";
@@ -158,7 +157,7 @@ function unstoreIndexForSwapBonus(currentGameState) {
 }
 
 function applySwapBonus(currentGameState, firstIndex, secondIndex) {
-  let newLetterData = cloneDeep(currentGameState.letterData);
+  let newLetterData = structuredClone(currentGameState.letterData);
   // Just swap the color and letter but not the other info so that we don't rerender/affect the animation
   [newLetterData[firstIndex].letter, newLetterData[secondIndex].letter] = [
     newLetterData[secondIndex].letter,
@@ -343,7 +342,7 @@ export function gameReducer(currentGameState, payload) {
 
     let resultText = "";
 
-    let newBonuses = cloneDeep(currentGameState.bonuses);
+    let newBonuses = structuredClone(currentGameState.bonuses);
 
     // If the word is 6 letters or longer, give a bonus
     const earnedBonus = newWord.length >= 6;
@@ -382,7 +381,7 @@ export function gameReducer(currentGameState, payload) {
   } else if (payload.action === "clickBonus") {
     const bonusType = payload.bonusType;
     const wasActive = currentGameState.bonuses[bonusType].active;
-    let newBonuses = cloneDeep(currentGameState.bonuses);
+    let newBonuses = structuredClone(currentGameState.bonuses);
     let newBonusText = "";
 
     // if the bonus was active, deactivate it

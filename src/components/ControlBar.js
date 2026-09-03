@@ -1,4 +1,3 @@
-import React from "react";
 import Share from "@skedwards88/shared-components/src/components/Share";
 import {isRunningStandalone} from "@skedwards88/shared-components/src/logic/isRunningStandalone";
 import {useMetadataContext} from "@skedwards88/shared-components/src/components/MetadataContextProvider";
@@ -31,7 +30,7 @@ export default function ControlBar({dispatchGameState, setDisplay}) {
       <Share
         appName="Wordfall"
         text="Check out this word game!"
-        url="https://skedwards88.github.io/wordfall/"
+        url="https://wordfall.twistedtrailgames.com/"
         origin="control bar"
         id="shareButton"
         userId={userId}

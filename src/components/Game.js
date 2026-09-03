@@ -1,4 +1,3 @@
-import React from "react";
 import ControlBar from "./ControlBar";
 import BonusBar from "./BonusBar";
 import Board from "./Board";

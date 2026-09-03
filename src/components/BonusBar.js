@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function BonusBar({dispatchGameState, gameState}) {
   return (
     <div id="bonuses">

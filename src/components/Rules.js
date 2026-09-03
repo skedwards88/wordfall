@@ -1,4 +1,3 @@
-import React from "react";
 import packageJson from "../../package.json";
 import PlayButtons from "@skedwards88/shared-components/src/components/PlayButtons";
 

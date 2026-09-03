@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function IosWarning({setDisplay, setDisplayIOSWarning}) {
   return (
     <div className="App info">

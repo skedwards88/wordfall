@@ -5,10 +5,7 @@ import Game from "./Game";
 import Rules from "./Rules";
 import MoreGames from "@skedwards88/shared-components/src/components/MoreGames";
 import IosWarning from "./IosWarning";
-import {
-  handleAppInstalled,
-  handleBeforeInstallPrompt,
-} from "@skedwards88/shared-components/src/logic/handleInstall";
+import {useInstallPrompt} from "@skedwards88/shared-components/src/logic/handleInstall";
 import InstallOverview from "@skedwards88/shared-components/src/components/InstallOverview";
 import PWAInstall from "@skedwards88/shared-components/src/components/PWAInstall";
 import {sendAnalyticsCF} from "@skedwards88/shared-components/src/logic/sendAnalyticsCF";
@@ -56,41 +53,11 @@ function displayIOSWarningQ() {
 }
 
 export default function App() {
-  // *****
-  // Install handling setup
-  // *****
-  // Set up states that will be used by the handleAppInstalled and handleBeforeInstallPrompt listeners
-  const [installPromptEvent, setInstallPromptEvent] = React.useState();
-  const [showInstallButton, setShowInstallButton] = React.useState(true);
+  const {userId, sessionId} = useMetadataContext();
 
-  React.useEffect(() => {
-    // Need to store the function in a variable so that
-    // the add and remove actions can reference the same function
-    const listener = (event) =>
-      handleBeforeInstallPrompt(
-        event,
-        setInstallPromptEvent,
-        setShowInstallButton,
-      );
-
-    window.addEventListener("beforeinstallprompt", listener);
-
-    return () => window.removeEventListener("beforeinstallprompt", listener);
-  }, []);
-
-  React.useEffect(() => {
-    // Need to store the function in a variable so that
-    // the add and remove actions can reference the same function
-    const listener = () =>
-      handleAppInstalled(setInstallPromptEvent, setShowInstallButton);
-
-    window.addEventListener("appinstalled", listener);
-
-    return () => window.removeEventListener("appinstalled", listener);
-  }, []);
-  // *****
-  // End install handling setup
-  // *****
+  // This must live at the top level component, not in InstallOverview where it is used, since the InstallOverview is not rendered initially and therefore misses its chance to attach the listeners
+  const {installPromptEvent, showInstallButton, handleInstall} =
+    useInstallPrompt({userId, sessionId});
 
   const [displayIOSWarning, setDisplayIOSWarning] = React.useState(() =>
     displayIOSWarningQ(),
@@ -118,8 +85,6 @@ export default function App() {
   React.useEffect(() => {
     window.localStorage.setItem("wordfallGameState", JSON.stringify(gameState));
   }, [gameState]);
-
-  const {userId, sessionId} = useMetadataContext();
 
   // Store the previous state so that we can infer which analytics events to send
   const previousStateRef = React.useRef(gameState);
@@ -164,9 +129,9 @@ export default function App() {
       return (
         <InstallOverview
           setDisplay={setDisplay}
-          setInstallPromptEvent={setInstallPromptEvent}
-          showInstallButton={showInstallButton}
           installPromptEvent={installPromptEvent}
+          showInstallButton={showInstallButton}
+          handleInstall={handleInstall}
           userId={userId}
           sessionId={sessionId}
         ></InstallOverview>
@@ -176,7 +141,9 @@ export default function App() {
       return (
         <PWAInstall
           setDisplay={setDisplay}
-          pwaLink={"https://skedwards88.github.io/wordfall"}
+          pwaLink={"https://wordfall.twistedtrailgames.com/"}
+          userId={userId}
+          sessionId={sessionId}
         ></PWAInstall>
       );
 

@@ -1,5 +1,3 @@
-import React from "react";
-
 export function Progress({progress, colors}) {
   const totalNumSquares = progress.reduce(
     (currentTotal, currentEntry) => currentTotal + currentEntry,

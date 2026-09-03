@@ -8,10 +8,6 @@
 - ios animation is wrong. also could adjust so that the new letters start higher off the board and are staggered
 - animation bug when you clear a full row?
 
-## Tier 2
-
-- add to sect games
-
 ## Tier 3
 
 - Only hardcode the numColumns/numRows in one place. Right now, it is in gameInit and in css
