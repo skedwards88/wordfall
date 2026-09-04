@@ -1,7 +1,12 @@
 import packageJson from "../../package.json";
 import PlayButtons from "@skedwards88/shared-components/src/components/PlayButtons";
+import {type DisplayState} from "./App";
 
-export default function Rules({setDisplay}) {
+export default function Rules({
+  setDisplay,
+}: {
+  setDisplay: React.Dispatch<React.SetStateAction<DisplayState>>;
+}): React.JSX.Element {
   return (
     <div className="App info">
       <h1>Wordfall: How to play</h1>

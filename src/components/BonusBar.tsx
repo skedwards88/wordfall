@@ -1,4 +1,13 @@
-export default function BonusBar({dispatchGameState, gameState}) {
+import {type GameState} from "../logic/gameInit";
+import {type ReducerPayload} from "../logic/gameReducer";
+
+export default function BonusBar({
+  dispatchGameState,
+  gameState,
+}: {
+  dispatchGameState: React.Dispatch<ReducerPayload>;
+  gameState: GameState;
+}): React.JSX.Element {
   return (
     <div id="bonuses">
       <button

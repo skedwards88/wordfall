@@ -1,4 +1,5 @@
 import {isKnown, shuffleArray} from "@skedwards88/word_logic";
+import type {Bonuses, BonusType, GameState, LetterData} from "./gameInit";
 import {gameInit} from "./gameInit";
 import {getDistinctHSL} from "./getColor";
 import {checkIfNeighbors} from "@skedwards88/word_logic";
@@ -7,8 +8,17 @@ import {trie} from "./trie";
 import {replaceIndexes} from "./arrayToColumns";
 import {getPseudoRandomID} from "./gameInit";
 import {letterPool} from "./letterPool";
+import type {LetterQu} from "@skedwards88/word_logic/dist/Types";
 
-function updateProgress({playedIndexes, letterData, progress}) {
+function updateProgress({
+  playedIndexes,
+  letterData,
+  progress,
+}: {
+  playedIndexes: number[];
+  letterData: LetterData[];
+  progress: number[];
+}): number[] {
   // Get the color indexes of the letters that are being replaced
   const replacedColorIndexes = playedIndexes.map(
     (index) => letterData[index].colorIndex,
@@ -23,17 +33,27 @@ function updateProgress({playedIndexes, letterData, progress}) {
   );
 
   // Update the progress count to include the new colors
-  let newProgress = structuredClone(progress);
+  const newProgress = structuredClone(progress);
   replacingColorIndexes.forEach((colorIndex) => {
-    newProgress[colorIndex] ? newProgress[colorIndex]++ : newProgress.push(1);
+    if (newProgress[colorIndex]) {
+      newProgress[colorIndex]++;
+    } else {
+      newProgress.push(1);
+    }
   });
 
   return newProgress;
 }
 
-function updateColors({colors, newProgress}) {
+function updateColors({
+  colors,
+  newProgress,
+}: {
+  colors: string[];
+  newProgress: number[];
+}): string[] {
   // Generate a new color, if needed
-  let newColors = structuredClone(colors);
+  const newColors = structuredClone(colors);
   newProgress.forEach(
     (_, index) =>
       (newColors[index] =
@@ -43,7 +63,17 @@ function updateColors({colors, newProgress}) {
   return newColors;
 }
 
-function replaceLetters({playedIndexes, letterData, numColumns, numRows}) {
+function replaceLetters({
+  playedIndexes,
+  letterData,
+  numColumns,
+  numRows,
+}: {
+  playedIndexes: number[];
+  letterData: LetterData[];
+  numColumns: number;
+  numRows: number;
+}): LetterData[] {
   // Get a letter pool based on normal frequency minus the letters already on the board
   const newPool = subtractLettersFromLetterPool(
     letterData.map((datum) => datum.letter),
@@ -75,8 +105,11 @@ function replaceLetters({playedIndexes, letterData, numColumns, numRows}) {
   return newLetterData;
 }
 
-function subtractLettersFromLetterPool(lettersToSubtract, letterPool) {
-  let subtractedPool = [...letterPool];
+function subtractLettersFromLetterPool(
+  lettersToSubtract: LetterQu[],
+  letterPool: LetterQu[],
+): LetterQu[] {
+  const subtractedPool = [...letterPool];
   for (const letter of lettersToSubtract) {
     const index = subtractedPool.indexOf(letter);
     if (index >= 0) {
@@ -86,37 +119,44 @@ function subtractLettersFromLetterPool(lettersToSubtract, letterPool) {
   return subtractedPool;
 }
 
-function generateLetterData({lowestColor, letterPool}) {
+function generateLetterData({
+  lowestColor,
+  letterPool,
+}: {
+  lowestColor: number;
+  letterPool: LetterQu[];
+}): LetterData {
   const letter = pickRandomItemFromArray(letterPool);
   const id = getPseudoRandomID();
   const colorIndex = lowestColor + 1;
   return {letter, id, colorIndex};
 }
 
-function updateUsedBonus(oldBonuses, bonusType) {
-  let newBonuses = deactivateBonuses(oldBonuses);
+function updateUsedBonus(oldBonuses: Bonuses, bonusType: BonusType): Bonuses {
+  const newBonuses = deactivateBonuses(oldBonuses);
   newBonuses[bonusType].number = newBonuses[bonusType].number - 1;
 
   return newBonuses;
 }
 
-export function deactivateBonuses(bonuses) {
-  let newBonuses = structuredClone(bonuses);
+export function deactivateBonuses(bonuses: Bonuses): Bonuses {
+  const newBonuses = structuredClone(bonuses);
 
-  Object.keys(newBonuses).forEach(
-    (bonus) => (newBonuses[bonus].active = false),
-  );
+  (Object.keys(newBonuses) as BonusType[]).forEach((bonus) => {
+    newBonuses[bonus].active = false;
+  });
+
   newBonuses.swap.firstIndex = undefined;
 
   return newBonuses;
 }
 
-function applyShuffleBonus(currentGameState) {
+function applyShuffleBonus(currentGameState: GameState): GameState {
   let newLetterData = structuredClone(currentGameState.letterData);
   newLetterData = shuffleArray(newLetterData);
   newLetterData.forEach((datum) => (datum.id = getPseudoRandomID()));
 
-  let newBonuses = updateUsedBonus(currentGameState.bonuses, "shuffle");
+  const newBonuses = updateUsedBonus(currentGameState.bonuses, "shuffle");
 
   return {
     ...currentGameState,
@@ -128,11 +168,14 @@ function applyShuffleBonus(currentGameState) {
   };
 }
 
-function storeIndexForSwapBonus(currentGameState, clickedIndex) {
-  let newBonuses = structuredClone(currentGameState.bonuses);
+function storeIndexForSwapBonus(
+  currentGameState: GameState,
+  clickedIndex: number,
+): GameState {
+  const newBonuses = structuredClone(currentGameState.bonuses);
 
   newBonuses.swap.firstIndex = clickedIndex;
-  let newBonusText = "Tap a second letter to complete the swap";
+  const newBonusText = "Tap a second letter to complete the swap";
   return {
     ...currentGameState,
     wordInProgress: false,
@@ -142,11 +185,11 @@ function storeIndexForSwapBonus(currentGameState, clickedIndex) {
   };
 }
 
-function unstoreIndexForSwapBonus(currentGameState) {
-  let newBonuses = structuredClone(currentGameState.bonuses);
+function unstoreIndexForSwapBonus(currentGameState: GameState): GameState {
+  const newBonuses = structuredClone(currentGameState.bonuses);
 
   newBonuses.swap.firstIndex = undefined;
-  let newBonusText = "Tap on two letters to swap the letters";
+  const newBonusText = "Tap on two letters to swap the letters";
   return {
     ...currentGameState,
     wordInProgress: false,
@@ -156,8 +199,12 @@ function unstoreIndexForSwapBonus(currentGameState) {
   };
 }
 
-function applySwapBonus(currentGameState, firstIndex, secondIndex) {
-  let newLetterData = structuredClone(currentGameState.letterData);
+function applySwapBonus(
+  currentGameState: GameState,
+  firstIndex: number,
+  secondIndex: number,
+): GameState {
+  const newLetterData = structuredClone(currentGameState.letterData);
   // Just swap the color and letter but not the other info so that we don't rerender/affect the animation
   [newLetterData[firstIndex].letter, newLetterData[secondIndex].letter] = [
     newLetterData[secondIndex].letter,
@@ -171,7 +218,7 @@ function applySwapBonus(currentGameState, firstIndex, secondIndex) {
     newLetterData[firstIndex].colorIndex,
   ];
 
-  let newBonuses = updateUsedBonus(currentGameState.bonuses, "swap");
+  const newBonuses = updateUsedBonus(currentGameState.bonuses, "swap");
   newBonuses.swap.firstIndex = undefined;
 
   return {
@@ -184,7 +231,10 @@ function applySwapBonus(currentGameState, firstIndex, secondIndex) {
   };
 }
 
-function applyRemoveBonus(currentGameState, indexToRemove) {
+function applyRemoveBonus(
+  currentGameState: GameState,
+  indexToRemove: number,
+): GameState {
   const newProgress = updateProgress({
     playedIndexes: [indexToRemove],
     letterData: currentGameState.letterData,
@@ -201,13 +251,16 @@ function applyRemoveBonus(currentGameState, indexToRemove) {
     numRows: currentGameState.numRows,
   });
 
-  let newBonuses = updateUsedBonus(currentGameState.bonuses, "remove");
+  const newBonuses = updateUsedBonus(currentGameState.bonuses, "remove");
 
   // If completed a level (cleared the last color in the level) give a bonus
   let resultText = "";
   const uniqueColors = new Set(newLetterData.map((datum) => datum.colorIndex));
   if (uniqueColors.size === 1) {
-    const bonusType = pickRandomItemFromArray(Object.keys(newBonuses));
+    const bonusType = pickRandomItemFromArray(
+      Object.keys(newBonuses) as BonusType[],
+    );
+
     newBonuses[bonusType].number++;
     if (resultText.length) {
       resultText += `\n\n`;
@@ -228,11 +281,37 @@ function applyRemoveBonus(currentGameState, indexToRemove) {
   };
 }
 
-export function gameReducer(currentGameState, payload) {
-  console.log(`reducer: ${payload.action}`);
+export type ReducerPayload =
+  | {action: "newGame"}
+  | {
+      action: "startWord";
+      letterIndex: number;
+    }
+  | {
+      action: "updateWord";
+      letterIndex: number;
+    }
+  | {
+      action: "endWord";
+    }
+  | {
+      action: "clickBonus";
+      bonusType: BonusType;
+    }
+  | {
+      action: "deactivateBonus";
+    }
+  | {
+      action: "potentiallyUseBonus";
+      clickedIndex: number;
+    };
+
+export function gameReducer(
+  currentGameState: GameState,
+  payload: ReducerPayload,
+): GameState {
   if (payload.action === "newGame") {
     return gameInit({
-      ...payload,
       useSaved: false,
     });
   } else if (payload.action === "startWord") {
@@ -342,12 +421,14 @@ export function gameReducer(currentGameState, payload) {
 
     let resultText = "";
 
-    let newBonuses = structuredClone(currentGameState.bonuses);
+    const newBonuses = structuredClone(currentGameState.bonuses);
 
     // If the word is 6 letters or longer, give a bonus
     const earnedBonus = newWord.length >= 6;
     if (earnedBonus) {
-      const bonusType = pickRandomItemFromArray(Object.keys(newBonuses));
+      const bonusType = pickRandomItemFromArray(
+        Object.keys(newBonuses) as BonusType[],
+      );
       newBonuses[bonusType].number++;
       if (resultText.length) {
         resultText += `\n\n`;
@@ -360,7 +441,9 @@ export function gameReducer(currentGameState, payload) {
       newLetterData.map((datum) => datum.colorIndex),
     );
     if (uniqueColors.size === 1) {
-      const bonusType = pickRandomItemFromArray(Object.keys(newBonuses));
+      const bonusType = pickRandomItemFromArray(
+        Object.keys(newBonuses) as BonusType[],
+      );
       newBonuses[bonusType].number++;
       if (resultText.length) {
         resultText += `\n\n`;
@@ -414,7 +497,7 @@ export function gameReducer(currentGameState, payload) {
       playedIndexes: [],
     };
   } else if (payload.action === "deactivateBonus") {
-    let newBonuses = deactivateBonuses(currentGameState.bonuses);
+    const newBonuses = deactivateBonuses(currentGameState.bonuses);
     return {
       ...currentGameState,
       bonuses: newBonuses,
@@ -425,12 +508,17 @@ export function gameReducer(currentGameState, payload) {
   } else if (payload.action === "potentiallyUseBonus") {
     return potentiallyUseBonus(currentGameState, payload.clickedIndex);
   } else {
-    console.log(`unknown action: ${payload.action}`);
-    return {...currentGameState};
+    console.log(
+      `unknown action: ${(payload as unknown as {action: string}).action}`,
+    );
+    return currentGameState;
   }
 }
 
-function potentiallyUseBonus(currentGameState, clickedIndex) {
+function potentiallyUseBonus(
+  currentGameState: GameState,
+  clickedIndex: number,
+): GameState {
   if (currentGameState.bonuses.shuffle.active) {
     return applyShuffleBonus(currentGameState);
   } else if (currentGameState.bonuses.remove.active) {

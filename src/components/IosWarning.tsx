@@ -1,4 +1,13 @@
-export default function IosWarning({setDisplay, setDisplayIOSWarning}) {
+import React from "react";
+import {type DisplayState} from "./App";
+
+export default function IosWarning({
+  setDisplay,
+  setDisplayIOSWarning,
+}: {
+  setDisplay: React.Dispatch<React.SetStateAction<DisplayState>>;
+  setDisplayIOSWarning: React.Dispatch<React.SetStateAction<boolean>>;
+}): React.JSX.Element {
   return (
     <div className="App info">
       <h1>iOS Warning</h1>

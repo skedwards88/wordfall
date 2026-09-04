@@ -3,7 +3,15 @@ import {
   pickRandomIntBetween,
 } from "@skedwards88/word_logic";
 
-function getAllowedHues({inputHue, minDifference, excludedRanges = []}) {
+function getAllowedHues({
+  inputHue,
+  minDifference,
+  excludedRanges = [],
+}: {
+  inputHue: number;
+  minDifference: number;
+  excludedRanges?: [number, number][];
+}): number[] {
   // return a list of hues that are at least
   // minDifference away from inputHue
   // and that don't include any hues in any specified excludedRanges
@@ -24,7 +32,7 @@ function getAllowedHues({inputHue, minDifference, excludedRanges = []}) {
     excludedRanges.push([360 + inputMinus, 360]);
   }
 
-  let allowedHues = [];
+  const allowedHues = [];
   for (let hue = 0; hue < 360; hue++) {
     // if hue is within excluded range, don't include
     let shouldExclude = false;
@@ -42,7 +50,7 @@ function getAllowedHues({inputHue, minDifference, excludedRanges = []}) {
   return allowedHues;
 }
 
-export function getDistinctHSL(hslString) {
+export function getDistinctHSL(hslString?: string): string {
   // Gets a HSL value that is visually distinct from the input
   // If the input is undefined, gets a random value
 
@@ -75,17 +83,24 @@ export function getDistinctHSL(hslString) {
   return newHslString;
 }
 
-function hslArrayToString(hslArray) {
+function hslArrayToString(hslArray: [number, number, number]): string {
   const [h, s, l] = hslArray;
 
   return `hsl(${h}, ${s}%, ${l}%)`;
 }
 
-function hslStringToArray(hslString) {
+function hslStringToArray(hslString: string): [number, number, number] {
   // Always assumes the string follows the CSS format
   // hsl(H, S%, L%)
   const regex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/;
-  const [, h, s, l] = hslString.match(regex);
+
+  const matched = hslString.match(regex);
+
+  if (!matched) {
+    throw new Error(`Invalid HSL string: ${hslString}`);
+  }
+
+  const [, h, s, l] = matched;
 
   return [parseInt(h), parseInt(s), parseInt(l)];
 }

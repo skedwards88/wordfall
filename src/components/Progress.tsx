@@ -1,4 +1,10 @@
-export function Progress({progress, colors}) {
+export function Progress({
+  progress,
+  colors,
+}: {
+  progress: number[];
+  colors: string[];
+}): React.JSX.Element {
   const totalNumSquares = progress.reduce(
     (currentTotal, currentEntry) => currentTotal + currentEntry,
     0,
@@ -6,7 +12,7 @@ export function Progress({progress, colors}) {
 
   let style;
   if (progress.length > 1) {
-    let gradientStrings = [];
+    const gradientStrings = [];
     let previousPoint = 0;
     for (let index = 0; index < progress.length - 1; index++) {
       const delta = (progress[index] / totalNumSquares) * 100;

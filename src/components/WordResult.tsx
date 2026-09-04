@@ -1,4 +1,4 @@
-export function WordResult({result}) {
+export function WordResult({result}: {result: string}): React.JSX.Element {
   return result == "" ? (
     <></>
   ) : (

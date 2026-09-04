@@ -1,8 +1,16 @@
 import Share from "@skedwards88/shared-components/src/components/Share";
 import {isRunningStandalone} from "@skedwards88/shared-components/src/logic/isRunningStandalone";
 import {useMetadataContext} from "@skedwards88/shared-components/src/components/MetadataContextProvider";
+import {type DisplayState} from "./App";
+import {type ReducerPayload} from "../logic/gameReducer";
 
-export default function ControlBar({dispatchGameState, setDisplay}) {
+export default function ControlBar({
+  dispatchGameState,
+  setDisplay,
+}: {
+  dispatchGameState: React.Dispatch<ReducerPayload>;
+  setDisplay: React.Dispatch<React.SetStateAction<DisplayState>>;
+}): React.JSX.Element {
   const {userId, sessionId} = useMetadataContext();
 
   return (

@@ -1,5 +1,13 @@
-export function inferEventsToLog(oldState, newState) {
-  let analyticsToLog = [];
+import {type GameState} from "./gameInit";
+
+export function inferEventsToLog(
+  oldState: GameState,
+  newState: GameState,
+): {
+  eventName: string;
+  eventInfo?: object;
+}[] {
+  const analyticsToLog = [];
 
   // If a new color was added, infer level completion
   if (oldState.colors.length < newState.colors.length) {

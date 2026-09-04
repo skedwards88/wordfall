@@ -1,4 +1,7 @@
+import {type LetterQu} from "@skedwards88/word_logic/dist/Types";
 import React from "react";
+import {type ReducerPayload} from "../logic/gameReducer";
+import {type LetterData} from "../logic/gameInit";
 
 function Letter({
   letter,
@@ -7,11 +10,23 @@ function Letter({
   index,
   dispatchGameState,
   wordInProgress,
-}) {
-  const letterRef = React.useRef();
+}: {
+  letter: LetterQu;
+  color: string;
+  letterIsSelected: boolean;
+  index: number;
+  dispatchGameState: React.Dispatch<ReducerPayload>;
+  wordInProgress: boolean;
+}): React.JSX.Element {
+  const letterRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useLayoutEffect(() => {
     const letterDiv = letterRef.current;
+
+    if (!letterDiv) {
+      return;
+    }
+
     const currentClasses = letterDiv.className
       .split(" ")
       .filter((entry) => entry !== "selected");
@@ -23,17 +38,20 @@ function Letter({
     letterDiv.className = newClass;
   }, [letterIsSelected]);
 
-  function handlePointerDown(e, index) {
-    e.preventDefault();
-    e.target.releasePointerCapture(e.pointerId);
+  function handlePointerDown(event: React.PointerEvent, index: number): void {
+    event.preventDefault();
+
+    event.currentTarget.releasePointerCapture(event.pointerId);
+
     dispatchGameState({
       action: "startWord",
       letterIndex: index,
     });
   }
 
-  function handlePointerEnter(e, index) {
-    e.preventDefault();
+  function handlePointerEnter(event: React.PointerEvent, index: number): void {
+    event.preventDefault();
+
     if (wordInProgress) {
       dispatchGameState({
         action: "updateWord",
@@ -42,19 +60,20 @@ function Letter({
     }
   }
 
-  function handlePointerUp(e) {
-    e.preventDefault();
-    e.stopPropagation();
+  function handlePointerUp(event: React.PointerEvent): void {
+    event.preventDefault();
+
+    event.stopPropagation();
 
     dispatchGameState({
       action: "endWord",
     });
   }
 
-  function handleClick(e) {
+  function handleClick(event: React.MouseEvent): void {
     // Stop clicking a letter from bubbling up to the wider click event and cancelling a bonus
-    e.preventDefault();
-    e.stopPropagation();
+    event.preventDefault();
+    event.stopPropagation();
   }
 
   return (
@@ -83,25 +102,42 @@ export default function Board({
   colors,
   numRows,
   wordInProgress,
-}) {
-  const boardRef = React.useRef();
+}: {
+  letterData: LetterData[];
+  playedIndexes: number[];
+  swapBonusIndex: number | undefined;
+  dispatchGameState: React.Dispatch<ReducerPayload>;
+  colors: string[];
+  numRows: number;
+  wordInProgress: boolean;
+}): React.JSX.Element {
+  const boardRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useLayoutEffect(() => {
     const boardDiv = boardRef.current;
+
+    if (!boardDiv) {
+      return;
+    }
+
     const letterDivs = boardDiv.children;
 
-    let representativeOffset = window
+    const rawRepresentativeOffset = window
       .getComputedStyle(boardDiv)
       .getPropertyValue("grid-template-rows")
       .split(" ")[0];
-    representativeOffset = parseInt(
-      representativeOffset.substring(0, representativeOffset.length - 2),
+
+    const representativeOffset = parseInt(
+      rawRepresentativeOffset.substring(0, rawRepresentativeOffset.length - 2),
     ); // to drop the px units
 
-    const diffs = letterData.map(
-      (datum, index) =>
-        Math.floor(index / numRows) - Math.floor(datum.previousIndex / numRows),
+    const diffs = letterData.map((datum, index) =>
+      datum.previousIndex === undefined
+        ? NaN
+        : Math.floor(index / numRows) -
+          Math.floor(datum.previousIndex / numRows),
     );
+
     const translateYs = diffs.map((diff, index) =>
       diff >= 0
         ? diff * representativeOffset
@@ -112,11 +148,21 @@ export default function Board({
     // Set CSS properties
     // ios doesn't animate properly, but tying the animation to a class name helps it be a bit better
     Array.from(letterDivs).forEach((div, index) => {
-      div.style.setProperty("--startY", `-${translateYs[index]}px`);
-      div.style.setProperty("--startOpacity", `${startOpacities[index]}`);
-      diffs[index] != 0
-        ? div.classList.add("animateFall")
-        : div.classList.remove("animateFall");
+      (div as HTMLElement).style.setProperty(
+        "--startY",
+        `-${translateYs[index]}px`,
+      );
+
+      (div as HTMLElement).style.setProperty(
+        "--startOpacity",
+        `${startOpacities[index]}`,
+      );
+
+      if (diffs[index] != 0) {
+        div.classList.add("animateFall");
+      } else {
+        div.classList.remove("animateFall");
+      }
     });
   }, [letterData, numRows]);
 
@@ -128,7 +174,6 @@ export default function Board({
         playedIndexes.includes(index) || swapBonusIndex === index
       }
       index={index}
-      draggable={false}
       dispatchGameState={dispatchGameState}
       key={letterDatum.id}
       wordInProgress={wordInProgress}

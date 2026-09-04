@@ -11,10 +11,14 @@ import PWAInstall from "@skedwards88/shared-components/src/components/PWAInstall
 import {sendAnalyticsCF} from "@skedwards88/shared-components/src/logic/sendAnalyticsCF";
 import {useMetadataContext} from "@skedwards88/shared-components/src/components/MetadataContextProvider";
 import {inferEventsToLog} from "../logic/inferEventsToLog";
+import {getFromStorage} from "@skedwards88/shared-components/src/logic/safeStorage";
+
+export type DisplayState =
+  "game" | "iOS" | "heart" | "info" | "installOverview" | "pwaInstall";
 
 // iOS doesn't consistently support the falling animation
 // so detect if iOS so that we can display a warning
-function iosQ() {
+function iosQ(): boolean {
   const userAgent = window.navigator.userAgent.toLowerCase();
   let isIOSDevice = /iphone|ipad/.test(userAgent);
   // newer ipads no longer state that they are ipads, so need do more hacky checks
@@ -25,15 +29,13 @@ function iosQ() {
   return isIOSDevice;
 }
 
-function displayIOSWarningQ() {
+function displayIOSWarningQ(): boolean {
   const isIOS = iosQ();
   if (!isIOS) {
     return false;
   }
 
-  const lastSawIOSWarning = JSON.parse(
-    localStorage.getItem("wordfallLastSawIOSWarning"),
-  );
+  const lastSawIOSWarning = getFromStorage<string>("wordfallLastSawIOSWarning");
 
   if (!lastSawIOSWarning) {
     return true;
@@ -52,7 +54,7 @@ function displayIOSWarningQ() {
   return false;
 }
 
-export default function App() {
+export default function App(): React.JSX.Element {
   const {userId, sessionId} = useMetadataContext();
 
   // This must live at the top level component, not in InstallOverview where it is used, since the InstallOverview is not rendered initially and therefore misses its chance to attach the listeners
@@ -72,7 +74,7 @@ export default function App() {
     }
   }, [displayIOSWarning]);
 
-  const [display, setDisplay] = React.useState(
+  const [display, setDisplay] = React.useState<DisplayState>(
     displayIOSWarning ? "iOS" : "game",
   );
 

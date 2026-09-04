@@ -5,22 +5,70 @@ import {findAllWords} from "@skedwards88/word_logic";
 import {trie} from "./trie";
 import seedrandom from "seedrandom";
 import {deactivateBonuses} from "./gameReducer";
+import type {LetterQu} from "@skedwards88/word_logic/dist/Types";
+import {getFromStorage} from "@skedwards88/shared-components/src/logic/safeStorage";
 
-export function getPseudoRandomID() {
+export type LetterData = {
+  letter: LetterQu;
+  id: string;
+  colorIndex: number;
+  previousIndex?: undefined | number;
+};
+
+export type Bonuses = {
+  shuffle: {
+    number: number;
+    active: boolean;
+  };
+  remove: {
+    number: number;
+    active: boolean;
+  };
+  swap: {
+    number: number;
+    active: boolean;
+    firstIndex: undefined | number;
+  };
+};
+
+export type BonusType = keyof Bonuses;
+
+export type GameState = {
+  letterData: LetterData[];
+  playedIndexes: number[];
+  numColumns: number;
+  numRows: number;
+  result: string;
+  progress: number[];
+  colors: string[];
+  bonusText: string;
+  bonuses: Bonuses;
+  latestBreakingChange: number;
+  wordInProgress: boolean;
+};
+
+export function getPseudoRandomID(): string {
   const pseudoRandomGenerator = seedrandom();
   const id = `${pseudoRandomGenerator()}${pseudoRandomGenerator()}${pseudoRandomGenerator()}`;
   return id;
 }
 
-function getPlayableLetters({numColumns, numRows}) {
+function getPlayableLetters({
+  numColumns,
+  numRows,
+}: {
+  numColumns: number;
+  numRows: number;
+}): LetterQu[] {
   // Select letters and make sure that there are at least 10 words to start
   const minWords = 10;
-  let foundPlayableLetters = false;
-  let letters;
+  let letters: LetterQu[];
   let allWords;
   const numLetters = numColumns * numRows;
-  while (!foundPlayableLetters) {
+
+  while (true) {
     letters = getNLetters(numLetters, letterPool);
+
     allWords = findAllWords({
       letters: letters,
       numColumns: numColumns,
@@ -29,14 +77,14 @@ function getPlayableLetters({numColumns, numRows}) {
       easyMode: true,
       trie,
     });
+
     if (allWords.length > minWords) {
-      foundPlayableLetters = true;
+      return letters;
     }
   }
-  return letters;
 }
 
-function validateGameState(savedState) {
+function validateGameState(savedState: GameState): boolean {
   if (typeof savedState !== "object" || savedState === null) {
     return false;
   }
@@ -54,14 +102,17 @@ function validateGameState(savedState) {
     typeof savedState.bonusText === "string" &&
     typeof savedState.bonuses === "object" &&
     savedState.bonuses !== null &&
-    ["shuffle", "remove", "swap"].every(
+    (Object.keys(savedState.bonuses) as BonusType[]).every(
       (bonus) =>
         typeof savedState.bonuses[bonus] === "object" &&
         savedState.bonuses[bonus] !== null &&
         typeof savedState.bonuses[bonus].number === "number" &&
         typeof savedState.bonuses[bonus].active === "boolean" &&
-        (savedState.bonuses[bonus].firstIndex === undefined ||
-          typeof savedState.bonuses[bonus].firstIndex === "number"),
+        ((bonus === "swap" &&
+          savedState.bonuses[bonus].firstIndex === undefined) ||
+          (bonus === "swap" &&
+            typeof savedState.bonuses[bonus].firstIndex === "number") ||
+          bonus != "swap"),
     );
 
   if (!fieldsAreExpectedTypes) {
@@ -85,7 +136,7 @@ function validateGameState(savedState) {
   return true;
 }
 
-function resumeSavedState(savedState) {
+function resumeSavedState(savedState: GameState): GameState {
   const letterData = savedState.letterData.map((datum, index) => ({
     ...datum,
     previousIndex: index,
@@ -101,8 +152,8 @@ function resumeSavedState(savedState) {
   };
 }
 
-export function gameInit({useSaved = true}) {
-  const savedGameState = JSON.parse(localStorage.getItem("wordfallGameState"));
+export function gameInit({useSaved = true}: {useSaved?: boolean}): GameState {
+  const savedGameState = getFromStorage<GameState>("wordfallGameState");
 
   // Use this to force saved state to be ignored
   const latestBreakingChange = 1;
@@ -136,7 +187,7 @@ export function gameInit({useSaved = true}) {
   const colors = [getDistinctHSL()];
 
   return {
-    letterData: letterData,
+    letterData,
     playedIndexes: [],
     numColumns: numColumns,
     numRows: numRows,
@@ -160,5 +211,6 @@ export function gameInit({useSaved = true}) {
       },
     },
     latestBreakingChange,
+    wordInProgress: false,
   };
 }

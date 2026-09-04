@@ -3,8 +3,20 @@ import BonusBar from "./BonusBar";
 import Board from "./Board";
 import {WordResult} from "./WordResult";
 import {Progress} from "./Progress";
+import {type DisplayState} from "./App";
+import {type GameState} from "../logic/gameInit";
+import React from "react";
+import {type ReducerPayload} from "../logic/gameReducer";
 
-export default function Game({gameState, dispatchGameState, setDisplay}) {
+export default function Game({
+  gameState,
+  dispatchGameState,
+  setDisplay,
+}: {
+  gameState: GameState;
+  dispatchGameState: React.Dispatch<ReducerPayload>;
+  setDisplay: React.Dispatch<React.SetStateAction<DisplayState>>;
+}): React.JSX.Element {
   return (
     <div
       className="App"

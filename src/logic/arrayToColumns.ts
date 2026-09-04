@@ -1,7 +1,7 @@
-function arrayToColumns(array, numColumns) {
-  let columns = [];
+function arrayToColumnIndexes<T>(array: T[], numColumns: number): number[][] {
+  const columns = [];
   for (let columnIndex = 0; columnIndex < numColumns; columnIndex++) {
-    let column = [];
+    const column = [];
     let nextArrayIndex = columnIndex;
     while (nextArrayIndex < array.length) {
       column.push(nextArrayIndex);
@@ -12,8 +12,8 @@ function arrayToColumns(array, numColumns) {
   return columns;
 }
 
-function columnsToArray(columns) {
-  let array = [];
+function columnsToArray<T>(columns: T[][]): T[] {
+  const array = [];
   for (let rowIndex = 0; rowIndex < columns[0].length; rowIndex++) {
     for (let columnIndex = 0; columnIndex < columns.length; columnIndex++) {
       const item = columns[columnIndex][rowIndex];
@@ -26,28 +26,40 @@ function columnsToArray(columns) {
   return array;
 }
 
-function padArray({
+function padArray<T, P>({
   array,
   desiredSize,
   replacementFunction,
   replacementParams,
-}) {
+}: {
+  array: T[];
+  desiredSize: number;
+  replacementFunction: (params: P) => T;
+  replacementParams: P;
+}): T[] {
   while (array.length < desiredSize) {
     array = [replacementFunction(replacementParams), ...array];
   }
   return array;
 }
 
-export function replaceIndexes({
+export function replaceIndexes<T, P>({
   arrayToReplaceOn,
   indexesToReplace,
   numColumns,
   numRows,
   replacementFunction,
   replacementParams,
-}) {
+}: {
+  arrayToReplaceOn: T[];
+  indexesToReplace: number[];
+  numColumns: number;
+  numRows: number;
+  replacementFunction: (params: P) => T;
+  replacementParams: P;
+}): T[] {
   const allIndexes = arrayToReplaceOn.map((_, index) => index);
-  const indexColumns = arrayToColumns(allIndexes, numColumns);
+  const indexColumns = arrayToColumnIndexes(allIndexes, numColumns);
   const newColumns = [];
   for (const column of indexColumns) {
     const remainingColumnIndexes = column.filter(
@@ -66,7 +78,7 @@ export function replaceIndexes({
     newColumns.push(paddedColumn);
   }
 
-  const newLetterData = columnsToArray(newColumns);
+  const newArray = columnsToArray(newColumns);
 
-  return newLetterData;
+  return newArray;
 }

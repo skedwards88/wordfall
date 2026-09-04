@@ -28,5 +28,8 @@ jobs:
       - name: ES lint
         run: npx eslint --ignore-pattern .gitignore .
 
+      - name: TS lint
+        run: npx tsc --noEmit
+
       - name: Stylelint
         run: npx stylelint '**/*.css'
