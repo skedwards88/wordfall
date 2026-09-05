@@ -24,5 +24,18 @@ export function inferEventsToLog(
     analyticsToLog.push({eventName: "new_game"});
   }
 
+  // If they found an invalid word
+  if (
+    newState.lastInvalidWord &&
+    newState.lastInvalidWord != oldState.lastInvalidWord
+  ) {
+    analyticsToLog.push({
+      eventName: "unknown_word",
+      eventInfo: {
+        word: newState.lastInvalidWord,
+      },
+    });
+  }
+
   return analyticsToLog;
 }

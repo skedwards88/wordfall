@@ -38,6 +38,7 @@ export type GameState = {
   numColumns: number;
   numRows: number;
   result: string;
+  lastInvalidWord: string | null;
   progress: number[];
   colors: string[];
   bonusText: string;
@@ -139,6 +140,7 @@ function resumeSavedState(savedState: GameState): GameState {
     ...savedState,
     playedIndexes: [],
     result: "",
+    lastInvalidWord: null,
     bonusText: "",
     bonuses: deactivatedBonuses,
     letterData,
@@ -185,6 +187,7 @@ export function gameInit({useSaved = true}: {useSaved?: boolean}): GameState {
     numColumns: numColumns,
     numRows: numRows,
     result: "",
+    lastInvalidWord: null,
     progress,
     colors,
     bonusText: "",
