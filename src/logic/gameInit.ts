@@ -3,7 +3,6 @@ import {getDistinctHSL} from "./getColor";
 import {getNLetters} from "@skedwards88/word_logic";
 import {findAllWords} from "@skedwards88/word_logic";
 import {trie} from "./trie";
-import seedrandom from "seedrandom";
 import {deactivateBonuses} from "./gameReducer";
 import type {LetterQu} from "@skedwards88/word_logic/dist/Types";
 import {getFromStorage} from "@skedwards88/shared-components/src/logic/safeStorage";
@@ -46,12 +45,6 @@ export type GameState = {
   latestBreakingChange: number;
   wordInProgress: boolean;
 };
-
-export function getPseudoRandomID(): string {
-  const pseudoRandomGenerator = seedrandom();
-  const id = `${pseudoRandomGenerator()}${pseudoRandomGenerator()}${pseudoRandomGenerator()}`;
-  return id;
-}
 
 function getPlayableLetters({
   numColumns,
@@ -177,7 +170,7 @@ export function gameInit({useSaved = true}: {useSaved?: boolean}): GameState {
 
   const letterData = letters.map((letter) => ({
     letter,
-    id: getPseudoRandomID(),
+    id: crypto.randomUUID(),
     colorIndex: 0,
     previousIndex: undefined,
   }));

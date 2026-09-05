@@ -31,8 +31,7 @@
     "@skedwards88/word_lists": "latest",
     "@skedwards88/word_logic": "^4.0.9",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "seedrandom": "^3.0.5"
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
@@ -43,7 +42,6 @@
     "@types/jest": "^30.0.0",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
-    "@types/seedrandom": "^3.0.8",
     "babel-jest": "^30.5.0",
     "babel-loader": "^10.1.1",
     "copy-webpack-plugin": "^14.0.0",
