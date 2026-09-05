@@ -6,7 +6,6 @@ import {checkIfNeighbors} from "@skedwards88/word_logic";
 import {pickRandomItemFromArray} from "@skedwards88/word_logic";
 import {trie} from "./trie";
 import {replaceIndexes} from "./arrayToColumns";
-import {getPseudoRandomID} from "./gameInit";
 import {letterPool} from "./letterPool";
 import type {LetterQu} from "@skedwards88/word_logic/dist/Types";
 
@@ -127,7 +126,7 @@ function generateLetterData({
   letterPool: LetterQu[];
 }): LetterData {
   const letter = pickRandomItemFromArray(letterPool);
-  const id = getPseudoRandomID();
+  const id = crypto.randomUUID();
   const colorIndex = lowestColor + 1;
   return {letter, id, colorIndex};
 }
@@ -154,7 +153,7 @@ export function deactivateBonuses(bonuses: Bonuses): Bonuses {
 function applyShuffleBonus(currentGameState: GameState): GameState {
   let newLetterData = structuredClone(currentGameState.letterData);
   newLetterData = shuffleArray(newLetterData);
-  newLetterData.forEach((datum) => (datum.id = getPseudoRandomID()));
+  newLetterData.forEach((datum) => (datum.id = crypto.randomUUID()));
 
   const newBonuses = updateUsedBonus(currentGameState.bonuses, "shuffle");
 
